@@ -16,15 +16,17 @@ namespace PhantomProjects.States
 
         private SpriteBatch _spriteBatch;
 
+
         //Camera & Map
         Camera camera;
         Map map;
 
         //Static background
         Texture2D mainBackground;
-
-        //Player
+        //----------------------------------------
+        // Player
         Player player;
+        Texture2D playerRWalk, playerLWalk;
 
         //-----------------------------------------
         //Basic Enemy
@@ -74,11 +76,10 @@ namespace PhantomProjects.States
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
+            player = new Player();
 
             // Set Map & Player
             map = new Map();
-            player = new Player();
-
 
             _spriteBatch = new SpriteBatch(graphicsDevice);
 
@@ -117,9 +118,12 @@ namespace PhantomProjects.States
             #endregion
 
             //Player
-            player.Load(content);
+            playerRWalk = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
+            playerLWalk = content.Load<Texture2D>("Player\\MalePlayerLefttWalk");
+            player.Initialize(playerRWalk, playerLWalk, new Vector2(100,1100));
 
             //Enemies  -  Basic
+
             #region Enemy
             //Constructor
             details = graphicsDevice;
