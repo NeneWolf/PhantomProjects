@@ -11,7 +11,7 @@ namespace PhantomProjects
 {
     public class Button : Component
     {
-        #region Frields
+        #region Declarations
 
         private MouseState _currentMouse;
         private SpriteFont _font;
@@ -19,9 +19,6 @@ namespace PhantomProjects
         private MouseState _previousMouse;
         private Texture2D _texture;
 
-        #endregion
-
-        #region Properties
         public event EventHandler Click;
         public bool Clicked { get; private set; }
         public Color PenColour { get; set; }
@@ -35,7 +32,6 @@ namespace PhantomProjects
 
         #endregion
 
-        #region Methods
         public Button(Texture2D texture, SpriteFont font)
         {
             _texture = texture;
@@ -79,8 +75,5 @@ namespace PhantomProjects
                 }
             }
         }
-
-        #endregion
-
     }
 }

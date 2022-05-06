@@ -10,31 +10,27 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PhantomProjects.States
 {
-    public class CreditState : State
+    public class GameState3 : State
     {
-        Texture2D buttonTest;
-        public CreditState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
-          : base(game, graphicsDevice, content)
+        public GameState3(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+  : base(game, graphicsDevice, content)
+        
         {
-            buttonTest = content.Load<Texture2D>("Menu\\button");
         }
-
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(buttonTest,new Vector2(0,0),Color.White);
-            spriteBatch.End();
+            throw new NotImplementedException();
         }
 
         public override void PostUpdate(GameTime gameTime)
         {
-            
+            throw new NotImplementedException();
         }
 
         public override void Update(GameTime gameTime)
         {
-           
+            throw new NotImplementedException();
         }
     }
 }

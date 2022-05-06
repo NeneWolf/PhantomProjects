@@ -147,6 +147,30 @@
 /processorParam:TextureFormat=Color
 /build:GUI/potion_test(1).png
 
+#begin Logos/Future App-logos_white.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Logos/Future App-logos_white.png
+
+#begin Logos/Phantom Projects-logos_white.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Logos/Phantom Projects-logos_white.png
+
 #begin Map/Tile1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -218,6 +242,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Menu/button.png
+
+#begin menuBackground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:menuBackground.png
 
 #begin Player/MalePlayerLefttWalk.png
 /importer:TextureImporter

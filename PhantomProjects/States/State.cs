@@ -9,7 +9,7 @@ namespace PhantomProjects.States
 {
     public abstract class State
     {
-        #region Fields
+        #region Declarations
 
         protected ContentManager _content;
 
@@ -18,8 +18,6 @@ namespace PhantomProjects.States
         protected Game1 _game;
 
         #endregion
-
-        #region Methods
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
@@ -34,6 +32,5 @@ namespace PhantomProjects.States
 
         public abstract void Update(GameTime gameTime);
 
-        #endregion
     }
 }

@@ -9,13 +9,14 @@ namespace PhantomProjects
 {
     class EnemyManager
     {
+        #region Definitions 
         //Enemy Description
         Texture2D enemyTextureR, enemyTextureL;
         static public List<EnemyA> enemyType1 = new List<EnemyA>();
 
         //Handle the graphics info
         Vector2 graphicsInfo;
-
+        #endregion
         public void Initialize(Texture2D textureRight, Texture2D textureLeft, GraphicsDevice Graphics)
         {
             graphicsInfo.X = Graphics.Viewport.Width;
@@ -93,7 +94,7 @@ namespace PhantomProjects
                 enemyType1[i].Update(gameTime, player, SND);
 
                 if (enemyType1[i].Active == false)
-                { enemyType1.RemoveAt(i); }
+                { enemyType1.RemoveAt(i);}
             }
         }
 
