@@ -11,13 +11,22 @@ namespace PhantomProjects
 {
     class Player
     {
-        // Texture representing the player
-        private Texture2D texture;
+        public Animation playerAnimation;
+        Texture2D playerRight, playerLeft, currentAnim;
+        float elapsed;
+        float delay = 120f;
+        int Frames = 0;
+
+
+
+        //Hold the Viewport
+        Vector2 graphicsInfo;
+
         // Position of the Player relative to the upper left side of the screen
-        private Vector2 position = new Vector2(100, 1100);
+        private Vector2 position;
 
         private Vector2 velocity;
-        private Rectangle rectangle;
+        public Rectangle rectangle, sourceRect;
 
         // State of the player
         public bool Active;
@@ -27,15 +36,23 @@ namespace PhantomProjects
         // Jump
         private bool hasJumped = false;
 
+        // Keyboard states used to determine key presses
+        KeyboardState currentKeyboardState;
+        KeyboardState previousKeyboardState;
+
+        // Gamepad states used to determine button presses
+        GamePadState currentGamePadState;
+        GamePadState previousGamePadState;
+
         // Get the width of the player ship
         public int Width
         {
-            get { return texture.Width; }
+            get { return playerAnimation.FrameWidth; }
         }
         // Get the height of the player ship
         public int Height
         {
-            get { return texture.Height; }
+            get { return playerAnimation.FrameHeight; }
         }
 
         public Vector2 Position
@@ -43,28 +60,35 @@ namespace PhantomProjects
             get { return position; }
         }
 
-        public Player() { }
-
-        public void Load(ContentManager Content)
+        public void Initialize(Texture2D PlayerRight, Texture2D PlayerLeft, Vector2 newPosition)
         {
             // Set the player to be active
             Active = true;
-
             // Set the player health
             Health = 100;
-            BarHealth = 150; // the size of the health bar... this will be used to cute the bar based on the damage 100 - 10d and 150 - 15d
 
-            texture = Content.Load<Texture2D>("Player/testPlayer");
+            // the size of the health bar... this will be used to cute the bar based on the damage 100 - 10d and 150 - 15d
+            BarHealth = 150;
+
+            position = newPosition;
+
+            playerAnimation = new Animation();
+
+            playerRight = PlayerRight;
+            playerLeft = PlayerLeft;
+
+            currentAnim = playerRight;
         }
 
         public void Update(GameTime gameTime)
         {
             IsDead();
-
-            if (Active == true)
+            if(Active == true)
             {
                 position += velocity;
-                rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 95);
+                rectangle = new Rectangle((int)position.X, (int)position.Y, 64, 64);
+                playerAnimation.Position = position;
+                playerAnimation.Update(gameTime);
 
                 Input(gameTime);
 
@@ -75,15 +99,24 @@ namespace PhantomProjects
 
         private void Input(GameTime gameTime)
         {
+
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+                currentAnim = playerRight;
+                Animate(gameTime);
+
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+                currentAnim = playerLeft;
+                Animate(gameTime);
             }
-            else velocity.X = 0f;
+            else
+            {
+                velocity.X = 0f;
+            }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && hasJumped == false)
             {
@@ -91,6 +124,8 @@ namespace PhantomProjects
                 velocity.Y = -10f;
                 hasJumped = true;
             }
+
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 64, 64);
         }
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
@@ -122,12 +157,36 @@ namespace PhantomProjects
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
         }
+        void Animate(GameTime gameTime)
+        {
+            elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-        private void IsDead() { if(Health <= 0) { Active = false; } }
+            if (elapsed >= delay)
+            {
+                if (Frames >= 6)
+                {
+                    Frames = 0;
+                }
+                else
+                {
+                    Frames++;
+                }
+                elapsed = 0;
+            }
+            sourceRect = new Rectangle((Frames * 64), 0, 64, 64);
+        }
+
+        public Rectangle RECTANGLE
+        {
+            get { return rectangle; }
+        }
+
+
+        private void IsDead() { if (Health <= 0) { Active = false; } }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, rectangle, Color.White);
+            spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
         }
     }
 }
