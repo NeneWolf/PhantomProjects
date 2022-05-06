@@ -20,15 +20,15 @@ namespace PhantomProjects.States
         Texture2D mainBackground, gameOver, companyLogo;
 
         public GameOver(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
-  : base(game, graphicsDevice, content)
+        : base(game, graphicsDevice, content)
         {
             //Background Music
             menuMusic = content.Load<Song>("Sounds\\MENU");
             MediaPlayer.Play(menuMusic);
 
             //Background
-            mainBackground = content.Load<Texture2D>("menuBackground");
-            gameOver = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white");
+            mainBackground = content.Load<Texture2D>("menuBackground"); // change the background
+            gameOver = content.Load<Texture2D>("Menu\\GameOver");
             companyLogo = content.Load<Texture2D>("Logos\\Future App-logos_white");
 
             //Buttons
@@ -45,7 +45,7 @@ namespace PhantomProjects.States
 
             var mainMenuButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(540, 445),
+                Position = new Vector2(540, 500),
                 Text = "Main Menu",
             };
 
@@ -71,7 +71,7 @@ namespace PhantomProjects.States
             spriteBatch.Begin();
             // Main background
             spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 700), Color.White);
-            spriteBatch.Draw(gameOver, new Rectangle(490, 10, 300, 300), Color.White);
+            spriteBatch.Draw(gameOver, new Rectangle(350, 10, 600, 242), Color.White);
             spriteBatch.Draw(companyLogo, new Rectangle(0, 450, 300, 300), Color.White);
 
             foreach (var component in _components)
@@ -85,7 +85,6 @@ namespace PhantomProjects.States
             _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
         }
 
-        // Level 1
         private void MainMenuButton_Click(object sender, EventArgs e)
         {
             _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));

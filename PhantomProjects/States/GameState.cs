@@ -16,7 +16,6 @@ namespace PhantomProjects.States
 
         private SpriteBatch _spriteBatch;
 
-
         //Camera & Map
         Camera camera;
         Map map;
@@ -258,6 +257,13 @@ namespace PhantomProjects.States
 
             //Player
             player.Update(gameTime);
+
+            // Clean Level and change to Game Over
+            if(player.Active == false) { 
+                _game.GoToGameOver(true);
+                EnemyManager enemy;
+                EnemyA.CleanEnemies();
+            }
 
             // Enemies & their bullets
             EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);

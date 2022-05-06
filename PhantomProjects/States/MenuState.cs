@@ -54,7 +54,7 @@ namespace PhantomProjects.States
                 Text = "Quit Game",
             };
 
-            c
+            quitGameButton.Click += QuitGameButton_Click;
 
             _components = new List<Component>()
           {

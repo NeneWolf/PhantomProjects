@@ -11,6 +11,8 @@ namespace PhantomProjects
 {
     class Player
     {
+        Game1 _game;
+
         public Animation playerAnimation;
         Texture2D playerRight, playerLeft, currentAnim;
         float elapsed;
@@ -182,7 +184,13 @@ namespace PhantomProjects
         }
 
 
-        private void IsDead() { if (Health <= 0) { Active = false; } }
+        private void IsDead() 
+        { 
+          if (Health <= 0) 
+            { 
+                Active = false;                             
+            } 
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
