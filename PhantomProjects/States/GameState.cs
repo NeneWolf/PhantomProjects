@@ -151,7 +151,7 @@ namespace PhantomProjects.States
             // GUI
             legand = content.Load<Texture2D>("GUI\\legand");
             keysGUI = content.Load<Texture2D>("GUI\\key");
-            potionsGUI = content.Load<Texture2D>("GUI\\potion_test(1)");
+            potionsGUI = content.Load<Texture2D>("GUI\\Potion");
 
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
@@ -168,7 +168,7 @@ namespace PhantomProjects.States
             bloodSound = content.Load<SoundEffect>("Sounds\\BloodSound");
 
             // Load the game music
-            gameMusic = content.Load<Song>("Sounds\\gameMusic");
+            gameMusic = content.Load<Song>("Sounds\\INGAMEMUSIC");
             SND.Initialize(bulletSound, bloodSound);
             MediaPlayer.Play(gameMusic);
 
