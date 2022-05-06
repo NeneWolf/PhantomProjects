@@ -7,12 +7,15 @@ namespace PhantomProjects
 {
     public class Game1 : Game
     {
+        
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
         private State _currentState;
 
         private State _nexState;
+
+        bool scene2 = false, scene3 = false;
 
         public void ChangeState(State state)
         {
@@ -56,8 +59,24 @@ namespace PhantomProjects
             _currentState.Update(gameTime);
             _currentState.PostUpdate(gameTime);
 
+            // change to the other states
+            if(scene2 == true)
+            {
+                scene2 = false;
+                _nexState = new GameState2(this, graphics.GraphicsDevice, Content);
+            }
+
+            if(scene3 == true)
+            {
+                scene3 = false;
+                _nexState = new GameState3(this, graphics.GraphicsDevice, Content);
+            }
+
             base.Update(gameTime);
         }
+
+        public bool GoToLevelSecond(bool move) => scene2 = move;
+        public bool GoToLevelThird(bool move) => scene3 = move;
 
         protected override void Draw(GameTime gameTime)
         {

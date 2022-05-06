@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PhantomProjects.States;
 
 namespace PhantomProjects
 {
@@ -220,7 +221,7 @@ namespace PhantomProjects
             if (Health <= 0)
             {
                 Active = false;
-            }
+            }            
         }
 
         public Rectangle RECTANGLE
