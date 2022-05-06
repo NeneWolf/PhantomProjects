@@ -149,9 +149,9 @@ namespace PhantomProjects.States
             keysGUI = content.Load<Texture2D>("GUI\\key");
             potionsGUI = content.Load<Texture2D>("GUI\\potion_test(1)");
 
-            healthBarGUI = content.Load<Texture2D>("GUI\\HealthBarPlayer");
+            healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
-            guiInfo.Initialize(0, 0, player.Health); // Set GUI with 0 keys, 0 potions, 100 HP ( taking direct value from the player )
+            guiInfo.Initialize(0, 0); // Set GUI with 0 keys, 0 potions, 100 HP ( taking direct value from the player )
 
             #endregion
 
@@ -220,7 +220,7 @@ namespace PhantomProjects.States
             _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.Yellow);
 
             ////HealthGUI
-            _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20), Color.White);
+            _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20),healthRectangle, Color.White);
 
             _spriteBatch.End();
 
@@ -250,9 +250,10 @@ namespace PhantomProjects.States
             }
             #endregion
 
+            healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
+
             //Player
             player.Update(gameTime);
-            healthRectangle = new Rectangle(10, 10, player.Health, 30);
 
             // Enemies & their bullets
             EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);

@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 namespace PhantomProjects.States
 {
     public class MenuState : State
     {
+        // Game Music.
+        private Song menuMusic;
+
         //Static background
         Texture2D mainBackground, gameLogo, companyLogo;
         private List<Component> _components;
@@ -18,6 +22,9 @@ namespace PhantomProjects.States
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
+            menuMusic = content.Load<Song>("Sounds\\MENU");
+            MediaPlayer.Play(menuMusic);
+
             mainBackground = content.Load<Texture2D>("menuBackground");
             gameLogo = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white");
             companyLogo = content.Load<Texture2D>("Logos\\Future App-logos_white");
