@@ -10,43 +10,46 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PhantomProjects.States
 {
-    public class MenuState : State
+    public class GameOver : State
     {
         // Game Music.
         private Song menuMusic;
-
-        //Static background
-        Texture2D mainBackground, gameLogo, companyLogo;
         private List<Component> _components;
 
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
-          : base(game, graphicsDevice, content)
+        //Static background
+        Texture2D mainBackground, gameOver, companyLogo;
+
+        public GameOver(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+  : base(game, graphicsDevice, content)
         {
+            //Background Music
             menuMusic = content.Load<Song>("Sounds\\MENU");
             MediaPlayer.Play(menuMusic);
 
+            //Background
             mainBackground = content.Load<Texture2D>("menuBackground");
-            gameLogo = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white");
+            gameOver = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white");
             companyLogo = content.Load<Texture2D>("Logos\\Future App-logos_white");
 
+            //Buttons
             var buttonTexture = _content.Load<Texture2D>("Menu\\button");
             var buttonFont = _content.Load<SpriteFont>("GUI\\MenuFont");
 
-            var newGameButton = new Button(buttonTexture, buttonFont)
+            var tryAgainButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2(540, 445),
-                Text = "New Game",
+                Text = "Try Again",
             };
 
-            newGameButton.Click += NewGameButton_Click;
+            tryAgainButton.Click += TryAgainButton_Click;
 
-            var loadCreditButton = new Button(buttonTexture, buttonFont)
+            var mainMenuButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(540, 500),
-                Text = "Credits",
+                Position = new Vector2(540, 445),
+                Text = "Main Menu",
             };
 
-            loadCreditButton.Click += LoadGameButton_Click;
+            mainMenuButton.Click += MainMenuButton_Click;
 
             var quitGameButton = new Button(buttonTexture, buttonFont)
             {
@@ -54,23 +57,21 @@ namespace PhantomProjects.States
                 Text = "Quit Game",
             };
 
-            c
+            quitGameButton.Click += QuitGameButton_Click;
 
             _components = new List<Component>()
           {
-            newGameButton,
-            loadCreditButton,
+            tryAgainButton,
+            mainMenuButton,
             quitGameButton,
           };
-            
         }
-
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             // Main background
             spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 700), Color.White);
-            spriteBatch.Draw(gameLogo, new Rectangle(490, 10, 300, 300), Color.White);
+            spriteBatch.Draw(gameOver, new Rectangle(490, 10, 300, 300), Color.White);
             spriteBatch.Draw(companyLogo, new Rectangle(0, 450, 300, 300), Color.White);
 
             foreach (var component in _components)
@@ -78,17 +79,16 @@ namespace PhantomProjects.States
 
             spriteBatch.End();
         }
-        
 
-        private void LoadGameButton_Click(object sender, EventArgs e)
+        private void TryAgainButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new CreditState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
         }
 
         // Level 1
-        private void NewGameButton_Click(object sender, EventArgs e)
+        private void MainMenuButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
         }
 
         public override void PostUpdate(GameTime gameTime) { }

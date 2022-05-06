@@ -12,6 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Content\GUI\HealthBarPlayer.png" />
+    <None Remove="Content\GUI\HealthPotion.png" />
   </ItemGroup>
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
