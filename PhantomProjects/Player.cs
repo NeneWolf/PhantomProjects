@@ -22,7 +22,7 @@ namespace PhantomProjects
         // State of the player
         public bool Active;
         // Amount of hit points that player has
-        public int Health;
+        public int Health, BarHealth;
 
         // Jump
         private bool hasJumped = false;
@@ -52,21 +52,25 @@ namespace PhantomProjects
 
             // Set the player health
             Health = 100;
+            BarHealth = 150; // the size of the health bar... this will be used to cute the bar based on the damage 100 - 10d and 150 - 15d
 
             texture = Content.Load<Texture2D>("Player/testPlayer");
         }
 
         public void Update(GameTime gameTime)
         {
-            position += velocity;
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 95);
+            IsDead();
 
-            Health = 100;
+            if (Active == true)
+            {
+                position += velocity;
+                rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 95);
 
-            Input(gameTime);
+                Input(gameTime);
 
-            if (velocity.Y < 10)
-                velocity.Y += 0.4f;
+                if (velocity.Y < 10)
+                    velocity.Y += 0.4f;
+            }
         }
 
         private void Input(GameTime gameTime)
@@ -118,6 +122,8 @@ namespace PhantomProjects
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
         }
+
+        private void IsDead() { if(Health <= 0) { Active = false; } }
 
         public void Draw(SpriteBatch spriteBatch)
         {

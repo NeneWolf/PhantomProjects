@@ -53,7 +53,7 @@ namespace PhantomProjects
                 {
                     //Subtract the health from the player based on the enemy damage
                     player.Health -= enemyType1[i].Damage;
-                    guiInfo.PlayerHP -= enemyType1[i].Damage;
+                    player.BarHealth -= 15;
 
                     //Since the enemy collided with the player destroy it
                     enemyType1[i].Health -= 10;

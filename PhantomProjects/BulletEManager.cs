@@ -103,7 +103,9 @@ namespace PhantomProjects
                     VFX.AddExplosion(p.Position, SND);
 
                     // Damage Player
-                    p.Health -= 10;
+                    p.Health -= b.damage;
+                    p.BarHealth -= 15;
+
                     b.Active = false;
 
                 }

@@ -13,7 +13,7 @@ namespace PhantomProjects
         public Animation BulletAnimation; // animation the represents the butter of the enemy
         float Speed, bulletMoveSpeed;
         public Vector2 Position;
-        int Damage = 10;
+        public int damage;
         public bool Active;
         bool Right;
 
@@ -34,6 +34,7 @@ namespace PhantomProjects
             BulletAnimation = animation;
             Position = position;
             Active = true;
+            damage = 10;
             if (Right)
                 bulletMoveSpeed = 10f;
             else

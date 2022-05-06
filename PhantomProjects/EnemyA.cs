@@ -35,7 +35,6 @@ namespace PhantomProjects
         public bool Active;
         public int Health;
         public int Damage;
-        public int Value;
         #endregion
 
         //Get the dimentions of the enemy
@@ -66,7 +65,6 @@ namespace PhantomProjects
             Health = 100;
             Active = true;
             Damage = 10;
-            Value = 10;
 
             oldDistance = distance;
 
