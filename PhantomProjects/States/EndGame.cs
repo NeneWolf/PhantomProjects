@@ -28,7 +28,7 @@ namespace PhantomProjects.States
 
             //Background
             mainBackground = content.Load<Texture2D>("menuBackground"); // change background image
-            gameOver = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white"); //  change to the Congradulations Image
+            gameOver = content.Load<Texture2D>("Menu\\Congratulation"); //  change to the Congradulations Image
             companyLogo = content.Load<Texture2D>("Logos\\Future App-logos_white");
 
             //Buttons
@@ -63,7 +63,7 @@ namespace PhantomProjects.States
             spriteBatch.Begin();
             // Main background
             spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 700), Color.White);
-            spriteBatch.Draw(gameOver, new Rectangle(490, 10, 300, 300), Color.White);
+            spriteBatch.Draw(gameOver, new Rectangle(370, 10, 600, 300), Color.White);
             spriteBatch.Draw(companyLogo, new Rectangle(0, 450, 300, 300), Color.White);
 
             foreach (var component in _components)
