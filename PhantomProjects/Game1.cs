@@ -15,7 +15,7 @@ namespace PhantomProjects
 
         private State _nexState;
 
-        bool scene2 = false, scene3 = false;
+        bool scene2 = false, scene3 = false, gameOver = false, endGame = false;
 
         public void ChangeState(State state)
         {
@@ -59,24 +59,42 @@ namespace PhantomProjects
             _currentState.Update(gameTime);
             _currentState.PostUpdate(gameTime);
 
-            // change to the other states
-            if(scene2 == true)
+            CheckScenes();
+
+            base.Update(gameTime);
+        }
+
+        public void CheckScenes()
+        {
+            // change to the other Scenes if the bool becomes true
+            if (scene2 == true)
             {
                 scene2 = false;
                 _nexState = new GameState2(this, graphics.GraphicsDevice, Content);
             }
 
-            if(scene3 == true)
+            if (scene3 == true)
             {
                 scene3 = false;
                 _nexState = new GameState3(this, graphics.GraphicsDevice, Content);
             }
 
-            base.Update(gameTime);
-        }
+            if (endGame == true)
+            {
+                endGame = false;
+                _nexState = new EndGame(this, graphics.GraphicsDevice, Content);
+            }
 
+            if (gameOver == true)
+            {
+                gameOver = false;
+                _nexState = new GameOver(this, graphics.GraphicsDevice, Content);
+            }
+        }
         public bool GoToLevelSecond(bool move) => scene2 = move;
         public bool GoToLevelThird(bool move) => scene3 = move;
+        public bool GoToEndGame(bool move) => endGame = move;
+        public bool GoToGameOver(bool move) => gameOver = move;
 
         protected override void Draw(GameTime gameTime)
         {

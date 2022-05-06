@@ -98,6 +98,15 @@ namespace PhantomProjects
             }
         }
 
+        public void CleanEnemies()
+        {
+            for(int i = 0; i< enemyType1.Count; i++)
+            {
+                enemyType1[i].Active = false;
+                enemyType1.RemoveAt(i);
+            }
+        }
+
         public void DrawEnemies(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < enemyType1.Count; i++)
