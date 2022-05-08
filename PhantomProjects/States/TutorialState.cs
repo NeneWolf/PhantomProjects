@@ -7,12 +7,14 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using PhantomProjects.PlayerBullets;
+using PhantomProjects.Interactables;
 
 namespace PhantomProjects.States
 {
-    public class GameState : State
+    public class TutorialState : State
     {
-        #region Level 1 Declarations
+        #region Tutorial- Declarations
 
         private SpriteBatch _spriteBatch;
 
@@ -25,7 +27,12 @@ namespace PhantomProjects.States
         //----------------------------------------
         // Player
         Player player;
-        Texture2D playerRWalk, playerLWalk;
+        Texture2D playerRWalk, playerLWalk, playerIdle;
+
+        //-----------------------------------------
+        //Player Bullets
+        Texture2D pBulletTexture;
+        BulletManager pBullets = new BulletManager();
 
         //-----------------------------------------
         //Basic Enemy
@@ -47,14 +54,18 @@ namespace PhantomProjects.States
         // G.U.I Details
         SpriteFont guiFont, MenuFont;
         Texture2D legand;
-        Texture2D keysGUI, potionsGUI;
+        Texture2D keysGUI, pointsGUI;
+        GUI guiInfo = new GUI();
 
         // health bar
         Texture2D healthBarGUI;
         Rectangle healthRectangle;
 
-
-        GUI guiInfo = new GUI();
+        //Interactables
+        Keycard keycard;
+        HealthPotion healthPotion;
+        Door door;
+        
 
         // ------------ sounds ------------
 
@@ -68,11 +79,10 @@ namespace PhantomProjects.States
         private Song gameMusic;
         Sounds SND = new Sounds();
 
-
         #endregion
 
 
-        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+        public TutorialState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
             player = new Player();
@@ -116,14 +126,20 @@ namespace PhantomProjects.States
 
             #endregion
 
-            //Player
-            playerRWalk = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
-            playerLWalk = content.Load<Texture2D>("Player\\MalePlayerLefttWalk");
-            player.Initialize(playerRWalk, playerLWalk, new Vector2(100,1100));
+            #region Player
 
-            //Enemies  -  Basic
+            playerRWalk = content.Load<Texture2D>("PlayerContent\\MalePlayerRightWalk");
+            playerLWalk = content.Load<Texture2D>("PlayerContent\\MalePlayerLefttWalk");
+            playerIdle = content.Load<Texture2D>("PlayerContent\\MalePlayerIdle");
+            player.Initialize(playerRWalk, playerLWalk, playerIdle, new Vector2(100,1100));
 
-            #region Enemy
+            //Player Bullets
+            pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
+            pBullets.Initialize(pBulletTexture);
+            #endregion
+
+            #region Basic Enemy
+
             //Constructor
             details = graphicsDevice;
             leftWalk = content.Load<Texture2D>("EnemyA\\enemyALeft");
@@ -150,7 +166,7 @@ namespace PhantomProjects.States
             // GUI
             legand = content.Load<Texture2D>("GUI\\legand");
             keysGUI = content.Load<Texture2D>("GUI\\key");
-            potionsGUI = content.Load<Texture2D>("GUI\\Potion");
+            pointsGUI = content.Load<Texture2D>("GUI\\UpgradeCoin");
 
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
@@ -158,6 +174,17 @@ namespace PhantomProjects.States
 
             #endregion
 
+
+            #region Interactables
+            keycard = new Keycard();
+            keycard.Initialize(content, new Vector2(300, 1100));
+
+            healthPotion = new HealthPotion();
+            healthPotion.Initialize(content, new Vector2(600, 1170));
+
+            door = new Door();
+            door.Initialize(content, new Vector2(650, 1100));
+            #endregion
             #region Game Sounds
             ////Sounds
             // Load the laserSound Effect and create the effect Instance
@@ -178,7 +205,7 @@ namespace PhantomProjects.States
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            #region DrawMap1
+            #region Draw the map 
 
 
             _spriteBatch.Begin(SpriteSortMode.Deferred,
@@ -194,14 +221,24 @@ namespace PhantomProjects.States
 
             #endregion
 
-            //Enemy
-            EnemyA.DrawEnemies(_spriteBatch);
-
             //Player
             player.Draw(_spriteBatch);
 
+            //Player Bullet
+            pBullets.DrawBullets(_spriteBatch);
+
+            //Enemy
+            EnemyA.DrawEnemies(_spriteBatch);
+
             //Enemy Bullet
             BulletBeams.DrawBullet(_spriteBatch);
+
+            //Interactable
+            keycard.Draw(_spriteBatch);
+
+            healthPotion.Draw(_spriteBatch);
+
+            door.Draw(_spriteBatch);
 
             //Explosions
             VFX.DrawExplosions(_spriteBatch);
@@ -215,8 +252,8 @@ namespace PhantomProjects.States
             _spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
 
             /////PotionGUI
-            _spriteBatch.Draw(potionsGUI, new Vector2(925, 20), Color.White);
-            _spriteBatch.DrawString(guiFont, "" + guiInfo.POTIONS, new Vector2(985, 38), Color.White);
+            _spriteBatch.Draw(pointsGUI, new Vector2(925, 20), Color.White);
+            _spriteBatch.DrawString(guiFont, "" + guiInfo.UPGRADEPOINTS, new Vector2(985, 38), Color.White);
 
             /////keysGUI
             _spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
@@ -257,17 +294,23 @@ namespace PhantomProjects.States
 
             //Player
             player.Update(gameTime);
+            pBullets.UpdateManagerBullet(gameTime, player,VFX, SND);
 
             // Clean Level and change to Game Over
-            if(player.Active == false) { 
+            if (player.Active == false) { 
                 _game.GoToGameOver(true);
-                EnemyManager enemy;
                 EnemyA.CleanEnemies();
             }
 
             // Enemies & their bullets
             EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);
             BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
+
+
+            //Interactables
+            keycard.Update(gameTime, player, guiInfo);
+            healthPotion.Update(gameTime, player);
+            door.Update(gameTime, player, guiInfo);
 
             //Explotions
             VFX.UpdateExplosions(gameTime);

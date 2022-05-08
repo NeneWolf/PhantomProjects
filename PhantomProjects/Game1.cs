@@ -70,13 +70,13 @@ namespace PhantomProjects
             if (scene2 == true)
             {
                 scene2 = false;
-                _nexState = new GameState2(this, graphics.GraphicsDevice, Content);
+                _nexState = new GameLevel1(this, graphics.GraphicsDevice, Content);
             }
 
             if (scene3 == true)
             {
                 scene3 = false;
-                _nexState = new GameState3(this, graphics.GraphicsDevice, Content);
+                _nexState = new GameLevel2(this, graphics.GraphicsDevice, Content);
             }
 
             if (endGame == true)

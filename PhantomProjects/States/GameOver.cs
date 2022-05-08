@@ -82,7 +82,7 @@ namespace PhantomProjects.States
 
         private void TryAgainButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new TutorialState(_game, _graphicsDevice, _content));
         }
 
         private void MainMenuButton_Click(object sender, EventArgs e)

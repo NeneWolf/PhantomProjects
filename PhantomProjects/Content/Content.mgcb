@@ -147,7 +147,7 @@
 /processorParam:TextureFormat=Color
 /build:GUI/Potion.png
 
-#begin GUI/potion_test(1).png
+#begin GUI/UpgradeCoin.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -157,7 +157,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GUI/potion_test(1).png
+/build:GUI/UpgradeCoin.png
 
 #begin Logos/Future App-logos_white.png
 /importer:TextureImporter
@@ -182,6 +182,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Logos/Phantom Projects-logos_white.png
+
+#begin Map/ClosedDoor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/ClosedDoor.png
+
+#begin Map/OpenDoor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/OpenDoor.png
 
 #begin Map/Tile1.png
 /importer:TextureImporter
@@ -279,7 +303,7 @@
 /processorParam:TextureFormat=Color
 /build:menuBackground.png
 
-#begin Player/MalePlayerLefttWalk.png
+#begin PlayerContent/MalePlayerIdle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -289,9 +313,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player/MalePlayerLefttWalk.png
+/build:PlayerContent/MalePlayerIdle.png
 
-#begin Player/MalePlayerRightWalk.png
+#begin PlayerContent/MalePlayerLefttWalk.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -301,9 +325,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player/MalePlayerRightWalk.png
+/build:PlayerContent/MalePlayerLefttWalk.png
 
-#begin Player/testPlayer.png
+#begin PlayerContent/MalePlayerRightWalk.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -313,7 +337,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player/testPlayer.png
+/build:PlayerContent/MalePlayerRightWalk.png
 
 #begin Sounds/BloodSound.wav
 /importer:WavImporter
