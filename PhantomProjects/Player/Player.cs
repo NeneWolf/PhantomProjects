@@ -9,17 +9,14 @@ using System.Text;
 
 namespace PhantomProjects
 {
-    class Player
+    public class Player
     {
         Game1 _game;
-
         public Animation playerAnimation;
-        Texture2D playerRight, playerLeft, currentAnim;
+        public Texture2D playerRight, playerLeft, currentAnim;
         float elapsed;
         float delay = 120f;
         int Frames = 0;
-
-
 
         //Hold the Viewport
         Vector2 graphicsInfo;
@@ -37,10 +34,6 @@ namespace PhantomProjects
 
         // Jump
         private bool hasJumped = false;
-
-        // Keyboard states used to determine key presses
-        KeyboardState currentKeyboardState;
-        KeyboardState previousKeyboardState;
 
         // Gamepad states used to determine button presses
         GamePadState currentGamePadState;
@@ -84,32 +77,46 @@ namespace PhantomProjects
 
         public void Update(GameTime gameTime)
         {
+            // Check if the player is Alive or dead first
             IsDead();
+
+            // If player == false, do not move or do further calculations, otherwise do the appropriate calculations
             if(Active == true)
             {
+                //Save the previous state of the keyboard and game pad so we can determine single key/button presses
+                previousGamePadState = currentGamePadState;
+                //Read the current state of the keyboard and gamepad and store it
+                currentGamePadState = GamePad.GetState(PlayerIndex.One);
+
+
                 position += velocity;
                 rectangle = new Rectangle((int)position.X, (int)position.Y, 64, 64);
                 playerAnimation.Position = position;
                 playerAnimation.Update(gameTime);
 
+                //Get Thumbsticks Controls
+                position.X += currentGamePadState.ThumbSticks.Left.X * velocity.X;
+
+                //PC & Game Pad Controls
                 Input(gameTime);
 
                 if (velocity.Y < 10)
                     velocity.Y += 0.4f;
             }
+
         }
 
         private void Input(GameTime gameTime)
         {
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            // Using PC and Controls input 
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D) || currentGamePadState.DPad.Right == ButtonState.Pressed)
             {
                 velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
                 currentAnim = playerRight;
                 Animate(gameTime);
 
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A) || currentGamePadState.DPad.Left == ButtonState.Pressed)
             {
                 velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
                 currentAnim = playerLeft;
@@ -120,7 +127,7 @@ namespace PhantomProjects
                 velocity.X = 0f;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && hasJumped == false)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) || currentGamePadState.DPad.Up == ButtonState.Pressed) && hasJumped == false)
             {
                 position.Y -= 5f;
                 velocity.Y = -10f;

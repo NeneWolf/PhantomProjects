@@ -10,10 +10,10 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PhantomProjects.States
 {
-    public class GameState : State
+    public class GameLevel2 : State
     {
-        #region Level 1 Declarations
-
+        #region Level 2- Declarations
+        //Camera & Map
         private SpriteBatch _spriteBatch;
 
         //Camera & Map
@@ -68,12 +68,11 @@ namespace PhantomProjects.States
         private Song gameMusic;
         Sounds SND = new Sounds();
 
-
         #endregion
 
-
-        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
-          : base(game, graphicsDevice, content)
+        public GameLevel2(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+        : base(game, graphicsDevice, content)
+        
         {
             player = new Player();
 
@@ -86,31 +85,31 @@ namespace PhantomProjects.States
             Tiles.Content = content;
             camera = new Camera(graphicsDevice.Viewport);
 
-            #region Map1_Generator 
+            #region Map2_Generator 
             //  64x30 Width // 20x64 Height
             map.Generate(new int[,]
-{
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 5},
-                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2},
-                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2},
-                { 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2}
-                }, 64);
+            {
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+            }, 64);
 
             mainBackground = content.Load<Texture2D>("background");
 
@@ -119,7 +118,7 @@ namespace PhantomProjects.States
             //Player
             playerRWalk = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
             playerLWalk = content.Load<Texture2D>("Player\\MalePlayerLefttWalk");
-            player.Initialize(playerRWalk, playerLWalk, new Vector2(100,1100));
+            player.Initialize(playerRWalk, playerLWalk, new Vector2(100, 1100));
 
             //Enemies  -  Basic
 
@@ -172,66 +171,63 @@ namespace PhantomProjects.States
             MediaPlayer.Play(gameMusic);
 
             #endregion
-
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            #region Draw the map 
 
-            #region DrawMap1
 
-
-            _spriteBatch.Begin(SpriteSortMode.Deferred,
+            spriteBatch.Begin(SpriteSortMode.Deferred,
                    BlendState.AlphaBlend,
                    null, null, null, null,
                    camera.Transform);
 
             // Main background
-            _spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1920, 1280), Color.White);
+            spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1920, 1280), Color.White);
 
             //Map 
-            map.Draw(_spriteBatch);
+            map.Draw(spriteBatch);
 
             #endregion
 
             //Enemy
-            EnemyA.DrawEnemies(_spriteBatch);
+            EnemyA.DrawEnemies(spriteBatch);
 
             //Player
             player.Draw(_spriteBatch);
 
             //Enemy Bullet
-            BulletBeams.DrawBullet(_spriteBatch);
+            BulletBeams.DrawBullet(spriteBatch);
 
             //Explosions
-            VFX.DrawExplosions(_spriteBatch);
+            VFX.DrawExplosions(spriteBatch);
 
-            _spriteBatch.End();
+            spriteBatch.End();
 
 
-            _spriteBatch.Begin();
+
             // Static GUI
-
-            _spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
+            spriteBatch.Begin();
+            spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
 
             /////PotionGUI
-            _spriteBatch.Draw(potionsGUI, new Vector2(925, 20), Color.White);
-            _spriteBatch.DrawString(guiFont, "" + guiInfo.POTIONS, new Vector2(985, 38), Color.White);
+            spriteBatch.Draw(potionsGUI, new Vector2(925, 20), Color.White);
+            spriteBatch.DrawString(guiFont, "" + guiInfo.POTIONS, new Vector2(985, 38), Color.White);
 
             /////keysGUI
-            _spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
-            _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.Yellow);
+            spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
+            spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.Yellow);
 
             ////HealthGUI
-            _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20),healthRectangle, Color.White);
+            spriteBatch.Draw(healthBarGUI, new Vector2(10, 20), healthRectangle, Color.White);
 
-            _spriteBatch.End();
-
+            spriteBatch.End();
         }
 
         public override void PostUpdate(GameTime gameTime)
         {
-
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -259,9 +255,9 @@ namespace PhantomProjects.States
             player.Update(gameTime);
 
             // Clean Level and change to Game Over
-            if(player.Active == false) { 
+            if (player.Active == false)
+            {
                 _game.GoToGameOver(true);
-                EnemyManager enemy;
                 EnemyA.CleanEnemies();
             }
 
@@ -271,7 +267,6 @@ namespace PhantomProjects.States
 
             //Explotions
             VFX.UpdateExplosions(gameTime);
-
         }
     }
 }
