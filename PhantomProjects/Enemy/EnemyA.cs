@@ -28,8 +28,8 @@ namespace PhantomProjects
         bool right; // default movement
         float distance; // Distance fixed ( the distance that the enemy will patrol )
         float oldDistance; // Compare old distance with the new distance
-        float playerDistance; //Distance of Enemy from the player
-        int patrolDistance = 384; // Patrol distance
+        float playerDistance, playerDistanceY; //Distance of Enemy from the player
+        int patrolDistance = 384, patrolDistanceY = 200;// Patrol distance
 
         ///Details
         public Vector2 position; // Enemy position
@@ -82,10 +82,12 @@ namespace PhantomProjects
             // Animation Check
             AnimationCheck(gameTime);
 
-            //Patrol area calcs
-            Patrol(gameTime);
             // Find player position
             playerDistance = player.Position.X - position.X;
+            playerDistanceY = player.Position.Y - position.Y;
+
+            //Patrol area calcs
+            Patrol(gameTime);
 
             // if the player is inside the patrol distance & Active, otherwise disactivate
             if (player.Active == true)
@@ -119,7 +121,8 @@ namespace PhantomProjects
 
         void HuntPlayer(GameTime gameTime, Sounds SND)
         {
-            if (playerDistance >= -patrolDistance && playerDistance <= patrolDistance)
+            if ((playerDistance >= -patrolDistance && playerDistance <= patrolDistance) &&
+                (playerDistanceY >= -patrolDistance && playerDistanceY <= patrolDistance))
             {
                 if (playerDistance < -1f)
                 {
