@@ -13,7 +13,7 @@ namespace PhantomProjects.Interactables
     {
         Texture2D doorOpen, doorClose, currentStatus;
         Vector2 position;
-        public bool Active;
+        public bool Active, canChangeScene;
 
         public int Width
         {
@@ -27,6 +27,7 @@ namespace PhantomProjects.Interactables
 
         public void Initialize(ContentManager Content, Vector2 pos)
         {
+            canChangeScene = false;
             Active = true;
             position = pos;
             doorOpen = Content.Load<Texture2D>("Map\\OpenDoor");
@@ -58,11 +59,15 @@ namespace PhantomProjects.Interactables
                     if (potionRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.E) ||
                         GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed))
                     {
-                        // transport to the next scene
-                        guiInfo.KEYS += 1;
+                        canChangeScene = true;
                     }
                 }
             }
+        }
+
+        public bool ReturnChangeSCene()
+        {
+            return canChangeScene;
         }
 
         public void Draw(SpriteBatch spriteBatch)

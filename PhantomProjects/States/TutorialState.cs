@@ -103,18 +103,18 @@ namespace PhantomProjects.States
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 5},
+                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2},
+                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 2, 2, 2, 2, 5},
+                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
+                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2},
@@ -131,7 +131,7 @@ namespace PhantomProjects.States
             playerRWalk = content.Load<Texture2D>("PlayerContent\\MalePlayerRightWalk");
             playerLWalk = content.Load<Texture2D>("PlayerContent\\MalePlayerLefttWalk");
             playerIdle = content.Load<Texture2D>("PlayerContent\\MalePlayerIdle");
-            player.Initialize(playerRWalk, playerLWalk, playerIdle, new Vector2(100,1100));
+            player.Initialize(playerRWalk, playerLWalk, playerIdle, new Vector2(100, 1100));
 
             //Player Bullets
             pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
@@ -177,13 +177,13 @@ namespace PhantomProjects.States
 
             #region Interactables
             keycard = new Keycard();
-            keycard.Initialize(content, new Vector2(300, 1100));
+            keycard.Initialize(content, new Vector2(1728, 500));
 
             healthPotion = new HealthPotion();
-            healthPotion.Initialize(content, new Vector2(600, 1170));
+            healthPotion.Initialize(content, new Vector2(1472, 1170));
 
             door = new Door();
-            door.Initialize(content, new Vector2(650, 1100));
+            door.Initialize(content, new Vector2(1728,155));
             #endregion
             #region Game Sounds
             ////Sounds
@@ -221,6 +221,13 @@ namespace PhantomProjects.States
 
             #endregion
 
+            //Interactable
+            keycard.Draw(_spriteBatch);
+
+            healthPotion.Draw(_spriteBatch);
+
+            door.Draw(_spriteBatch);
+
             //Player
             player.Draw(_spriteBatch);
 
@@ -233,22 +240,13 @@ namespace PhantomProjects.States
             //Enemy Bullet
             BulletBeams.DrawBullet(_spriteBatch);
 
-            //Interactable
-            keycard.Draw(_spriteBatch);
-
-            healthPotion.Draw(_spriteBatch);
-
-            door.Draw(_spriteBatch);
-
             //Explosions
             VFX.DrawExplosions(_spriteBatch);
 
             _spriteBatch.End();
 
-
-            _spriteBatch.Begin();
             // Static GUI
-
+            _spriteBatch.Begin();
             _spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
 
             /////PotionGUI
@@ -296,12 +294,6 @@ namespace PhantomProjects.States
             player.Update(gameTime);
             pBullets.UpdateManagerBullet(gameTime, player,VFX, SND);
 
-            // Clean Level and change to Game Over
-            if (player.Active == false) { 
-                _game.GoToGameOver(true);
-                EnemyA.CleanEnemies();
-            }
-
             // Enemies & their bullets
             EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);
             BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
@@ -315,6 +307,22 @@ namespace PhantomProjects.States
             //Explotions
             VFX.UpdateExplosions(gameTime);
 
+            GameManager();
+        }
+
+        void GameManager()
+        {
+            // Clean Level and change to Game Over
+            if (player.Active == false)
+            {
+                _game.GoToGameOver(true);
+                EnemyA.CleanEnemies();
+            }
+
+            if(door.canChangeScene == true)
+            {
+                _game.GoToLevelOne(door.canChangeScene);
+            }
         }
     }
 }
