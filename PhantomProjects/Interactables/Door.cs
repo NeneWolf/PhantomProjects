@@ -56,7 +56,7 @@ namespace PhantomProjects.Interactables
                 {
                     currentStatus = doorOpen;
 
-                    if (potionRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.E) ||
+                    if (potionRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) ||
                         GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed))
                     {
                         canChangeScene = true;
