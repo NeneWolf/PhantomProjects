@@ -48,7 +48,8 @@ namespace PhantomProjects
                                           Width,
                                           Height);
 
-                if (potionRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.E) || GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed))
+                if (potionRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) || 
+                    GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed))
                 {
                     Active = false;
                     if (p.Health < 100)
