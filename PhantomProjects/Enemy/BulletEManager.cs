@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PhantomProjects.PlayerBullets;
 
 namespace PhantomProjects
 {
@@ -98,7 +99,6 @@ namespace PhantomProjects
 
                 if (bulletERectangle.Intersects(playerRectangle))
                 {
-                    // Add explossion
                     // Show the explosion where the player was.
                     VFX.AddExplosion(p.Position, SND);
 

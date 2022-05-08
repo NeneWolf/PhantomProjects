@@ -5,15 +5,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace PhantomProjects.Player
+namespace PhantomProjects.PlayerBullets
 {
     class Bullet
     {
+        #region Definitions
         public Animation BulletAnimation;
         float bulletMoveSpeed;
         public Vector2 Position;
         public int Damage = 20;
         public bool Active;
+        #endregion
 
         public int Width
         {

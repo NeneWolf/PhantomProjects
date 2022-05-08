@@ -10,14 +10,14 @@ namespace PhantomProjects
     class GUI
     {
         private int keys;
-        private int potions;
+        private int points;
 
         //more to add on your own choice
 
-        public void Initialize(int Keys, int Potions)
+        public void Initialize(int Keys, int UpgradePoints)
         {
             keys = Keys;
-            potions = Potions;
+            points = UpgradePoints;
         }
         public int KEYS
         {
@@ -25,10 +25,10 @@ namespace PhantomProjects
             set { this.keys = value; }
         }
 
-        public int POTIONS
+        public int UPGRADEPOINTS
         {
-            get { return potions; }
-            set { this.potions = value; }
+            get { return points; }
+            set { this.points = value; }
         }
 
     }

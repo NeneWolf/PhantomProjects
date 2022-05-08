@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace PhantomProjects.Player
+namespace PhantomProjects.PlayerBullets
 {
     class BulletManager
     {
+        #region Definitions
         static Texture2D bulletTexture;
         static Rectangle bulletRectangle;
         static public List<Bullet> bullets;
@@ -17,31 +19,25 @@ namespace PhantomProjects.Player
         static TimeSpan bulletSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
         static TimeSpan previousBulletSpawnTime;
 
-        GraphicsDeviceManager graphics;
-
-        static Vector2 graphicsInfo;
-
-        KeyboardState currentKeyboardState;
-        KeyboardState previousKeyboardState;
-
         GamePadState currentGamePadState;
         GamePadState previousGamePadState;
 
-        public void Initialize(Texture2D texture, GraphicsDevice Graphics)
+        #endregion
+
+        public void Initialize(Texture2D texture)
         {
             bullets = new List<Bullet>();
             previousBulletSpawnTime = TimeSpan.Zero;
             bulletTexture = texture;
-            graphicsInfo.X = Graphics.Viewport.Width;
-            graphicsInfo.Y = Graphics.Viewport.Height;
         }
 
-        private static void FireBullet(GameTime gameTime, Player p)
+        private static void FireBullet(GameTime gameTime, Player p, Sounds SND)
         {
             if (gameTime.TotalGameTime - previousBulletSpawnTime > bulletSpawnTime)
             {
                 previousBulletSpawnTime = gameTime.TotalGameTime;
                 AddBullet(p);
+                SND.BULLET.Play();
             }
         }
 
@@ -68,23 +64,17 @@ namespace PhantomProjects.Player
             bullets.Add(bullet);
         }
 
-        public void UpdateManagerBullet(GameTime gameTime, Player p)
+        public void UpdateManagerBullet(GameTime gameTime, Player p, ExplosionManager VFX, Sounds SND)
         {
-            previousGamePadState = currentGamePadState;
-            previousKeyboardState = currentKeyboardState;
-
-            currentGamePadState = GamePad.GetState(PlayerIndex.One);
-            currentKeyboardState = Keyboard.GetState();
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed)
+             if (Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed )
             {
-                BulletManager.FireBullet(gameTime, p);
+                FireBullet(gameTime, p, SND);
             }
 
             for (var i = 0; i < bullets.Count; i++)
             {
                 bullets[i].Update(gameTime);
-                if (!bullets[i].Active /*|| bullets[i].Position.X > graphicsInfo.X*/)
+                if (!bullets[i].Active || bullets[i].Position.X > 1856 || bullets[i].Position.X < -1856)
                 {
                     bullets.Remove(bullets[i]);
                 }
@@ -92,12 +82,6 @@ namespace PhantomProjects.Player
 
             foreach (EnemyA e in EnemyManager.enemyType1)
             {
-                Rectangle enemyRectangle = new Rectangle(
-                                           (int)e.position.X,
-                                           (int)e.position.Y,
-                                           e.rectangle.X,
-                                           e.rectangle.Y);
-
                 foreach (Bullet B in BulletManager.bullets)
                 {
                     bulletRectangle = new Rectangle(
@@ -106,8 +90,11 @@ namespace PhantomProjects.Player
                                       B.Width,
                                       B.Height);
 
-                    if (bulletRectangle.Intersects(enemyRectangle))
+                    if (bulletRectangle.Intersects(e.rectangle))
                     {
+                        // Show the explosion where the player was.
+                        VFX.AddExplosion(B.Position, SND);
+
                         e.Health -= B.Damage;
                         B.Active = false;
                     }

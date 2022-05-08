@@ -11,8 +11,14 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="PlayerData\**" />
+    <EmbeddedResource Remove="PlayerData\**" />
+    <None Remove="PlayerData\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Content\GUI\HealthBarPlayer.png" />
     <None Remove="Content\GUI\HealthPotion.png" />
+    <None Remove="Content\GUI\potion_test%281%29.png" />
   </ItemGroup>
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />

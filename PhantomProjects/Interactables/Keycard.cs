@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PhantomProjects.PlayerBullets;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,17 @@ namespace PhantomProjects.Interactables
 {
     class Keycard
     {
+        #region Definitions
         Texture2D keyCardTexture;
         Vector2 position;
         public bool Active;
+
+
+        // Gamepad states used to determine button presses
+        GamePadState currentGamePadState;
+        GamePadState previousGamePadState;
+
+        #endregion
 
         public int Width
         {
@@ -28,26 +37,31 @@ namespace PhantomProjects.Interactables
         {
             Active = true;
             position = pos;
-            keyCardTexture = Content.Load<Texture2D>("Keycard");
+            keyCardTexture = Content.Load<Texture2D>("GUI\\key");
         }
 
-        public void Update(GameTime gameTime, Player p)
+        public void Update(GameTime gameTime, Player p, GUI guiInfo)
         {
-            Rectangle playerRectangle = new Rectangle(
-                                        (int)p.Position.X,
-                                        (int)p.Position.Y,
-                                        50,
-                                        50);
-
-            Rectangle cardRectangle = new Rectangle(
-                                      (int)position.X,
-                                      (int)position.Y,
-                                      Width,
-                                      Height);
-
-            if (cardRectangle.Intersects(playerRectangle) && Keyboard.GetState().IsKeyDown(Keys.E))
+            if(Active == true)
             {
-                Active = false;
+                Rectangle playerRectangle = new Rectangle(
+                            (int)p.Position.X,
+                            (int)p.Position.Y,
+                            50,
+                            50);
+
+                Rectangle cardRectangle = new Rectangle(
+                                          (int)position.X,
+                                          (int)position.Y,
+                                          Width,
+                                          Height);
+
+                if (cardRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.E) || 
+                    GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed))
+                {
+                    Active = false;
+                    guiInfo.KEYS += 1;
+                }
             }
         }
 

@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PhantomProjects.PlayerBullets;
 
 namespace PhantomProjects
 {
@@ -94,7 +95,10 @@ namespace PhantomProjects
                 enemyType1[i].Update(gameTime, player, SND);
 
                 if (enemyType1[i].Active == false)
-                { enemyType1.RemoveAt(i);}
+                { 
+                    enemyType1.RemoveAt(i);
+                    guiInfo.UPGRADEPOINTS += 50;
+                }
             }
         }
 
