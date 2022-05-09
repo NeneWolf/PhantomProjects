@@ -29,10 +29,10 @@ namespace PhantomProjects.States
         //----------------------------------------
         // Player
         Player player;
-        Texture2D playerRWalk, playerLWalk, playerIdle;
+        int playerHealth, playerBarHealth, playerUpgradePoints;
 
         //Shield
-        Shield shield;
+        Shield shield = new Shield();
 
         //-----------------------------------------
         //Interactables
@@ -64,7 +64,7 @@ namespace PhantomProjects.States
 
         // G.U.I Details
         SpriteFont guiFont, MenuFont;
-        Texture2D legand;
+        Texture2D legand, shieldTimer;
         Texture2D keysGUI, pointsGUI;
         GUI guiInfo = new GUI();
 
@@ -90,199 +90,207 @@ namespace PhantomProjects.States
         public GameLevel1(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
-//            player = new Player();
+            _spriteBatch = new SpriteBatch(graphicsDevice);
+            details = graphicsDevice;
 
-//            // Set Map & Player
-//            map = new Map();
+            // Set Map & Player
+            map = new Map();
 
-//            _spriteBatch = new SpriteBatch(graphicsDevice);
+            //Tiles / Map / Camera
+            Tiles.Content = content;
+            camera = new Camera(graphicsDevice.Viewport);
 
-//            //Tiles / Map / Camera
-//            Tiles.Content = content;
-//            camera = new Camera(graphicsDevice.Viewport);
+            #region Map1_Generator 
+            //  64x30 Width // 20x64 Height
+            map.Generate(new int[,]
+{
+                //64x40 Width, 30x64 Height
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            }, 64);
 
-//            #region Map1_Generator 
-//            //  64x30 Width // 20x64 Height
-//            map.Generate(new int[,]
-//{
-//                //64x40 Width, 30x64 Height
-//                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//                { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-//                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-//                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//            }, 64);
+            mainBackground = content.Load<Texture2D>("background");
 
-//            mainBackground = content.Load<Texture2D>("background");
+            #endregion
 
-//            #endregion
+            ReturnStoreData();
+            #region Player
+            player = new Player();
+            player.Initialize(content, new Vector2(100, 1100));
 
-//            #region Player
+            //Reset to the previous level values
+            player.Health = playerHealth;
+            player.BarHealth = playerBarHealth;
 
-//            playerRWalk = content.Load<Texture2D>("PlayerContent\\MalePlayerRightWalk");
-//            playerLWalk = content.Load<Texture2D>("PlayerContent\\MalePlayerLefttWalk");
-//            playerIdle = content.Load<Texture2D>("PlayerContent\\MalePlayerIdle");
-//            player.Initialize(playerRWalk, playerLWalk, playerIdle, new Vector2(100, 1700));
+            //Player Bullets
+            pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
+            pBullets.Initialize(pBulletTexture);
 
-//            //Player Bullets
-//            pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
-//            pBullets.Initialize(pBulletTexture);
+            //Shield
+            shield.Initialize(content);
+            #endregion
 
-//            //Shield
-//            shield.Initialize(content);
-//            #endregion
+            #region Basic Enemy
 
-//            #region Basic Enemy
+            //Enemy
+            EnemyA.Initialize(details);
+            EnemyA.CreateEnemy(new Vector2(960, 1100), content);
 
-//            //Constructor
-//            details = graphicsDevice;
-//            leftWalk = content.Load<Texture2D>("EnemyA\\enemyALeft");
-//            rightWalk = content.Load<Texture2D>("EnemyA\\enemyARight");
-//            EnemyA.Initialize(rightWalk, leftWalk, details);
+            #region Enemy Bullet
+            bulletETexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
+            BulletBeams.Initialize(bulletETexture, details);
+            #endregion
 
-//            #region Enemy Bullet
-//            bulletETexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
-//            BulletBeams.Initialize(bulletETexture, details);
-//            #endregion
+            #region Explosives
+            // EXPLOSSIONS
+            vfx = content.Load<Texture2D>("GUI\\bloodEffect");
+            VFX.Initialize(vfx, details);
+            #endregion
+            #endregion
 
-//            #region Explosives
-//            // EXPLOSSIONS
-//            vfx = content.Load<Texture2D>("GUI\\bloodEffect");
-//            VFX.Initialize(vfx, details);
-//            #endregion
-//            #endregion
+            #region GUI 
+            //FONTS
+            guiFont = content.Load<SpriteFont>("GUI\\GUIFont");
+            MenuFont = content.Load<SpriteFont>("GUI\\MenuFont");
 
-//            #region GUI 
-//            //FONTS
-//            guiFont = content.Load<SpriteFont>("GUI\\GUIFont");
-//            MenuFont = content.Load<SpriteFont>("GUI\\MenuFont");
+            // GUI
+            legand = content.Load<Texture2D>("GUI\\legand");
+            shieldTimer = content.Load<Texture2D>("Menu\\Button");
+            keysGUI = content.Load<Texture2D>("GUI\\key");
+            pointsGUI = content.Load<Texture2D>("GUI\\UpgradeCoin");
+            healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
-//            // GUI
-//            legand = content.Load<Texture2D>("GUI\\legand");
-//            keysGUI = content.Load<Texture2D>("GUI\\key");
-//            pointsGUI = content.Load<Texture2D>("GUI\\UpgradeCoin");
+            guiInfo.Initialize(0, playerUpgradePoints, 0); // Set GUI with keys, upgrade points, shieldTimer
 
-//            healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
+            #endregion
 
-//            guiInfo.Initialize(0, 0); // Set GUI with 0 keys, 0 potions, 100 HP ( taking direct value from the player )
+            #region Interactables
+            keycard = new Keycard();
+            keycard.Initialize(content, new Vector2(1728, 500));
 
-//            #endregion
+            healthPotion = new HealthPotion();
+            healthPotion.Initialize(content, new Vector2(1472, 1170));
 
+            door = new Door();
+            door.Initialize(content, new Vector2(1728, 155));
+            #endregion
 
-//            #region Interactables
-//            keycard = new Keycard();
-//            keycard.Initialize(content, new Vector2(300, 1100));
+            #region Game Sounds
+            ////Sounds
+            // Load the laserSound Effect and create the effect Instance
+            bulletSound = content.Load<SoundEffect>("Sounds\\GunShot");
 
-//            healthPotion = new HealthPotion();
-//            healthPotion.Initialize(content, new Vector2(600, 1170));
+            // Load the laserSound Effect and create the effect Instance
+            bloodSound = content.Load<SoundEffect>("Sounds\\BloodSound");
 
-//            door = new Door();
-//            door.Initialize(content, new Vector2(650, 1100));
-//            #endregion
-//            #region Game Sounds
-//            ////Sounds
-//            // Load the laserSound Effect and create the effect Instance
-//            bulletSound = content.Load<SoundEffect>("Sounds\\laserFire");
+            // Load the game music
+            gameMusic = content.Load<Song>("Sounds\\INGAMEMUSIC");
+            SND.Initialize(bulletSound, bloodSound);
+            MediaPlayer.Play(gameMusic);
 
-//            // Load the laserSound Effect and create the effect Instance
-//            bloodSound = content.Load<SoundEffect>("Sounds\\BloodSound");
-
-//            // Load the game music
-//            gameMusic = content.Load<Song>("Sounds\\INGAMEMUSIC");
-//            SND.Initialize(bulletSound, bloodSound);
-//            MediaPlayer.Play(gameMusic);
-
-//            #endregion
+            #endregion
 
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            //#region Draw the map 
+            #region Draw the map 
 
 
-            //_spriteBatch.Begin(SpriteSortMode.Deferred,
-            //       BlendState.AlphaBlend,
-            //       null, null, null, null,
-            //       camera.Transform);
+            _spriteBatch.Begin(SpriteSortMode.Deferred,
+                   BlendState.AlphaBlend,
+                   null, null, null, null,
+                   camera.Transform);
 
-            //// Main background
-            //_spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 3300, 1880), Color.White);
+            // Main background
+            _spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1920, 1280), Color.White);
 
-            ////Map 
-            //map.Draw(_spriteBatch);
+            //Map 
+            map.Draw(_spriteBatch);
 
-            //#endregion
-            ////Interactable
-            //keycard.Draw(_spriteBatch);
+            #endregion
 
-            //healthPotion.Draw(_spriteBatch);
+            #region The remain Draws...
+            //Interactable
+            keycard.Draw(_spriteBatch);
 
-            //door.Draw(_spriteBatch);
+            healthPotion.Draw(_spriteBatch);
 
-            ////Player Shield
-            //shield.Draw(_spriteBatch);
+            door.Draw(_spriteBatch);
 
-            ////Player
-            //player.Draw(_spriteBatch);
+            //Player Shield
+            shield.Draw(_spriteBatch);
 
-            ////Player Bullet
-            //pBullets.DrawBullets(_spriteBatch);
+            //Player
+            player.Draw(_spriteBatch);
 
-            ////Enemy
-            //EnemyA.DrawEnemies(_spriteBatch);
+            //Player Bullet
+            pBullets.DrawBullets(_spriteBatch);
 
-            ////Enemy Bullet
-            //BulletBeams.DrawBullet(_spriteBatch);
+            //Enemy
+            EnemyA.DrawEnemies(_spriteBatch);
 
-            ////Explosions
-            //VFX.DrawExplosions(_spriteBatch);
+            //Enemy Bullet
+            BulletBeams.DrawBullet(_spriteBatch);
 
-            //_spriteBatch.End();
+            //Explosions
+            VFX.DrawExplosions(_spriteBatch);
 
+            _spriteBatch.End();
 
-            //// Static GUI Draw
-            //_spriteBatch.Begin();
-            //_spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
+            // Static GUI
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
 
-            ///////PotionGUI
-            //_spriteBatch.Draw(pointsGUI, new Vector2(925, 20), Color.White);
-            //_spriteBatch.DrawString(guiFont, "" + guiInfo.UPGRADEPOINTS, new Vector2(985, 38), Color.White);
+            /////Upgrade points
+            _spriteBatch.Draw(pointsGUI, new Vector2(925, 20), Color.White);
+            _spriteBatch.DrawString(guiFont, "" + guiInfo.UPGRADEPOINTS, new Vector2(985, 38), Color.White);
 
-            ///////keysGUI
-            //_spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
-            //_spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.Yellow);
+            /////keysGUI
+            _spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
+            _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.White);
 
-            //////HealthGUI
-            //_spriteBatch.Draw(healthBarGUI, new Vector2(10, 20), healthRectangle, Color.White);
+            if (shield.Active == true)
+            {
+                /////ShieldTimer
+                _spriteBatch.Draw(shieldTimer, new Vector2(1155, 600), Color.White);
+                _spriteBatch.DrawString(guiFont, "Timer: " + guiInfo.SHIELDTIMER, new Vector2(1185, 610), Color.White);
+            }
 
-            //_spriteBatch.End();
+            ////HealthGUI
+            _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20), healthRectangle, Color.White);
+
+            _spriteBatch.End();
+            #endregion
 
         }
 
@@ -293,51 +301,72 @@ namespace PhantomProjects.States
 
         public override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //    _game.Exit();
-
-            ////Map
-            //#region MapCollision
-            //foreach (CollisionTiles tile in map.CollisionTiles)
-            //{
-            //    player.Collision(tile.Rectangle, map.Width, map.Height);
-            //    camera.Update(player.Position, map.Width, map.Height);
-
-            //    foreach (EnemyA enemy in EnemyManager.enemyType1)
-            //    {
-            //        enemy.Collision(tile.Rectangle, map.Width, map.Height);
-            //    }
-            //}
-            //#endregion
-
-            //healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
-
-            ////Player
-            //player.Update(gameTime);
-            //pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
-            //shield.Update(gameTime, player);
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                _game.Exit();
 
 
-            //// Clean Level and change to Game Over
-            //if (player.Active == false)
-            //{
-            //    _game.GoToGameOver(true);
-            //    EnemyA.CleanEnemies();
-            //}
+            //Map
+            #region MapCollision
+            foreach (CollisionTiles tile in map.CollisionTiles)
+            {
+                player.Collision(tile.Rectangle, map.Width, map.Height);
+                camera.Update(player.Position, map.Width, map.Height);
 
-            //// Enemies & their bullets
-            //EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);
-            //BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
+                foreach (EnemyA enemy in EnemyManager.enemyType1)
+                {
+                    enemy.Collision(tile.Rectangle, map.Width, map.Height);
+                }
+            }
+            #endregion
+            
+            healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
+
+            //Player
+            player.Update(gameTime);
+            pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
+            shield.Update(gameTime, player, guiInfo);
+
+            // Enemies & their bullets
+            EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);
+            BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
 
 
-            ////Interactables
-            //keycard.Update(gameTime, player, guiInfo);
-            //healthPotion.Update(gameTime, player);
-            //door.Update(gameTime, player, guiInfo);
+            //Interactables
+            keycard.Update(gameTime, player, guiInfo);
+            healthPotion.Update(gameTime, player);
+            door.Update(gameTime, player, guiInfo);
 
-            ////Explotions
-            //VFX.UpdateExplosions(gameTime);
+            //Explotions
+            VFX.UpdateExplosions(gameTime);
 
+            GameManager();
         }
+
+        void ReturnStoreData()
+        {
+            playerHealth = _game.ReturnHealth();
+            playerBarHealth = _game.ReturnHealthBar();
+            playerUpgradePoints = _game.ReturnPoints();
+        }
+
+        void GameManager()
+        {
+            // Clean Level and change to Game Over
+            if (player.Active == false)
+            {
+                EnemyA.CleanEnemies();
+                _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS);
+                _game.GoToGameOver(true);
+
+            }
+
+            if (door.canChangeScene == true)
+            {
+                EnemyA.CleanEnemies();
+                _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS);
+                _game.GoToLevelTwo(door.canChangeScene);
+            }
+        }
+
     }
 }
