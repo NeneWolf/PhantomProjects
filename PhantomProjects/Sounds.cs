@@ -10,11 +10,17 @@ namespace PhantomProjects
     {
         private SoundEffectInstance bulletSoundInstance;
         private SoundEffectInstance bloodSoundInstance;
+        private SoundEffectInstance fireballSoundInstance;
 
-        public void Initialize(SoundEffect bulletSound, SoundEffect bloodSound)
+        public void Initialize(SoundEffect bulletSound, SoundEffect bloodSound, SoundEffect fireballSound)
         {
             bulletSoundInstance = bulletSound.CreateInstance();
             bloodSoundInstance = bloodSound.CreateInstance();
+
+            if(fireballSound != null)
+            {
+                fireballSoundInstance = fireballSound.CreateInstance();
+            }
 
         }
         //HERE WE WILL RETURN ALL TH SOUNDS ACROSS ALL THE CLASSES
@@ -22,6 +28,12 @@ namespace PhantomProjects
         {
             get { return bulletSoundInstance; }
         }
+
+        public SoundEffectInstance FIREBALL
+        {
+            get { return fireballSoundInstance; }
+        }
+
         public SoundEffectInstance BLOOD
         {
             get { return bloodSoundInstance; }

@@ -12,6 +12,7 @@ namespace PhantomProjects
         protected Texture2D texture;
 
         private Rectangle rectangle;
+
         public Rectangle Rectangle
         {
             get { return rectangle; }
@@ -19,6 +20,7 @@ namespace PhantomProjects
         }
 
         private static ContentManager content;
+
         public static ContentManager Content
         {
             protected get { return content; }

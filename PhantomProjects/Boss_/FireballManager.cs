@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PhantomProjects.PlayerBullets;
@@ -10,22 +11,23 @@ namespace PhantomProjects.Boss_
 {
     class FireballManager
     {
+        static ContentManager fireContent;
         static Texture2D fireballTexture;
         static Rectangle fireballRectangle;
         static public List<Fireball> fireball;
-        const float SECONDS_IN_MINUTE = 50f;
-        const float RATE_OF_FIRE = 150f;
+        const float SECONDS_IN_MINUTE = 35f;
+        const float RATE_OF_FIRE = 120f;
 
         static TimeSpan fireballSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
         static TimeSpan previousBulletSpawnTime;
 
         static Vector2 graphicsInfo;
 
-        public void Initialize(Texture2D texture, GraphicsDevice Graphics)
+        public void Initialize(GraphicsDevice Graphics, ContentManager content)
         {
             fireball = new List<Fireball>();
             previousBulletSpawnTime = TimeSpan.Zero;
-            fireballTexture = texture;
+            fireContent = content;
 
             graphicsInfo.X = Graphics.Viewport.Width;
             graphicsInfo.Y = Graphics.Viewport.Height;
@@ -36,26 +38,24 @@ namespace PhantomProjects.Boss_
             if (gameTime.TotalGameTime - previousBulletSpawnTime > fireballSpawnTime)
             {
                 previousBulletSpawnTime = gameTime.TotalGameTime;
-                AddBullet(b);
-                SND.BULLET.Play();
+                AddBullet(b, fireContent);
+                SND.FIREBALL.Play();
             }
         }
 
-        private static void AddBullet(Boss b)
+        private static void AddBullet(Boss b, ContentManager content)
         {
             Animation fireballAnimation = new Animation();
-            fireballAnimation.Initialize(fireballTexture, b.position, 50, 50, 1, 30, Color.White, 1f, true);
-
             Fireball fireball_ = new Fireball();
 
             var fireballPosition = b.position;
             Random r = new Random();
             int nextValue = r.Next((int)b.position.X - 850, (int)b.position.X + 850);
 
-            fireballPosition.Y = b.position.Y - 448;
+            fireballPosition.Y = b.position.Y - 380;
             fireballPosition.X = nextValue;
 
-            fireball_.Initialize(fireballAnimation, fireballPosition);
+            fireball_.Initialize(fireballAnimation, fireballPosition, content);
 
             fireball.Add(fireball_);
         }
@@ -66,7 +66,7 @@ namespace PhantomProjects.Boss_
             {
                 fireball[i].Update(gameTime);
 
-                if (!fireball[i].Active || fireball[i].Position.Y > 8000)
+                if (!fireball[i].Active)
                 {
                     fireball.Remove(fireball[i]);
                 }
@@ -75,14 +75,7 @@ namespace PhantomProjects.Boss_
 
             foreach (Fireball fire in FireballManager.fireball)
             {
-                fireballRectangle = new Rectangle(
-                    (int)fire.Position.X,
-                    (int)fire.Position.Y,
-                    fire.Width,
-                    fire.Height
-                    );
-
-                if (fireballRectangle.Intersects(p.RECTANGLE))
+                if (fire.rectangle.Intersects(p.RECTANGLE))
                 {
                     // Show the explosion where the player was.
                     VFX.AddExplosion(p.Position, SND);
@@ -92,11 +85,23 @@ namespace PhantomProjects.Boss_
                     p.BarHealth -= 15;
 
                     fire.Active = false;
-
                 }
             }
 
         }
+
+        public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        {
+            foreach (Fireball fire in FireballManager.fireball)
+            {
+                if (fireballRectangle.TouchTopOf(newRectangle) || fireballRectangle.TouchLeftOf(newRectangle) ||
+                fireballRectangle.TouchRightOf(newRectangle) || fireballRectangle.TouchBottomOf(newRectangle))
+                {
+                    fire.Active = false;
+                }
+            }
+        }
+
 
         public void DrawFireball(SpriteBatch spriteBatch)
         {

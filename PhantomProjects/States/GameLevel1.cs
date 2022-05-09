@@ -222,7 +222,7 @@ namespace PhantomProjects.States
 
             // Load the game music
             gameMusic = content.Load<Song>("Sounds\\INGAMEMUSIC");
-            SND.Initialize(bulletSound, bloodSound);
+            SND.Initialize(bulletSound, bloodSound, null);
             MediaPlayer.Play(gameMusic);
 
             #endregion
@@ -319,12 +319,16 @@ namespace PhantomProjects.States
             foreach (CollisionTiles tile in map.CollisionTiles)
             {
                 player.Collision(tile.Rectangle, map.Width, map.Height);
+                pBullets.Collision(tile.Rectangle, map.Width, map.Height);
+
                 camera.Update(player.Position, map.Width, map.Height);
 
                 foreach (EnemyA enemy in EnemyManager.enemyType1)
                 {
                     enemy.Collision(tile.Rectangle, map.Width, map.Height);
                 }
+
+                
             }
             #endregion
 
