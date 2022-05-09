@@ -116,6 +116,7 @@ namespace PhantomProjects.PlayerBullets
             else
             {
                 velocity.X = 0f;
+                currentAnim = idle;
             }
 
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) ||
