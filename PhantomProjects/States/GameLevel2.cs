@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using PhantomProjects.PlayerBullets;
 using PhantomProjects.Interactables;
+using PhantomProjects.Boss_;
 
 namespace PhantomProjects.States
 {
@@ -54,6 +55,15 @@ namespace PhantomProjects.States
         //Basic Enemy Bullets
         Texture2D bulletETexture;
         BulletEManager BulletBeams = new BulletEManager();
+
+        //-----------------------------------------
+        //Boss
+        BossManager bossManager = new BossManager();
+
+        //-----------------------------------------
+        //Fireball
+        Texture2D fireballTexture;
+        FireballManager Fireball = new FireballManager();
 
         //-----------------------------------------
         // Explosion(Blood) / GUI 
@@ -121,7 +131,7 @@ namespace PhantomProjects.States
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 5},
+                { 3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 5},
                 { 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2},
@@ -154,11 +164,11 @@ namespace PhantomProjects.States
             ReturnStoreData();
 
             player = new Player();
-            player.Initialize(content, new Vector2(130, 2400)); //130, 2400
+            player.Initialize(content, new Vector2(300, 2400)); //130, 2400
 
             //Reset to the previous level values
-            player.Health = playerHealth;
-            player.BarHealth = playerBarHealth;
+            //player.Health = playerHealth;
+            //player.BarHealth = playerBarHealth;
 
             //Player Bullets
             pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
@@ -181,12 +191,27 @@ namespace PhantomProjects.States
             BulletBeams.Initialize(bulletETexture, details);
             #endregion
 
+            #endregion
+
+            #region Boss
+            bossManager.Initialize(details);
+            bossManager.CreateBoss(new Vector2(130, 2400), content);
+
+            #region Fireball
+            fireballTexture = content.Load<Texture2D>("Boss\\FireBall");
+            Fireball.Initialize(fireballTexture, details);
+            #endregion
+
+            #endregion
+
+
+
             #region Explosives
             // EXPLOSSIONS
             vfx = content.Load<Texture2D>("GUI\\bloodEffect");
             VFX.Initialize(vfx, details);
             #endregion
-            #endregion
+            
 
             #region GUI 
             //FONTS
@@ -282,6 +307,12 @@ namespace PhantomProjects.States
             //Enemy Bullet
             BulletBeams.DrawBullet(_spriteBatch);
 
+            //Boss
+            bossManager.DrawBoss(_spriteBatch);
+
+            //Fireball
+            Fireball.DrawFireball(_spriteBatch);
+
             //Explosions
             VFX.DrawExplosions(_spriteBatch);
 
@@ -348,6 +379,9 @@ namespace PhantomProjects.States
             EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);
             BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
 
+            //Enemy & Fireball
+            bossManager.UpdateBoss(gameTime, player, guiInfo, SND);
+            Fireball.UpdateManagerFireball(gameTime, player, VFX, SND);
 
             //Interactables
             keycard.Update(gameTime, player, guiInfo);

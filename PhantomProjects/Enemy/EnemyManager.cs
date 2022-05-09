@@ -12,8 +12,6 @@ namespace PhantomProjects
     class EnemyManager
     {
         #region Definitions 
-        //Enemy Description
-        Texture2D enemyTextureR, enemyTextureL;
         static public List<EnemyA> enemyType1 = new List<EnemyA>();
 
         //Handle the graphics info
