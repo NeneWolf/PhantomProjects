@@ -100,7 +100,7 @@ namespace PhantomProjects
 
         public void CleanEnemies()
         {
-            for(int i = 0; i< enemyType1.Count; i++)
+            for(int i = (enemyType1.Count - 1); i >= 0; i--)
             {
                 enemyType1[i].Active = false;
                 enemyType1.RemoveAt(i);

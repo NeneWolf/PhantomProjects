@@ -366,9 +366,7 @@ namespace PhantomProjects.States
             if (player.Active == false)
             {
                 EnemyA.CleanEnemies();
-                _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS);
                 _game.GoToGameOver(true);
-
             }
 
             if (door.canChangeScene == true)
