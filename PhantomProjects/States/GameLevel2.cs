@@ -161,7 +161,7 @@ namespace PhantomProjects.States
             ReturnStoreData();
 
             player = new Player();
-            player.Initialize(content, new Vector2(1000, 1280)); //130, 2400
+            player.Initialize(content, new Vector2(130, 2400)); //130, 2400
 
             //Reset to the previous level values
             player.Health = playerHealth;
