@@ -58,7 +58,7 @@ namespace PhantomProjects.States
 
         //-----------------------------------------
         //Boss
-        BossManager bossManager = new BossManager();
+        Boss boss;
 
         //-----------------------------------------
         //Fireball
@@ -164,11 +164,11 @@ namespace PhantomProjects.States
             ReturnStoreData();
 
             player = new Player();
-            player.Initialize(content, new Vector2(300, 2400)); //130, 2400
+            player.Initialize(content, new Vector2(1856, 1280)); //130, 2400
 
             //Reset to the previous level values
-            //player.Health = playerHealth;
-            //player.BarHealth = playerBarHealth;
+            player.Health = playerHealth;
+            player.BarHealth = playerBarHealth;
 
             //Player Bullets
             pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
@@ -194,8 +194,8 @@ namespace PhantomProjects.States
             #endregion
 
             #region Boss
-            bossManager.Initialize(details);
-            bossManager.CreateBoss(new Vector2(130, 2400), content);
+            boss = new Boss();
+            boss.Initialize(new Vector2(2250,1200), content);
 
             #region Fireball
             fireballTexture = content.Load<Texture2D>("Boss\\FireBall");
@@ -230,8 +230,9 @@ namespace PhantomProjects.States
             #endregion
 
             #region Interactables
+
             keycard = new Keycard();
-            //keycard.Initialize(content, new Vector2(1856, 450));
+            keycard.Initialize(content, new Vector2(boss.position.X, boss.position.Y + 100));
 
             healthPotion1 = new HealthPotion();
             healthPotion2 = new HealthPotion();
@@ -248,7 +249,7 @@ namespace PhantomProjects.States
 
             #region Game Sounds
             ////Sounds
-            // Load the laserSound Effect and create the effect Instance
+            // Load the laserSound Effect and create the effect Instance 
             bulletSound = content.Load<SoundEffect>("Sounds\\GunShot");
 
             // Load the laserSound Effect and create the effect Instance
@@ -283,7 +284,8 @@ namespace PhantomProjects.States
             #endregion
 
             //Interactable
-            keycard.Draw(_spriteBatch);
+            if (boss.Active == false)
+                keycard.Draw(_spriteBatch);
 
             healthPotion1.Draw(_spriteBatch);
             healthPotion2.Draw(_spriteBatch);
@@ -291,6 +293,10 @@ namespace PhantomProjects.States
             healthPotion4.Draw(_spriteBatch);
 
             door.Draw(_spriteBatch);
+
+
+            //Fireball
+            Fireball.DrawFireball(_spriteBatch);
 
             //Player Shield
             shield.Draw(_spriteBatch);
@@ -308,10 +314,7 @@ namespace PhantomProjects.States
             BulletBeams.DrawBullet(_spriteBatch);
 
             //Boss
-            bossManager.DrawBoss(_spriteBatch);
-
-            //Fireball
-            Fireball.DrawFireball(_spriteBatch);
+            boss.Draw(_spriteBatch);
 
             //Explosions
             VFX.DrawExplosions(_spriteBatch);
@@ -359,6 +362,9 @@ namespace PhantomProjects.States
             foreach (CollisionTiles tile in map.CollisionTiles)
             {
                 player.Collision(tile.Rectangle, map.Width, map.Height);
+
+                boss.Collision(tile.Rectangle, map.Width, map.Height);
+
                 camera.Update(player.Position, map.Width, map.Height);
 
                 foreach (EnemyA enemy in EnemyManager.enemyType1)
@@ -373,6 +379,7 @@ namespace PhantomProjects.States
             //Player
             player.Update(gameTime);
             pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
+            pBullets.UpdateBullet(gameTime, player, boss, VFX, SND);
             shield.Update(gameTime, player, guiInfo);
 
             // Enemies & their bullets
@@ -380,11 +387,14 @@ namespace PhantomProjects.States
             BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
 
             //Enemy & Fireball
-            bossManager.UpdateBoss(gameTime, player, guiInfo, SND);
+            boss.Update(gameTime, player, guiInfo, SND);
             Fireball.UpdateManagerFireball(gameTime, player, VFX, SND);
 
             //Interactables
-            keycard.Update(gameTime, player, guiInfo);
+
+            if (boss.Active == false)
+            { keycard.Update(gameTime, player, guiInfo); }
+                
             healthPotion1.Update(gameTime, player);
             healthPotion2.Update(gameTime, player);
             healthPotion3.Update(gameTime, player);
@@ -410,6 +420,7 @@ namespace PhantomProjects.States
             if (player.Active == false)
             {
                 EnemyA.CleanEnemies();
+                boss.CleanBoss();
                 _game.GoToGameOver(true);
 
             }
@@ -417,6 +428,7 @@ namespace PhantomProjects.States
             if (door.canChangeScene == true)
             {
                 EnemyA.CleanEnemies();
+                boss.CleanBoss();
                 _game.GoToEndGame(door.canChangeScene);
             }
         }

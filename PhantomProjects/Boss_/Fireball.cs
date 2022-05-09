@@ -32,7 +32,7 @@ namespace PhantomProjects.Boss_
             Position = position;
             Active = true;
             damage = 15;
-            fireballMoveSpeed = 10f;
+            fireballMoveSpeed = 15f;
         }
 
         public void Update(GameTime gameTime)

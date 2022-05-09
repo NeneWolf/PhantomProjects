@@ -22,6 +22,7 @@
     <None Remove="Content\GUI\HealthBarPlayer.png" />
     <None Remove="Content\GUI\HealthPotion.png" />
     <None Remove="Content\GUI\potion_test%281%29.png" />
+    <None Remove="Content\Menu\Congratulation.png" />
     <None Remove="Content\Sounds\GunShot.mp3" />
     <None Remove="Content\Sounds\GunShot.wav" />
   </ItemGroup>

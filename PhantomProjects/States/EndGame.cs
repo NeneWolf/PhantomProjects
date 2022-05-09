@@ -17,7 +17,7 @@ namespace PhantomProjects.States
         private List<Component> _components;
 
         //Static background
-        Texture2D mainBackground, gameOver, companyLogo;
+        Texture2D mainBackground, endGame, companyLogo;
 
         public EndGame(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
         : base(game, graphicsDevice, content)
@@ -28,7 +28,7 @@ namespace PhantomProjects.States
 
             //Background
             mainBackground = content.Load<Texture2D>("menuBackground"); // change background image
-            gameOver = content.Load<Texture2D>("Menu\\Congratulation"); //  change to the Congradulations Image
+            endGame = content.Load<Texture2D>("Menu\\Congratulation"); 
             companyLogo = content.Load<Texture2D>("Logos\\Future App-logos_white");
 
             //Buttons
@@ -63,7 +63,7 @@ namespace PhantomProjects.States
             spriteBatch.Begin();
             // Main background
             spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 700), Color.White);
-            spriteBatch.Draw(gameOver, new Rectangle(370, 10, 600, 300), Color.White);
+            spriteBatch.Draw(endGame, new Rectangle(320, 50, 750, 95), Color.White);
             spriteBatch.Draw(companyLogo, new Rectangle(0, 450, 300, 300), Color.White);
 
             foreach (var component in _components)
