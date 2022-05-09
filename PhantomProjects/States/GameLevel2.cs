@@ -154,11 +154,11 @@ namespace PhantomProjects.States
             ReturnStoreData();
 
             player = new Player();
-            player.Initialize(content, new Vector2(130, 2400)); //130 1728
+            player.Initialize(content, new Vector2(130, 2400)); //130, 2400
 
             //Reset to the previous level values
-            //player.Health = playerHealth;
-            //player.BarHealth = playerBarHealth;
+            player.Health = playerHealth;
+            player.BarHealth = playerBarHealth;
 
             //Player Bullets
             pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
@@ -172,10 +172,9 @@ namespace PhantomProjects.States
 
             //Enemy
             EnemyA.Initialize(details);
-            EnemyA.CreateEnemy(new Vector2(2688, 1728), content);
-            EnemyA.CreateEnemy(new Vector2(1472, 1200), content);
-            EnemyA.CreateEnemy(new Vector2(704, 790), content);
-            EnemyA.CreateEnemy(new Vector2(1536, 790), content);
+            EnemyA.CreateEnemy(new Vector2(2000, 2400), content);
+            EnemyA.CreateEnemy(new Vector2(1250, 2400), content);
+            EnemyA.CreateEnemy(new Vector2(2112, 1688), content);
 
             #region Enemy Bullet
             bulletETexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
@@ -207,19 +206,19 @@ namespace PhantomProjects.States
 
             #region Interactables
             keycard = new Keycard();
-            keycard.Initialize(content, new Vector2(1856, 450));
+            //keycard.Initialize(content, new Vector2(1856, 450));
 
             healthPotion1 = new HealthPotion();
             healthPotion2 = new HealthPotion();
             healthPotion3 = new HealthPotion();
             healthPotion4 = new HealthPotion();
-            healthPotion1.Initialize(content, new Vector2(1900, 1800));
-            healthPotion2.Initialize(content, new Vector2(200, 650));
-            healthPotion3.Initialize(content, new Vector2(2816, 835));
-            healthPotion4.Initialize(content, new Vector2(448, 835));
+            healthPotion1.Initialize(content, new Vector2(1900, 1745));
+            healthPotion2.Initialize(content, new Vector2(1000, 1295));
+            healthPotion3.Initialize(content, new Vector2(2665, 955));
+            healthPotion4.Initialize(content, new Vector2(485, 955));
 
             door = new Door();
-            door.Initialize(content, new Vector2(3072, 158));
+            door.Initialize(content, new Vector2(1565, 540));
             #endregion
 
             #region Game Sounds
