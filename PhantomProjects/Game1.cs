@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PhantomProjects.States;
+using PhantomProjects.PlayerBullets;
 
 namespace PhantomProjects
 {
@@ -16,6 +17,8 @@ namespace PhantomProjects
         private State _nexState;
 
         bool scene1 = false, scene2 = false, gameOver = false, endGame = false;
+
+        int playerHealth, healthBar, upgradePoints;
 
         public void ChangeState(State state)
         {
@@ -95,6 +98,12 @@ namespace PhantomProjects
         public bool GoToLevelTwo(bool move) => scene2 = move;
         public bool GoToEndGame(bool move) => endGame = move;
         public bool GoToGameOver(bool move) => gameOver = move;
+
+        public void SaveHealthAndUpgradePoints( int health, int Bar, int points) { playerHealth = health; healthBar = Bar; upgradePoints = points; }
+
+        public int ReturnHealth() { return playerHealth; }
+        public int ReturnHealthBar() { return healthBar; }
+        public int ReturnPoints() { return upgradePoints; }
 
         protected override void Draw(GameTime gameTime)
         {
