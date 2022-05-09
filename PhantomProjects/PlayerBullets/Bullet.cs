@@ -33,7 +33,7 @@ namespace PhantomProjects.PlayerBullets
             Position = position;
             Active = true;
 
-            if (p.currentAnim == p.playerRight)
+            if (p.currentAnim == p.playerRight || p.currentAnim == p.idle)
             {
                 bulletMoveSpeed = 30f;
             }

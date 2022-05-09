@@ -16,9 +16,6 @@ namespace PhantomProjects.PlayerBullets
         float delay = 120f;
         int Frames = 0;
 
-        //Hold the Viewport
-        Vector2 graphicsInfo;
-
         // Position of the Player relative to the upper left side of the screen
         private Vector2 position;
 
@@ -116,6 +113,8 @@ namespace PhantomProjects.PlayerBullets
             else
             {
                 velocity.X = 0f;
+                currentAnim = idle;
+                Animate(gameTime);
             }
 
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) ||

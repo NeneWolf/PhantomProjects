@@ -49,7 +49,7 @@ namespace PhantomProjects.PlayerBullets
 
             var bulletPosition = p.Position;
 
-            if (p.currentAnim == p.playerRight)
+            if (p.currentAnim == p.playerRight || p.currentAnim == p.idle)
             {
                 bulletPosition.Y += 15;
                 bulletPosition.X += 25;

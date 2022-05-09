@@ -100,9 +100,10 @@ namespace PhantomProjects.States
             camera = new Camera(graphicsDevice.Viewport);
 
             #region Map1_Generator 
-            //  64x30 Width // 20x64 Height
+            
             map.Generate(new int[,]
             {
+                //  64x30 Width // 64x20 Height
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
