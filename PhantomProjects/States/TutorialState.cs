@@ -18,16 +18,27 @@ namespace PhantomProjects.States
 
         private SpriteBatch _spriteBatch;
 
+        //-----------------------------------------
         //Camera & Map
         Camera camera;
         Map map;
 
         //Static background
         Texture2D mainBackground;
+
         //----------------------------------------
         // Player
         Player player;
         Texture2D playerRWalk, playerLWalk, playerIdle;
+
+        //Shield
+        Shield shield = new Shield();
+
+        //-----------------------------------------
+        //Interactables
+        Keycard keycard;
+        HealthPotion healthPotion;
+        Door door;
 
         //-----------------------------------------
         //Player Bullets
@@ -46,28 +57,22 @@ namespace PhantomProjects.States
         BulletEManager BulletBeams = new BulletEManager();
 
         //-----------------------------------------
-        // Blood on hits.
+        // Explosion(Blood) / GUI 
         Texture2D vfx;
         //Controls all the explosion
         ExplosionManager VFX = new ExplosionManager();
 
         // G.U.I Details
         SpriteFont guiFont, MenuFont;
-        Texture2D legand;
+        Texture2D legand, shieldTimer;
         Texture2D keysGUI, pointsGUI;
         GUI guiInfo = new GUI();
 
-        // health bar
+        // Health bar
         Texture2D healthBarGUI;
         Rectangle healthRectangle;
 
-        //Interactables
-        Keycard keycard;
-        HealthPotion healthPotion;
-        Door door;
-        
-
-        // ------------ sounds ------------
+        //------------ sounds ------------
 
         //Our Laser Sound and Instance
         private SoundEffect bulletSound;
@@ -81,16 +86,14 @@ namespace PhantomProjects.States
 
         #endregion
 
-
         public TutorialState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
-            player = new Player();
+            _spriteBatch = new SpriteBatch(graphicsDevice);
+            details = graphicsDevice;
 
             // Set Map & Player
             map = new Map();
-
-            _spriteBatch = new SpriteBatch(graphicsDevice);
 
             //Tiles / Map / Camera
             Tiles.Content = content;
@@ -99,7 +102,7 @@ namespace PhantomProjects.States
             #region Map1_Generator 
             //  64x30 Width // 20x64 Height
             map.Generate(new int[,]
-{
+            {
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
@@ -127,24 +130,22 @@ namespace PhantomProjects.States
             #endregion
 
             #region Player
-
-            playerRWalk = content.Load<Texture2D>("PlayerContent\\MalePlayerRightWalk");
-            playerLWalk = content.Load<Texture2D>("PlayerContent\\MalePlayerLefttWalk");
-            playerIdle = content.Load<Texture2D>("PlayerContent\\MalePlayerIdle");
-            player.Initialize(playerRWalk, playerLWalk, playerIdle, new Vector2(100, 1100));
+            player = new Player();
+            player.Initialize(content, new Vector2(100, 1100));
 
             //Player Bullets
             pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
             pBullets.Initialize(pBulletTexture);
+
+            //Shield
+            shield.Initialize(content);
             #endregion
 
             #region Basic Enemy
 
-            //Constructor
-            details = graphicsDevice;
-            leftWalk = content.Load<Texture2D>("EnemyA\\enemyALeft");
-            rightWalk = content.Load<Texture2D>("EnemyA\\enemyARight");
-            EnemyA.Initialize(rightWalk, leftWalk, details);
+            //Enemy
+            EnemyA.Initialize(details);
+            EnemyA.CreateEnemy(new Vector2(960, 1100), content);
 
             #region Enemy Bullet
             bulletETexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
@@ -165,15 +166,14 @@ namespace PhantomProjects.States
 
             // GUI
             legand = content.Load<Texture2D>("GUI\\legand");
+            shieldTimer = content.Load<Texture2D>("Menu\\Button");
             keysGUI = content.Load<Texture2D>("GUI\\key");
             pointsGUI = content.Load<Texture2D>("GUI\\UpgradeCoin");
-
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
-            guiInfo.Initialize(0, 0); // Set GUI with 0 keys, 0 potions, 100 HP ( taking direct value from the player )
+            guiInfo.Initialize(0, 0, 0); // Set GUI with keys, upgrade points, shieldTimer
 
             #endregion
-
 
             #region Interactables
             keycard = new Keycard();
@@ -185,10 +185,11 @@ namespace PhantomProjects.States
             door = new Door();
             door.Initialize(content, new Vector2(1728,155));
             #endregion
+
             #region Game Sounds
             ////Sounds
             // Load the laserSound Effect and create the effect Instance
-            bulletSound = content.Load<SoundEffect>("Sounds\\laserFire");
+            bulletSound = content.Load<SoundEffect>("Sounds\\GunShot");
 
             // Load the laserSound Effect and create the effect Instance
             bloodSound = content.Load<SoundEffect>("Sounds\\BloodSound");
@@ -228,6 +229,9 @@ namespace PhantomProjects.States
 
             door.Draw(_spriteBatch);
 
+            //Player Shield
+            shield.Draw(_spriteBatch);
+
             //Player
             player.Draw(_spriteBatch);
 
@@ -249,13 +253,20 @@ namespace PhantomProjects.States
             _spriteBatch.Begin();
             _spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
 
-            /////PotionGUI
+            /////Upgrade points
             _spriteBatch.Draw(pointsGUI, new Vector2(925, 20), Color.White);
             _spriteBatch.DrawString(guiFont, "" + guiInfo.UPGRADEPOINTS, new Vector2(985, 38), Color.White);
 
             /////keysGUI
             _spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
-            _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.Yellow);
+            _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.White);
+
+            if(shield.Active == true)
+            {
+                /////ShieldTimer
+                _spriteBatch.Draw(shieldTimer, new Vector2(1155, 600), Color.White);
+                _spriteBatch.DrawString(guiFont, "Timer: " + guiInfo.SHIELDTIMER, new Vector2(1185, 610), Color.White);
+            }
 
             ////HealthGUI
             _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20),healthRectangle, Color.White);
@@ -293,6 +304,7 @@ namespace PhantomProjects.States
             //Player
             player.Update(gameTime);
             pBullets.UpdateManagerBullet(gameTime, player,VFX, SND);
+            shield.Update(gameTime, player, guiInfo);
 
             // Enemies & their bullets
             EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);

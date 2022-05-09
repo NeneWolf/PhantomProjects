@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PhantomProjects.States;
 using PhantomProjects.PlayerBullets;
+using Microsoft.Xna.Framework.Content;
 
 namespace PhantomProjects
 {
@@ -52,13 +53,13 @@ namespace PhantomProjects
             get { return position; }
         }
 
-        public void Initialize(Animation animation, Vector2 newPosition, Texture2D EnemyRight, Texture2D EnemyLeft)
+        public void Initialize(Animation animation, Vector2 newPosition, ContentManager content)
         {
+            enemyLeft = content.Load<Texture2D>("EnemyA\\enemyALeft");
+            enemyRight = content.Load<Texture2D>("EnemyA\\enemyARight");
+
             enemyAnimation = animation;
             position = newPosition;
-
-            enemyRight = EnemyRight;
-            enemyLeft = EnemyLeft;
             currentAnim = enemyRight;
 
             //Enemy Stats
@@ -122,7 +123,7 @@ namespace PhantomProjects
         void HuntPlayer(GameTime gameTime, Sounds SND)
         {
             if ((playerDistance >= -patrolDistance && playerDistance <= patrolDistance) &&
-                (playerDistanceY >= -patrolDistance && playerDistanceY <= patrolDistance))
+                (playerDistanceY >= -patrolDistanceY && playerDistanceY <= patrolDistanceY))
             {
                 if (playerDistance < -1f)
                 {

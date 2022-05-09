@@ -27,11 +27,12 @@ namespace PhantomProjects.Interactables
 
         public void Initialize(ContentManager Content, Vector2 pos)
         {
+            doorOpen = Content.Load<Texture2D>("Map\\OpenDoor");
+            doorClose = Content.Load<Texture2D>("Map\\ClosedDoor");
             canChangeScene = false;
             Active = true;
             position = pos;
-            doorOpen = Content.Load<Texture2D>("Map\\OpenDoor");
-            doorClose = Content.Load<Texture2D>("Map\\ClosedDoor");
+
 
             currentStatus = doorClose;
         }
