@@ -17,7 +17,7 @@ namespace PhantomProjects.States
         private List<Component> _components;
 
         //Static background
-        Texture2D mainBackground, endGame, companyLogo;
+        Texture2D mainBackground;
 
         public EndGame(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
         : base(game, graphicsDevice, content)
@@ -27,9 +27,7 @@ namespace PhantomProjects.States
             MediaPlayer.Play(menuMusic);
 
             //Background
-            mainBackground = content.Load<Texture2D>("menuBackground"); // change background image
-            endGame = content.Load<Texture2D>("Menu\\Congratulation"); 
-            companyLogo = content.Load<Texture2D>("Logos\\Future App-logos_white");
+            mainBackground = content.Load<Texture2D>("Menu\\GameComplete"); // change background image
 
             //Buttons
             var buttonTexture = _content.Load<Texture2D>("Menu\\button");
@@ -38,24 +36,15 @@ namespace PhantomProjects.States
 
             var mainMenuButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(540, 445),
+                Position = new Vector2(540, 585),
                 Text = "Main Menu",
             };
 
             mainMenuButton.Click += MainMenuButton_Click;
 
-            var quitGameButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(540, 500),
-                Text = "Quit Game",
-            };
-
-            quitGameButton.Click += QuitGameButton_Click;
-
             _components = new List<Component>()
           {
             mainMenuButton,
-            quitGameButton,
           };
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -63,8 +52,6 @@ namespace PhantomProjects.States
             spriteBatch.Begin();
             // Main background
             spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 700), Color.White);
-            spriteBatch.Draw(endGame, new Rectangle(320, 50, 750, 95), Color.White);
-            spriteBatch.Draw(companyLogo, new Rectangle(0, 450, 300, 300), Color.White);
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
@@ -83,11 +70,6 @@ namespace PhantomProjects.States
         {
             foreach (var component in _components)
                 component.Update(gameTime);
-        }
-
-        private void QuitGameButton_Click(object sender, EventArgs e)
-        {
-            _game.Exit();
         }
     }
 }
