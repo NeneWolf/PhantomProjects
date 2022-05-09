@@ -329,7 +329,6 @@ namespace PhantomProjects.States
             {
                 EnemyA.CleanEnemies();
                 _game.GoToGameOver(true);
-
             }
 
             if(door.canChangeScene == true)
