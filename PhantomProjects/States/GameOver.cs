@@ -17,7 +17,7 @@ namespace PhantomProjects.States
         private List<Component> _components;
 
         //Static background
-        Texture2D mainBackground, gameOver, companyLogo;
+        Texture2D mainBackground;
 
         public GameOver(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
         : base(game, graphicsDevice, content)
@@ -27,9 +27,7 @@ namespace PhantomProjects.States
             MediaPlayer.Play(menuMusic);
 
             //Background
-            mainBackground = content.Load<Texture2D>("menuBackground"); // change the background
-            gameOver = content.Load<Texture2D>("Menu\\GameOver");
-            companyLogo = content.Load<Texture2D>("Logos\\Future App-logos_white");
+            mainBackground = content.Load<Texture2D>("Menu\\GameOver"); // change the background
 
             //Buttons
             var buttonTexture = _content.Load<Texture2D>("Menu\\button");
@@ -37,7 +35,7 @@ namespace PhantomProjects.States
 
             var tryAgainButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(540, 445),
+                Position = new Vector2(780, 445),
                 Text = "Try Again",
             };
 
@@ -45,25 +43,16 @@ namespace PhantomProjects.States
 
             var mainMenuButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(540, 500),
+                Position = new Vector2(780, 500),
                 Text = "Main Menu",
             };
 
             mainMenuButton.Click += MainMenuButton_Click;
 
-            var quitGameButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(540, 555),
-                Text = "Quit Game",
-            };
-
-            quitGameButton.Click += QuitGameButton_Click;
-
             _components = new List<Component>()
           {
             tryAgainButton,
-            mainMenuButton,
-            quitGameButton,
+            mainMenuButton
           };
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -71,8 +60,6 @@ namespace PhantomProjects.States
             spriteBatch.Begin();
             // Main background
             spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 700), Color.White);
-            spriteBatch.Draw(gameOver, new Rectangle(350, 10, 600, 242), Color.White);
-            spriteBatch.Draw(companyLogo, new Rectangle(0, 450, 300, 300), Color.White);
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
@@ -96,11 +83,6 @@ namespace PhantomProjects.States
         {
             foreach (var component in _components)
                 component.Update(gameTime);
-        }
-
-        private void QuitGameButton_Click(object sender, EventArgs e)
-        {
-            _game.Exit();
         }
     }
 }
