@@ -11,7 +11,7 @@ namespace PhantomProjects
     {
         #region Declarations
         public Animation BulletAnimation; // animation the represents the butter of the enemy
-        float Speed, bulletMoveSpeed;
+        float bulletMoveSpeed;
         public Vector2 Position;
         public int damage;
         public bool Active;

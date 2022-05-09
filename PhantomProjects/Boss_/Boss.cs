@@ -8,15 +8,15 @@ using PhantomProjects.States;
 using PhantomProjects.PlayerBullets;
 using Microsoft.Xna.Framework.Content;
 
-namespace PhantomProjects
+namespace PhantomProjects.Boss_
 {
-    class EnemyA
+    class Boss
     {
         #region Declarations
         /////Enemy Canvas
         ///Animation
-        public Animation enemyAnimation;
-        Texture2D enemyRight, enemyLeft, currentAnim;
+        public Animation bossAnimation;
+        Texture2D bossRight, bossLeft, currentAnim;
         float elapsed;
         float delay = 120f;
         int Frames = 0;
@@ -40,31 +40,30 @@ namespace PhantomProjects
         //Get the dimentions of the enemy
         public int Width
         {
-            get { return enemyAnimation.FrameWidth; }
+            get { return bossAnimation.FrameWidth; }
         }
         public int Height
         {
-            get { return enemyAnimation.FrameHeight; }
+            get { return bossAnimation.FrameHeight; }
         }
-        public Vector2 LocationEnemy
+        public Vector2 LocateBoss
         {
             get { return position; }
         }
 
         public void Initialize(Animation animation, Vector2 newPosition, ContentManager content)
         {
-            enemyLeft = content.Load<Texture2D>("EnemyA\\enemyALeft");
-            enemyRight = content.Load<Texture2D>("EnemyA\\enemyARight");
+            bossLeft = content.Load<Texture2D>("Boss\\Boss_WalkLeft");
+            bossRight = content.Load<Texture2D>("Boss\\Boss_WalkRight");
 
-            enemyAnimation = animation;
+            bossAnimation = animation;
             position = newPosition;
-            currentAnim = enemyRight;
+            currentAnim = bossRight;
 
             //Enemy Stats
             distance = 384f;
-            Health = 100;
+            Health = 500;
             Active = true;
-            Damage = 10;
 
             oldDistance = distance;
 
@@ -73,10 +72,10 @@ namespace PhantomProjects
         public void Update(GameTime gameTime, Player player, Sounds SND)
         {
             position += velocity;
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 93);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 100);
 
-            enemyAnimation.Position = position;
-            enemyAnimation.Update(gameTime);
+            bossAnimation.Position = position;
+            bossAnimation.Update(gameTime);
 
             // Animation Check
             AnimationCheck(gameTime);
@@ -100,7 +99,6 @@ namespace PhantomProjects
                 velocity.Y += 0.4f;
 
         }
-
         void Patrol(GameTime gameTime)
         {
             if (distance <= 0)
@@ -125,11 +123,11 @@ namespace PhantomProjects
             {
                 if (playerDistance < -1f)
                 {
-                    BulletEManager.FireBulletE(gameTime, this, false, SND);
+                    FireballManager.FireBulletE(gameTime, this, SND);
 
                     if (playerDistance > -200)
                     {
-                        currentAnim = enemyLeft;
+                        currentAnim = bossLeft;
                         velocity.X = 0f;
                     }
                     else
@@ -137,10 +135,10 @@ namespace PhantomProjects
                 }
                 else if (playerDistance > 1f)
                 {
-                    BulletEManager.FireBulletE(gameTime, this, true, SND);
+                    FireballManager.FireBulletE(gameTime, this, SND);
                     if (playerDistance < 200)
                     {
-                        currentAnim = enemyRight;
+                        currentAnim = bossRight;
                         velocity.X = 0f;
                     }
                     else
@@ -152,7 +150,7 @@ namespace PhantomProjects
                 }
 
             }
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 93);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 100);
         }
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
@@ -188,12 +186,12 @@ namespace PhantomProjects
         {
             if (velocity.X > 0f)
             {
-                currentAnim = enemyRight;
+                currentAnim = bossRight;
                 Animate(gameTime);
             }
             else if (velocity.X < 0f)
             {
-                currentAnim = enemyLeft;
+                currentAnim = bossLeft;
                 Animate(gameTime);
             }
         }
@@ -214,7 +212,7 @@ namespace PhantomProjects
                 }
                 elapsed = 0;
             }
-            sourceRect = new Rectangle((Frames * 100), 0, 100, 93);
+            sourceRect = new Rectangle((Frames * 100), 0, 100, 100);
         }
 
         void IsDead()
@@ -222,7 +220,7 @@ namespace PhantomProjects
             if (Health <= 0)
             {
                 Active = false;
-            }            
+            }
         }
 
         public Rectangle RECTANGLE
@@ -234,6 +232,5 @@ namespace PhantomProjects
         {
             spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
         }
-
     }
 }

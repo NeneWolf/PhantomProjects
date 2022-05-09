@@ -19,7 +19,6 @@ namespace PhantomProjects
         static TimeSpan bulletSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
         static TimeSpan previousBulletSpawnTime;
 
-        GraphicsDeviceManager graphics;
         static Vector2 graphicsInfo;
 
         static bool direction;

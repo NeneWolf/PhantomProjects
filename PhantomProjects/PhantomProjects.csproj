@@ -11,8 +11,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Content\Boss_Sprites\**" />
     <Compile Remove="PlayerData\**" />
+    <EmbeddedResource Remove="Content\Boss_Sprites\**" />
     <EmbeddedResource Remove="PlayerData\**" />
+    <None Remove="Content\Boss_Sprites\**" />
     <None Remove="PlayerData\**" />
   </ItemGroup>
   <ItemGroup>
