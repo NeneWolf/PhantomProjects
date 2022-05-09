@@ -35,9 +35,9 @@ namespace PhantomProjects.Interactables
 
         public void Initialize(ContentManager Content, Vector2 pos)
         {
+            keyCardTexture = Content.Load<Texture2D>("GUI\\key");
             Active = true;
             position = pos;
-            keyCardTexture = Content.Load<Texture2D>("GUI\\key");
         }
 
         public void Update(GameTime gameTime, Player p, GUI guiInfo)

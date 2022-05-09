@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PhantomProjects.PlayerBullets;
@@ -18,15 +19,10 @@ namespace PhantomProjects
         //Handle the graphics info
         Vector2 graphicsInfo;
         #endregion
-        public void Initialize(Texture2D textureRight, Texture2D textureLeft, GraphicsDevice Graphics)
+        public void Initialize(GraphicsDevice Graphics)
         {
             graphicsInfo.X = Graphics.Viewport.Width;
             graphicsInfo.Y = Graphics.Viewport.Height;
-            enemyTextureR = textureRight;
-            enemyTextureL = textureLeft;
-
-            // add the spots where the enemies will be
-            CreateEnemy(new Vector2(960, 1100));
         }
 
         public static void UpdateColission(Player player, ExplosionManager VFX, GUI guiInfo, Sounds SND)
@@ -73,14 +69,14 @@ namespace PhantomProjects
 
         }
 
-        private void CreateEnemy(Vector2 position)
+        public void CreateEnemy(Vector2 position, ContentManager content)
         {
             // create the animation object
             Animation enemyAnimation = new Animation();
 
             // create an enemy
             EnemyA enemyA = new EnemyA();
-            enemyA.Initialize(enemyAnimation, position, enemyTextureR, enemyTextureL);
+            enemyA.Initialize(enemyAnimation, position, content);
 
             enemyType1.Add(enemyA);
         }

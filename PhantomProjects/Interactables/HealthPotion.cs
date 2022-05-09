@@ -27,9 +27,9 @@ namespace PhantomProjects
 
         public void Initialize(ContentManager Content, Vector2 pos)
         {
+            healthPotionTexture = Content.Load<Texture2D>("GUI\\Potion");
             Active = true;
             position = pos;
-            healthPotionTexture = Content.Load<Texture2D>("GUI\\Potion");
         }
 
         public void Update(GameTime gameTime, Player p)

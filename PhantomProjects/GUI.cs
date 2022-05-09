@@ -9,16 +9,15 @@ namespace PhantomProjects
 {
     class GUI
     {
-        private int keys;
-        private int points;
+        private int keys, points, shieldTimer;
 
-        //more to add on your own choice
-
-        public void Initialize(int Keys, int UpgradePoints)
+        public void Initialize(int Keys, int UpgradePoints, int ShieldTimer)
         {
             keys = Keys;
             points = UpgradePoints;
+            shieldTimer = ShieldTimer;
         }
+
         public int KEYS
         {
             get { return keys; }
@@ -31,5 +30,10 @@ namespace PhantomProjects
             set { this.points = value; }
         }
 
+        public int SHIELDTIMER
+        {
+            get { return shieldTimer; }
+            set { this.shieldTimer = value; }
+        }
     }
 }

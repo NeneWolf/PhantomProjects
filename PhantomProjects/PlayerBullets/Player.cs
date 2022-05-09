@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -52,8 +53,12 @@ namespace PhantomProjects.PlayerBullets
             get { return position; }
         }
 
-        public void Initialize(Texture2D PlayerRight, Texture2D PlayerLeft, Texture2D Idle, Vector2 newPosition)
+        public void Initialize(ContentManager content, Vector2 newPosition)
         {
+            playerRight = content.Load<Texture2D>("PlayerContent\\MalePlayerRightWalk");
+            playerLeft = content.Load<Texture2D>("PlayerContent\\MalePlayerLefttWalk");
+            idle = content.Load<Texture2D>("PlayerContent\\MalePlayerIdle");
+
             // Set the player to be active
             Active = true;
             // Set the player health
@@ -65,10 +70,6 @@ namespace PhantomProjects.PlayerBullets
             position = newPosition;
 
             playerAnimation = new Animation();
-
-            playerRight = PlayerRight;
-            playerLeft = PlayerLeft;
-            idle = Idle;
 
             currentAnim = idle;
         }
