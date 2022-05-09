@@ -48,7 +48,7 @@ namespace PhantomProjects.PlayerBullets
 
             cooldown--;
 
-            if (cooldown <= 0 && Keyboard.GetState().IsKeyDown(Keys.E) || cooldown <= 0 && GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.E) || GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed) && cooldown <= 0)
             {
                 Active = true;
                 cooldown = 60 * 15;

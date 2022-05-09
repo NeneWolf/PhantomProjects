@@ -75,7 +75,7 @@ namespace PhantomProjects
             {
                 bulletEBeams[i].Update(gameTime);
 
-                if (!bulletEBeams[i].Active || bulletEBeams[i].Position.X > 1856 || bulletEBeams[i].Position.X < -1856)
+                if (!bulletEBeams[i].Active || bulletEBeams[i].Position.X > 8000 || bulletEBeams[i].Position.X < -8000)
                 {
                     bulletEBeams.Remove(bulletEBeams[i]);
                 }
