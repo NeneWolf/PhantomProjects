@@ -29,7 +29,6 @@ namespace PhantomProjects.States
         //----------------------------------------
         // Player
         Player player;
-        Texture2D playerRWalk, playerLWalk, playerIdle;
 
         //Shield
         Shield shield = new Shield();
@@ -47,7 +46,6 @@ namespace PhantomProjects.States
 
         //-----------------------------------------
         //Basic Enemy
-        Texture2D rightWalk, leftWalk;
         EnemyManager EnemyA = new EnemyManager();
         GraphicsDevice details;
 
@@ -63,7 +61,7 @@ namespace PhantomProjects.States
         ExplosionManager VFX = new ExplosionManager();
 
         // G.U.I Details
-        SpriteFont guiFont, MenuFont;
+        SpriteFont guiFont;
         Texture2D legand, shieldTimer;
         Texture2D keysGUI, pointsGUI;
         GUI guiInfo = new GUI();
@@ -163,7 +161,6 @@ namespace PhantomProjects.States
             #region GUI 
             //FONTS
             guiFont = content.Load<SpriteFont>("GUI\\GUIFont");
-            MenuFont = content.Load<SpriteFont>("GUI\\MenuFont");
 
             // GUI
             legand = content.Load<Texture2D>("GUI\\legand");

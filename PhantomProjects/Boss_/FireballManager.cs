@@ -13,8 +13,8 @@ namespace PhantomProjects.Boss_
         static Texture2D fireballTexture;
         static Rectangle fireballRectangle;
         static public List<Fireball> fireball;
-        const float SECONDS_IN_MINUTE = 60f;
-        const float RATE_OF_FIRE = 120f;
+        const float SECONDS_IN_MINUTE = 50f;
+        const float RATE_OF_FIRE = 150f;
 
         static TimeSpan fireballSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
         static TimeSpan previousBulletSpawnTime;
@@ -50,7 +50,7 @@ namespace PhantomProjects.Boss_
 
             var fireballPosition = b.position;
             Random r = new Random();
-            int nextValue = r.Next((int)b.position.X - 300, (int)b.position.X + 300);
+            int nextValue = r.Next((int)b.position.X - 850, (int)b.position.X + 850);
 
             fireballPosition.Y = b.position.Y - 448;
             fireballPosition.X = nextValue;
@@ -72,12 +72,6 @@ namespace PhantomProjects.Boss_
                 }
             }
 
-            Rectangle playerRectangle = new Rectangle(
-                    (int)p.Position.X,
-                    (int)p.Position.Y,
-                    p.Width,
-                    p.Height
-                );
 
             foreach (Fireball fire in FireballManager.fireball)
             {
@@ -88,7 +82,7 @@ namespace PhantomProjects.Boss_
                     fire.Height
                     );
 
-                if (fireballRectangle.Intersects(playerRectangle))
+                if (fireballRectangle.Intersects(p.RECTANGLE))
                 {
                     // Show the explosion where the player was.
                     VFX.AddExplosion(p.Position, SND);

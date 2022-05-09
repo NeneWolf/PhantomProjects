@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PhantomProjects.Boss_;
 
 namespace PhantomProjects.PlayerBullets
 {
@@ -96,6 +97,30 @@ namespace PhantomProjects.PlayerBullets
                         VFX.AddExplosion(B.Position, SND);
 
                         e.Health -= B.Damage;
+                        B.Active = false;
+                    }
+                }
+            }            
+        }
+
+        public void UpdateBullet(GameTime gameTime, Player p, Boss boss, ExplosionManager VFX, Sounds SND)
+        {
+            if(boss.Active == true)
+            {
+                foreach (Bullet B in BulletManager.bullets)
+                {
+                    bulletRectangle = new Rectangle(
+                      (int)B.Position.X,
+                      (int)B.Position.Y,
+                      B.Width,
+                      B.Height);
+
+                    if (bulletRectangle.Intersects(boss.RECTANGLE))
+                    {
+                        // Show the explosion where the player was.
+                        VFX.AddExplosion(B.Position, SND);
+
+                        boss.Health -= B.Damage;
                         B.Active = false;
                     }
                 }

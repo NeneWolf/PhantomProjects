@@ -28,11 +28,11 @@ namespace PhantomProjects.Boss_
         float distance; // Distance fixed ( the distance that the enemy will patrol )
         float oldDistance; // Compare old distance with the new distance
         float playerDistance, playerDistanceY; //Distance of Enemy from the player
-        int patrolDistance = 384, patrolDistanceY = 200;// Patrol distance
+        int patrolDistance = 850, patrolDistanceY = 400;// Patrol distance
 
         ///Details
         public Vector2 position; // Enemy position
-        public bool Active;
+        public bool Active, canReceiveReward;
         public int Health;
         public int Damage;
         #endregion
@@ -51,54 +51,59 @@ namespace PhantomProjects.Boss_
             get { return position; }
         }
 
-        public void Initialize(Animation animation, Vector2 newPosition, ContentManager content)
+        public void Initialize(Vector2 newPosition, ContentManager content)
         {
             bossLeft = content.Load<Texture2D>("Boss\\Boss_WalkLeft");
             bossRight = content.Load<Texture2D>("Boss\\Boss_WalkRight");
 
-            bossAnimation = animation;
             position = newPosition;
-            currentAnim = bossRight;
 
             //Enemy Stats
             distance = 384f;
             Health = 500;
             Active = true;
+            canReceiveReward = false;
 
             oldDistance = distance;
 
+            bossAnimation = new Animation();
+            currentAnim = bossRight;
+
         }
 
-        public void Update(GameTime gameTime, Player player, Sounds SND)
+        public void Update(GameTime gameTime, Player player, GUI guiInfo, Sounds SND)
         {
-            position += velocity;
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 100);
-
-            bossAnimation.Position = position;
-            bossAnimation.Update(gameTime);
-
-            // Animation Check
-            AnimationCheck(gameTime);
-
-            // Find player position
-            playerDistance = player.Position.X - position.X;
-            playerDistanceY = player.Position.Y - position.Y;
-
-            //Patrol area calcs
-            Patrol(gameTime);
-
-            // if the player is inside the patrol distance & Active, otherwise disactivate
-            if (player.Active == true)
-                HuntPlayer(gameTime, SND);
-
             //Check health & dmg
-            IsDead();
+            if (Active == true)
+            {
+                IsDead(guiInfo);
 
-            // check if its fauling
-            if (velocity.Y < 10)
-                velocity.Y += 0.4f;
+                position += velocity;
+                rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 90);
 
+                bossAnimation.Position = position;
+                bossAnimation.Update(gameTime);
+
+                // Animation Check
+                AnimationCheck(gameTime);
+
+                // Find player position
+                playerDistance = player.Position.X - position.X;
+                playerDistanceY = player.Position.Y - position.Y;
+
+                //Patrol area calcs
+                Patrol(gameTime);
+
+                // if the player is inside the patrol distance & Active, otherwise disactivate
+                if (player.Active == true)
+                    HuntPlayer(gameTime, SND);
+
+                // check if its fauling
+                if (velocity.Y < 10)
+                    velocity.Y += 0.4f;
+            }
         }
+
         void Patrol(GameTime gameTime)
         {
             if (distance <= 0)
@@ -150,7 +155,7 @@ namespace PhantomProjects.Boss_
                 }
 
             }
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 100);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 90);
         }
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
@@ -212,15 +217,21 @@ namespace PhantomProjects.Boss_
                 }
                 elapsed = 0;
             }
-            sourceRect = new Rectangle((Frames * 100), 0, 100, 100);
+            sourceRect = new Rectangle((Frames * 100), 0, 100, 90);
         }
 
-        void IsDead()
+        void IsDead(GUI guiInfo)
         {
             if (Health <= 0)
             {
                 Active = false;
+                guiInfo.UPGRADEPOINTS += 1000;
             }
+        }
+
+        public void CleanBoss()
+        {
+            Active = false;
         }
 
         public Rectangle RECTANGLE
@@ -230,7 +241,10 @@ namespace PhantomProjects.Boss_
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
+            if(Active == true)
+            {
+                spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
+            }
         }
     }
 }

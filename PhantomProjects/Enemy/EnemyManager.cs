@@ -89,9 +89,9 @@ namespace PhantomProjects
                 enemyType1[i].Update(gameTime, player, SND);
 
                 if (enemyType1[i].Active == false)
-                { 
-                    enemyType1.RemoveAt(i);
+                {
                     guiInfo.UPGRADEPOINTS += 50;
+                    enemyType1.RemoveAt(i);
                 }
             }
         }
