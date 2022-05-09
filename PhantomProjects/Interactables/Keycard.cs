@@ -57,7 +57,7 @@ namespace PhantomProjects.Interactables
                                           Height);
 
                 if (cardRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) || 
-                    GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed))
+                    GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed))
                 {
                     Active = false;
                     guiInfo.KEYS += 1;

@@ -118,7 +118,7 @@ namespace PhantomProjects.PlayerBullets
             }
 
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) ||
-                currentGamePadState.Buttons.X == ButtonState.Pressed) && hasJumped == false)
+                currentGamePadState.Buttons.A == ButtonState.Pressed) && hasJumped == false)
             {
                 position.Y -= 5f;
                 velocity.Y = -11f;
