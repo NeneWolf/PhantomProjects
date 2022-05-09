@@ -66,7 +66,7 @@ namespace PhantomProjects.PlayerBullets
 
         public void UpdateManagerBullet(GameTime gameTime, Player p, ExplosionManager VFX, Sounds SND)
         {
-             if (Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed )
+             if (Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed )
             {
                 FireBullet(gameTime, p, SND);
             }
@@ -74,7 +74,7 @@ namespace PhantomProjects.PlayerBullets
             for (var i = 0; i < bullets.Count; i++)
             {
                 bullets[i].Update(gameTime);
-                if (!bullets[i].Active || bullets[i].Position.X > 1856 || bullets[i].Position.X < -1856)
+                if (!bullets[i].Active || bullets[i].Position.X > 8000 || bullets[i].Position.X < -8000)
                 {
                     bullets.Remove(bullets[i]);
                 }

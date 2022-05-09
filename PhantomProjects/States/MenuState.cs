@@ -34,23 +34,31 @@ namespace PhantomProjects.States
 
             var newGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(540, 445),
+                Position = new Vector2(540, 435),
                 Text = "New Game",
             };
 
             newGameButton.Click += NewGameButton_Click;
 
+            var gameControlButton = new Button(buttonTexture, buttonFont)
+            {
+                Position = new Vector2(540, 485),
+                Text = "Controls",
+            };
+
+            gameControlButton.Click += LoadControlButton_Click;
+
             var loadCreditButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(540, 500),
+                Position = new Vector2(540, 535),
                 Text = "Credits",
             };
 
-            loadCreditButton.Click += LoadGameButton_Click;
+            loadCreditButton.Click += LoadCreditButton_Click;
 
             var quitGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(540, 555),
+                Position = new Vector2(540, 585),
                 Text = "Quit Game",
             };
 
@@ -59,6 +67,7 @@ namespace PhantomProjects.States
             _components = new List<Component>()
           {
             newGameButton,
+            gameControlButton,
             loadCreditButton,
             quitGameButton,
           };
@@ -78,11 +87,13 @@ namespace PhantomProjects.States
 
             spriteBatch.End();
         }
-        
 
-        private void LoadGameButton_Click(object sender, EventArgs e)
+        public override void PostUpdate(GameTime gameTime) { }
+
+        public override void Update(GameTime gameTime)
         {
-            _game.ChangeState(new CreditState(_game, _graphicsDevice, _content));
+            foreach (var component in _components)
+                component.Update(gameTime);
         }
 
         // Level 1
@@ -91,12 +102,16 @@ namespace PhantomProjects.States
             _game.ChangeState(new TutorialState(_game, _graphicsDevice, _content));
         }
 
-        public override void PostUpdate(GameTime gameTime) { }
-
-        public override void Update(GameTime gameTime)
+        // 
+        private void LoadControlButton_Click(object sender, EventArgs e)
         {
-            foreach (var component in _components)
-                component.Update(gameTime);
+            _game.ChangeState(new GameControls(_game, _graphicsDevice, _content));
+        }
+
+        // Credit Scene
+        private void LoadCreditButton_Click(object sender, EventArgs e)
+        {
+            _game.ChangeState(new CreditState(_game, _graphicsDevice, _content));
         }
 
         private void QuitGameButton_Click(object sender, EventArgs e)
