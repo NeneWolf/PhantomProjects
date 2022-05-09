@@ -14,8 +14,8 @@ namespace PhantomProjects.PlayerBullets
         static Texture2D bulletTexture;
         static Rectangle bulletRectangle;
         static public List<Bullet> bullets;
-        const float SECONDS_IN_MINUTE = 60f;
-        const float RATE_OF_FIRE = 200f;
+        const float SECONDS_IN_MINUTE = 100f;
+        const float RATE_OF_FIRE = 100f;
 
         static TimeSpan bulletSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
         static TimeSpan previousBulletSpawnTime;
@@ -75,22 +75,24 @@ namespace PhantomProjects.PlayerBullets
             for (var i = 0; i < bullets.Count; i++)
             {
                 bullets[i].Update(gameTime);
-                if (!bullets[i].Active || bullets[i].Position.X > 8000 || bullets[i].Position.X < -8000)
+                if (!bullets[i].Active || bullets[i].Position.X > bullets[i].Position.X+ 1280 || 
+                    bullets[i].Position.X < bullets[i].Position.X - 1280)
                 {
                     bullets.Remove(bullets[i]);
                 }
             }
 
-            foreach (EnemyA e in EnemyManager.enemyType1)
+
+            foreach (Bullet B in BulletManager.bullets)
             {
-                foreach (Bullet B in BulletManager.bullets)
-                {
-                    bulletRectangle = new Rectangle(
+                bulletRectangle = new Rectangle(
                                       (int)B.Position.X,
                                       (int)B.Position.Y,
                                       B.Width,
                                       B.Height);
 
+                foreach (EnemyA e in EnemyManager.enemyType1)
+                {
                     if (bulletRectangle.Intersects(e.rectangle))
                     {
                         // Show the explosion where the player was.
@@ -100,7 +102,7 @@ namespace PhantomProjects.PlayerBullets
                         B.Active = false;
                     }
                 }
-            }            
+            }
         }
 
         public void UpdateBullet(GameTime gameTime, Player p, Boss boss, ExplosionManager VFX, Sounds SND)
@@ -126,6 +128,19 @@ namespace PhantomProjects.PlayerBullets
                 }
             }
         }
+
+        public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        {
+            foreach(Bullet B in BulletManager.bullets)
+            {
+                if (bulletRectangle.TouchTopOf(newRectangle) || bulletRectangle.TouchLeftOf(newRectangle) ||
+                bulletRectangle.TouchRightOf(newRectangle) || bulletRectangle.TouchBottomOf(newRectangle))
+                {
+                    B.Active = false;
+                }
+            }
+        }
+
 
         public void DrawBullets(SpriteBatch spriteBatch)
         {

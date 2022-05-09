@@ -83,11 +83,8 @@ namespace PhantomProjects.States
 
         //------------ sounds ------------
 
-        //Our Laser Sound and Instance
-        private SoundEffect bulletSound;
-
-        //Our Explosion Sound.
-        private SoundEffect bloodSound;
+        //Bullet, Blood, Fireball sound
+        private SoundEffect bulletSound, bloodSound, fireballSound;
 
         // Game Music.
         private Song gameMusic;
@@ -127,9 +124,9 @@ namespace PhantomProjects.States
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 3, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 5},
+                { 3, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
@@ -164,7 +161,7 @@ namespace PhantomProjects.States
             ReturnStoreData();
 
             player = new Player();
-            player.Initialize(content, new Vector2(130, 2400)); //130, 2400
+            player.Initialize(content, new Vector2(1000, 1280)); //130, 2400
 
             //Reset to the previous level values
             player.Health = playerHealth;
@@ -198,13 +195,10 @@ namespace PhantomProjects.States
             boss.Initialize(new Vector2(2250,1200), content);
 
             #region Fireball
-            fireballTexture = content.Load<Texture2D>("Boss\\FireBall");
-            Fireball.Initialize(fireballTexture, details);
+            Fireball.Initialize(details,content);
             #endregion
 
             #endregion
-
-
 
             #region Explosives
             // EXPLOSSIONS
@@ -255,9 +249,11 @@ namespace PhantomProjects.States
             // Load the laserSound Effect and create the effect Instance
             bloodSound = content.Load<SoundEffect>("Sounds\\BloodSound");
 
+            fireballSound = content.Load<SoundEffect>("Sounds\\Fire");
+
             // Load the game music
-            gameMusic = content.Load<Song>("Sounds\\INGAMEMUSIC");
-            SND.Initialize(bulletSound, bloodSound);
+            gameMusic = content.Load<Song>("Sounds\\BOSS");
+            SND.Initialize(bulletSound, bloodSound, fireballSound);
             MediaPlayer.Play(gameMusic);
 
             #endregion
@@ -278,6 +274,9 @@ namespace PhantomProjects.States
             // Main background
             _spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 3200, 3000), Color.White);
 
+            //Fireball
+            Fireball.DrawFireball(_spriteBatch);
+
             //Map 
             map.Draw(_spriteBatch);
 
@@ -293,10 +292,6 @@ namespace PhantomProjects.States
             healthPotion4.Draw(_spriteBatch);
 
             door.Draw(_spriteBatch);
-
-
-            //Fireball
-            Fireball.DrawFireball(_spriteBatch);
 
             //Player Shield
             shield.Draw(_spriteBatch);
@@ -357,13 +352,17 @@ namespace PhantomProjects.States
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 _game.Exit();
 
+            UpdateMap();
+
             //Map
             #region MapCollision
             foreach (CollisionTiles tile in map.CollisionTiles)
             {
                 player.Collision(tile.Rectangle, map.Width, map.Height);
+                pBullets.Collision(tile.Rectangle, map.Width, map.Height);
 
                 boss.Collision(tile.Rectangle, map.Width, map.Height);
+                Fireball.Collision(tile.Rectangle, map.Width, map.Height);
 
                 camera.Update(player.Position, map.Width, map.Height);
 
@@ -405,6 +404,8 @@ namespace PhantomProjects.States
             VFX.UpdateExplosions(gameTime);
 
             GameManager();
+
+            
         }
 
         void ReturnStoreData()
@@ -430,6 +431,14 @@ namespace PhantomProjects.States
                 EnemyA.CleanEnemies();
                 boss.CleanBoss();
                 _game.GoToEndGame(door.canChangeScene);
+            }
+        }
+
+        void UpdateMap()
+        {
+            if ((player.Position.Y >= 1200 && player.Position.Y <= 1300) && player.Position.X > 1700) 
+            {
+                
             }
         }
     }

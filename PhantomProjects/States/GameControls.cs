@@ -44,7 +44,7 @@ namespace PhantomProjects.States
             spriteBatch.Begin();
             // Main background
             spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 700), Color.White);
-            spriteBatch.Draw(gameLogo, new Rectangle(0, 450, 300, 300), Color.White);
+            spriteBatch.Draw(gameLogo, new Rectangle(0, 400, 300, 300), Color.White);
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);

@@ -49,6 +49,18 @@
 /processorParam:TextureFormat=Color
 /build:Boss/Boss_WalkRight.png
 
+#begin Boss/FireAnim.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Boss/FireAnim.png
+
 #begin Boss/FireBall.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -405,11 +417,17 @@
 /processorParam:Quality=Best
 /build:Sounds/BloodSound.wav
 
-#begin Sounds/BOSS.wav
+#begin Sounds/BOSS.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/BOSS.mp3
+
+#begin Sounds/Fire.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Sounds/BOSS.wav
+/build:Sounds/Fire.wav
 
 #begin Sounds/gameMusic.mp3
 /importer:Mp3Importer
