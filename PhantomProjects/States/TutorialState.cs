@@ -134,6 +134,11 @@ namespace PhantomProjects.States
 
             mainBackground = content.Load<Texture2D>("background");
 
+            // platforms 
+
+            platformManage = new PlatformManager();
+            platformManage.CreatePlatforms(new Vector2(850, 880), content, true, 650);
+
             #endregion
 
             #region Player
@@ -207,8 +212,6 @@ namespace PhantomProjects.States
 
             #endregion
 
-            platformManage = new PlatformManager();
-            platformManage.CreatePlatforms(new Vector2(850, 880), content, true, 650);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
