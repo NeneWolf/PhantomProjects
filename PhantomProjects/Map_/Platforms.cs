@@ -18,7 +18,6 @@ namespace PhantomProjects.Map_
         Texture2D platformTexture;
 
         public Rectangle rectangle;
-        float distance, oldDistance;
         public Vector2 position, velocity;
         Vector2 currentPosition, destinePosition;
         float movingDistance;

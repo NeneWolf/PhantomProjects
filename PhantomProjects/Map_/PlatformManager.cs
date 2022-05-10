@@ -28,7 +28,7 @@ namespace PhantomProjects.Map_
                     }
                     else
                     {
-                        player.ChangePositionOnPlatforms(platform[i].rectangle.X+50, platform[i].rectangle.Y - 100,false);
+                        player.ChangePositionOnPlatforms(player.Position.X, platform[i].rectangle.Y - 100,false);
                     }
                 }
             }

@@ -15,7 +15,6 @@ namespace PhantomProjects.Boss_
     class FireballManager
     {
         static ContentManager fireContent;
-        static Texture2D fireballTexture;
         static Rectangle fireballRectangle;
         static public List<Fireball> fireball;
         const float SECONDS_IN_MINUTE = 35f;
