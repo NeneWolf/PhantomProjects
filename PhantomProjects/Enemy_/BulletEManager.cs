@@ -4,9 +4,10 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using PhantomProjects.PlayerBullets;
+using PhantomProjects.Player_;
+using PhantomProjects.Explosion_;
 
-namespace PhantomProjects
+namespace PhantomProjects.Enemy_
 {
     class BulletEManager
     {
@@ -79,14 +80,6 @@ namespace PhantomProjects
                     bulletEBeams.Remove(bulletEBeams[i]);
                 }
             }
-
-            Rectangle playerRectangle = new Rectangle(
-                    (int)p.Position.X,
-                    (int)p.Position.Y,
-                    p.Width,
-                    p.Height
-                );
-
             foreach (BulletE b in BulletEManager.bulletEBeams)
             {
                 bulletERectangle = new Rectangle(
@@ -96,7 +89,7 @@ namespace PhantomProjects
                     b.Height
                     );
 
-                if (bulletERectangle.Intersects(playerRectangle))
+                if (bulletERectangle.Intersects(p.RECTANGLE))
                 {
                     // Show the explosion where the player was.
                     VFX.AddExplosion(p.Position, SND);

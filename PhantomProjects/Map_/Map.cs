@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace PhantomProjects
+namespace PhantomProjects.Map_
 {
     class Map
     {

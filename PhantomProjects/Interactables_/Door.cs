@@ -2,39 +2,44 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using PhantomProjects.PlayerBullets;
+using PhantomProjects.Player_;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PhantomProjects
+namespace PhantomProjects.Interactables_
 {
-    class HealthPotion
+    class Door
     {
-        Texture2D healthPotionTexture;
+        Texture2D doorOpen, doorClose, currentStatus;
         Vector2 position;
-        public bool Active;
+        public bool Active, canChangeScene;
 
         public int Width
         {
-            get { return healthPotionTexture.Width; }
+            get { return doorOpen.Width; }
         }
 
         public int Height
         {
-            get { return healthPotionTexture.Height; }
+            get { return doorOpen.Height; }
         }
 
         public void Initialize(ContentManager Content, Vector2 pos)
         {
-            healthPotionTexture = Content.Load<Texture2D>("GUI\\Potion");
+            doorOpen = Content.Load<Texture2D>("Map\\OpenDoor");
+            doorClose = Content.Load<Texture2D>("Map\\ClosedDoor");
+            canChangeScene = false;
             Active = true;
             position = pos;
+
+
+            currentStatus = doorClose;
         }
 
-        public void Update(GameTime gameTime, Player p)
+        public void Update(GameTime gameTime, Player p, GUI guiInfo)
         {
-            if(Active == true)
+            if (Active == true)
             {
                 Rectangle playerRectangle = new Rectangle(
                                         (int)p.Position.X,
@@ -48,31 +53,27 @@ namespace PhantomProjects
                                           Width,
                                           Height);
 
-                if (potionRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) || 
-                    GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed))
+                if (guiInfo.KEYS >=1)
                 {
-                    Active = false;
-                    if (p.Health < 100)
-                    {
-                        p.Health += 10;
-                        p.BarHealth += 15;
+                    currentStatus = doorOpen;
 
-                        if (p.Health > 100)
-                        {
-                            p.Health = 100;
-                            p.BarHealth = 150;
-                        }
+                    if (potionRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) ||
+                        GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed))
+                    {
+                        canChangeScene = true;
                     }
                 }
             }
         }
 
+        public bool ReturnChangeSCene()
+        {
+            return canChangeScene;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (Active == true)
-            {
-                spriteBatch.Draw(healthPotionTexture, position, Color.White);
-            }
+            spriteBatch.Draw(currentStatus, position, Color.White);
         }
     }
 }

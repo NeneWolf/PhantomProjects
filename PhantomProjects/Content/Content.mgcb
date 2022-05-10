@@ -375,7 +375,7 @@
 /processorParam:TextureFormat=Color
 /build:menuBackground.png
 
-#begin PlayerContent/MalePlayerIdle.png
+#begin Player/MaleIdleLeft.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -385,9 +385,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:PlayerContent/MalePlayerIdle.png
+/build:Player/MaleIdleLeft.png
 
-#begin PlayerContent/MalePlayerLefttWalk.png
+#begin Player/MaleIdleRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -397,9 +397,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:PlayerContent/MalePlayerLefttWalk.png
+/build:Player/MaleIdleRight.png
 
-#begin PlayerContent/MalePlayerRightWalk.png
+#begin Player/MalePlayerLeftWalk.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -409,9 +409,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:PlayerContent/MalePlayerRightWalk.png
+/build:Player/MalePlayerLeftWalk.png
 
-#begin PlayerContent/Shield.png
+#begin Player/MalePlayerRightWalk.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -421,7 +421,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:PlayerContent/Shield.png
+/build:Player/MalePlayerRightWalk.png
+
+#begin Player/PlayerShield.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Player/PlayerShield.png
 
 #begin Sounds/BloodSound.wav
 /importer:WavImporter

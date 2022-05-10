@@ -5,13 +5,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PhantomProjects.Map_;
 
-namespace PhantomProjects.PlayerBullets
+
+namespace PhantomProjects.Player_
 {
     class Player
     {
         public Animation playerAnimation;
-        public Texture2D playerRight, playerLeft, idle, currentAnim;
+        public Texture2D playerRight, playerLeft, idleRight, idleLeft, currentAnim;
         float elapsed;
         float delay = 120f;
         int Frames = 0;
@@ -29,6 +31,8 @@ namespace PhantomProjects.PlayerBullets
 
         // Jump
         private bool hasJumped = false;
+
+        bool right;
 
         // Gamepad states used to determine button presses
         GamePadState currentGamePadState;
@@ -52,9 +56,10 @@ namespace PhantomProjects.PlayerBullets
 
         public void Initialize(ContentManager content, Vector2 newPosition)
         {
-            playerRight = content.Load<Texture2D>("PlayerContent\\MalePlayerRightWalk");
-            playerLeft = content.Load<Texture2D>("PlayerContent\\MalePlayerLefttWalk");
-            idle = content.Load<Texture2D>("PlayerContent\\MalePlayerIdle");
+            playerRight = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
+            playerLeft = content.Load<Texture2D>("Player\\MalePlayerLeftWalk");
+            idleRight = content.Load<Texture2D>("Player\\MaleIdleRight");
+            idleLeft = content.Load<Texture2D>("Player\\MaleIdleLeft");
 
             // Set the player to be active
             Active = true;
@@ -68,7 +73,7 @@ namespace PhantomProjects.PlayerBullets
 
             playerAnimation = new Animation();
 
-            currentAnim = idle;
+            currentAnim = idleRight;
         }
 
         public void Update(GameTime gameTime)
@@ -82,7 +87,7 @@ namespace PhantomProjects.PlayerBullets
                 currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
                 position += velocity;
-                rectangle = new Rectangle((int)position.X, (int)position.Y, 64, 64);
+                rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 95);
                 playerAnimation.Position = position;
                 playerAnimation.Update(gameTime);
 
@@ -95,13 +100,15 @@ namespace PhantomProjects.PlayerBullets
 
         private void Input(GameTime gameTime)
         {
+             
+
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D) ||
                 currentGamePadState.DPad.Right == ButtonState.Pressed || currentGamePadState.ThumbSticks.Left.X == 1)
             {
                 velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
                 currentAnim = playerRight;
                 Animate(gameTime);
-
+                right = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)||
                 currentGamePadState.DPad.Left == ButtonState.Pressed || currentGamePadState.ThumbSticks.Left.X == -1)
@@ -109,12 +116,21 @@ namespace PhantomProjects.PlayerBullets
                 velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
                 currentAnim = playerLeft;
                 Animate(gameTime);
+                right = false;
             }
             else
             {
                 velocity.X = 0f;
-                currentAnim = idle;
-                Animate(gameTime);
+                if (right == true)
+                {
+                    currentAnim = idleRight;
+                    AnimateIdle(gameTime);
+                }
+                else
+                {
+                    currentAnim = idleLeft;
+                    AnimateIdle(gameTime);
+                }
             }
 
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) ||
@@ -125,7 +141,7 @@ namespace PhantomProjects.PlayerBullets
                 hasJumped = true;
             }
 
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 64, 64);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 95);
         }
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
@@ -175,7 +191,27 @@ namespace PhantomProjects.PlayerBullets
                 elapsed = 0;
             }
 
-            sourceRect = new Rectangle((Frames * 64), 0, 64, 64);
+            sourceRect = new Rectangle((Frames * 100), 0, 100, 95);
+        }
+
+        void AnimateIdle(GameTime gameTime)
+        {
+            elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (elapsed >= delay)
+            {
+                if (Frames >= 6)
+                {
+                    Frames = 0;
+                }
+                else
+                {
+                    Frames++;
+                }
+                elapsed = 0;
+            }
+
+            sourceRect = new Rectangle((Frames * 87), 0, 87, 89);
         }
 
         public Rectangle RECTANGLE
@@ -193,7 +229,10 @@ namespace PhantomProjects.PlayerBullets
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
+            if (Active == true)
+            {
+                spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
+            }
         }
     }
 }

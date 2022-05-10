@@ -5,10 +5,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PhantomProjects.States;
-using PhantomProjects.PlayerBullets;
+using PhantomProjects.Player_;
+using PhantomProjects.Map_;
 using Microsoft.Xna.Framework.Content;
 
-namespace PhantomProjects
+namespace PhantomProjects.Enemy_
 {
     class EnemyA
     {

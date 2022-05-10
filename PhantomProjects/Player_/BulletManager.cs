@@ -5,8 +5,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PhantomProjects.Boss_;
+using PhantomProjects.Enemy_;
+using PhantomProjects.Explosion_;
+using PhantomProjects.Map_;
 
-namespace PhantomProjects.PlayerBullets
+namespace PhantomProjects.Player_
 {
     class BulletManager
     {
@@ -50,14 +53,14 @@ namespace PhantomProjects.PlayerBullets
 
             var bulletPosition = p.Position;
 
-            if (p.currentAnim == p.playerRight || p.currentAnim == p.idle)
+            if (p.currentAnim == p.playerRight || p.currentAnim == p.idleRight)
             {
-                bulletPosition.Y += 15;
+                bulletPosition.Y += 50;
                 bulletPosition.X += 25;
             }
             else
             {
-                bulletPosition.Y += 15;
+                bulletPosition.Y += 50;
                 bulletPosition.X -= 25;
             }
 

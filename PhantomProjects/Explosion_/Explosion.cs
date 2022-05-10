@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace PhantomProjects
+namespace PhantomProjects.Explosion_
 {
     class Explosion
     {
