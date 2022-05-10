@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PhantomProjects.States;
-using PhantomProjects.PlayerBullets;
+using PhantomProjects.Player_;
 
 namespace PhantomProjects
 {

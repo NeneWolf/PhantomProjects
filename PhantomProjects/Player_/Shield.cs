@@ -5,8 +5,9 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PhantomProjects.Enemy_;
 
-namespace PhantomProjects.PlayerBullets
+namespace PhantomProjects.Player_
 {
     class Shield
     {
@@ -34,7 +35,7 @@ namespace PhantomProjects.PlayerBullets
 
         public void Initialize(ContentManager Content)
         {
-            shieldTexture = Content.Load<Texture2D>("PlayerContent\\Shield");
+            shieldTexture = Content.Load<Texture2D>("Player\\PlayerShield");
             Active = false;
             shieldTimer = 60 * 5;
             cooldown = 0;

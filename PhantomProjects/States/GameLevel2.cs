@@ -7,9 +7,12 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using PhantomProjects.PlayerBullets;
-using PhantomProjects.Interactables;
+using PhantomProjects.Player_;
+using PhantomProjects.Interactables_;
 using PhantomProjects.Boss_;
+using PhantomProjects.Enemy_;
+using PhantomProjects.Explosion_;
+using PhantomProjects.Map_;
 
 namespace PhantomProjects.States
 {

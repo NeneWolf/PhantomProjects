@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace PhantomProjects.PlayerBullets
+namespace PhantomProjects.Player_
 {
     class Bullet
     {
@@ -33,7 +33,7 @@ namespace PhantomProjects.PlayerBullets
             Position = position;
             Active = true;
 
-            if (p.currentAnim == p.playerRight || p.currentAnim == p.idle)
+            if (p.currentAnim == p.playerRight || p.currentAnim == p.idleRight)
             {
                 bulletMoveSpeed = 30f;
             }
