@@ -52,8 +52,8 @@ namespace PhantomProjects.Player_
 
         public void Update(GameTime gameTime, Player p, GUI guiInfo)
         {
-            position.X = p.Position.X -20;
-            position.Y = p.Position.Y -60;
+            position.X = p.Position.X -50;
+            position.Y = p.Position.Y -50;
 
             cooldown--;
 
