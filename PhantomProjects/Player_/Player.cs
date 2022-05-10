@@ -15,7 +15,7 @@ namespace PhantomProjects.Player_
         public Animation playerAnimation;
         public Texture2D playerRight, playerLeft, idleRight, idleLeft, currentAnim;
         float elapsed;
-        float delay = 120f;
+        float delay = 120f, delayIdle = 800f;
         int Frames = 0;
 
         // Position of the Player relative to the upper left side of the screen
@@ -59,8 +59,8 @@ namespace PhantomProjects.Player_
         {
             playerRight = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
             playerLeft = content.Load<Texture2D>("Player\\MalePlayerLeftWalk");
-            idleRight = content.Load<Texture2D>("Player\\MaleIdleRight");
-            idleLeft = content.Load<Texture2D>("Player\\MaleIdleLeft");
+            idleRight = content.Load<Texture2D>("Player\\MaleRightIdle");
+            idleLeft = content.Load<Texture2D>("Player\\MaleLeftIdle");
 
             // Set the player to be active
             Active = true;
@@ -88,7 +88,7 @@ namespace PhantomProjects.Player_
                 currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
                 position += velocity;
-                rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 95);
+                rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 100);
                 playerAnimation.Position = position;
                 playerAnimation.Update(gameTime);
 
@@ -196,14 +196,14 @@ namespace PhantomProjects.Player_
                 elapsed = 0;
             }
 
-            sourceRect = new Rectangle((Frames * 100), 0, 100, 95);
+            sourceRect = new Rectangle((Frames * 50), 0, 50, 100);
         }
 
         void AnimateIdle(GameTime gameTime)
         {
             elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if (elapsed >= delay)
+            if (elapsed >= delayIdle)
             {
                 if (Frames >= 6)
                 {
@@ -216,8 +216,9 @@ namespace PhantomProjects.Player_
                 elapsed = 0;
             }
 
-            sourceRect = new Rectangle((Frames * 87), 0, 87, 89);
+            sourceRect = new Rectangle((Frames * 50), 0, 50, 100);
         }
+
 
         public Rectangle RECTANGLE
         {

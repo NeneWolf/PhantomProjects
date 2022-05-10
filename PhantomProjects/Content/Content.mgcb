@@ -375,7 +375,7 @@
 /processorParam:TextureFormat=Color
 /build:menuBackground.png
 
-#begin Player/MaleIdleLeft.png
+#begin Player/MaleLeftIdle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -385,19 +385,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player/MaleIdleLeft.png
-
-#begin Player/MaleIdleRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Player/MaleIdleRight.png
+/build:Player/MaleLeftIdle.png
 
 #begin Player/MalePlayerLeftWalk.png
 /importer:TextureImporter
@@ -422,6 +410,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/MalePlayerRightWalk.png
+
+#begin Player/MaleRightIdle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Player/MaleRightIdle.png
 
 #begin Player/PlayerShield.png
 /importer:TextureImporter
