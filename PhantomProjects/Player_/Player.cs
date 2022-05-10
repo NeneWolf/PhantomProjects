@@ -54,6 +54,7 @@ namespace PhantomProjects.Player_
             get { return position; }
         }
 
+
         public void Initialize(ContentManager content, Vector2 newPosition)
         {
             playerRight = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
@@ -94,13 +95,12 @@ namespace PhantomProjects.Player_
                 Input(gameTime);
 
                 if (velocity.Y < 10)
-                    velocity.Y += 0.4f;
+                    velocity.Y += 0.35f;
             }
         }
 
         private void Input(GameTime gameTime)
         {
-             
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D) ||
                 currentGamePadState.DPad.Right == ButtonState.Pressed || currentGamePadState.ThumbSticks.Left.X == 1)
@@ -170,6 +170,13 @@ namespace PhantomProjects.Player_
             if (position.X > xOffset - rectangle.Width) position.X = xOffset - rectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
+        }
+
+        public void ChangePositionOnPlatforms(float positionX, float positionY, bool Jump)
+        {
+            position.Y = positionY;
+            position.X = positionX;
+            hasJumped = Jump;
         }
 
         void Animate(GameTime gameTime)
