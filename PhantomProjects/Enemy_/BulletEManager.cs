@@ -105,6 +105,11 @@ namespace PhantomProjects.Enemy_
 
         }
 
+        public Rectangle RECTANGLE()
+        {
+            return bulletERectangle;
+        }
+
         public void DrawBullet(SpriteBatch spriteBatch)
         {
             foreach (var b in bulletEBeams)

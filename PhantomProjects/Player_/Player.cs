@@ -140,8 +140,6 @@ namespace PhantomProjects.Player_
                 velocity.Y = -11f;
                 hasJumped = true;
             }
-
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 95);
         }
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)

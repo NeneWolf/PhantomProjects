@@ -54,8 +54,8 @@ namespace PhantomProjects.Boss_
 
         public void Initialize(Vector2 newPosition, ContentManager content)
         {
-            bossLeft = content.Load<Texture2D>("Boss\\Boss_WalkLeft");
-            bossRight = content.Load<Texture2D>("Boss\\Boss_WalkRight");
+            bossLeft = content.Load<Texture2D>("Boss\\BossLeftWalk");
+            bossRight = content.Load<Texture2D>("Boss\\BossRightWalk");
 
             position = newPosition;
 
@@ -80,7 +80,7 @@ namespace PhantomProjects.Boss_
                 IsDead(guiInfo);
 
                 position += velocity;
-                rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 90);
+                rectangle = new Rectangle((int)position.X, (int)position.Y, 200, 180);
 
                 bossAnimation.Position = position;
                 bossAnimation.Update(gameTime);
@@ -156,7 +156,7 @@ namespace PhantomProjects.Boss_
                 }
 
             }
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 90);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 200, 180);
         }
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
@@ -218,7 +218,7 @@ namespace PhantomProjects.Boss_
                 }
                 elapsed = 0;
             }
-            sourceRect = new Rectangle((Frames * 100), 0, 100, 90);
+            sourceRect = new Rectangle((Frames * 200), 0, 200, 180);
         }
 
         void IsDead(GUI guiInfo)

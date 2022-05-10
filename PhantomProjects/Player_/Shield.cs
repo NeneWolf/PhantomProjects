@@ -11,21 +11,27 @@ namespace PhantomProjects.Player_
 {
     class Shield
     {
-
-        Texture2D shieldTexture;
+        public Animation shieldAnimation;
+        Texture2D shieldTexture, currentAnim;
         Vector2 position;
         public bool Active;
         int shieldTimer;
         int cooldown;
 
+        float elapsed;
+        float delay = 120f;
+        int Frames = 0;
+
+        public Rectangle rectangle, sourceRect;
+
         public int Width
         {
-            get { return shieldTexture.Width; }
+            get { return shieldAnimation.FrameWidth; }
         }
 
         public int Height
         {
-            get { return shieldTexture.Height; }
+            get { return shieldAnimation.FrameHeight; }
         }
 
         public Vector2 Position
@@ -36,16 +42,18 @@ namespace PhantomProjects.Player_
         public void Initialize(ContentManager Content)
         {
             shieldTexture = Content.Load<Texture2D>("Player\\PlayerShield");
+
             Active = false;
             shieldTimer = 60 * 5;
             cooldown = 0;
+
+            shieldAnimation = new Animation();
         }
 
         public void Update(GameTime gameTime, Player p, GUI guiInfo)
         {
-            position.X = p.Position.X - 50;
-            position.Y = p.Position.Y - 50;
-
+            position.X = p.Position.X -20;
+            position.Y = p.Position.Y -60;
 
             cooldown--;
 
@@ -57,14 +65,15 @@ namespace PhantomProjects.Player_
 
             if (Active == true)
             {
+                rectangle = new Rectangle((int)position.X, (int)position.Y, 150,150);
+                shieldAnimation.Position = position;
+                shieldAnimation.Update(gameTime);
+
                 guiInfo.SHIELDTIMER = shieldTimer;
                 shieldTimer--;
 
-                Rectangle shieldRectangle = new Rectangle(
-                    (int)position.X,
-                    (int)position.Y,
-                    Width,
-                    Height);
+                currentAnim = shieldTexture;
+                Animate(gameTime);
 
                 foreach (BulletE B in BulletEManager.bulletEBeams)
                 {
@@ -74,7 +83,7 @@ namespace PhantomProjects.Player_
                         B.Width,
                         B.Height);
 
-                    if (bulletRectangle.Intersects(shieldRectangle))
+                    if (bulletRectangle.Intersects(rectangle))
                     {
                         B.damage = 0;
                         B.Active = false;
@@ -90,11 +99,31 @@ namespace PhantomProjects.Player_
             }
         }
 
+        void Animate(GameTime gameTime)
+        {
+            elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (elapsed >= delay)
+            {
+                if (Frames >= 3)
+                {
+                    Frames = 0;
+                }
+                else
+                {
+                    Frames++;
+                }
+                elapsed = 0;
+            }
+
+            sourceRect = new Rectangle((Frames * 152), 0, 152, 150);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             if (Active == true)
             {
-                spriteBatch.Draw(shieldTexture, position, Color.White);
+                spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
             }
         }
 

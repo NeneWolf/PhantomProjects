@@ -133,7 +133,7 @@ namespace PhantomProjects.States
 
             #region Player
             player = new Player();
-            player.Initialize(content, new Vector2(100, 1100));
+            player.Initialize(content, new Vector2(130, 1100));
 
             //Player Bullets
             pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");

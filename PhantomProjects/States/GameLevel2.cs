@@ -195,7 +195,7 @@ namespace PhantomProjects.States
 
             #region Boss
             boss = new Boss();
-            boss.Initialize(new Vector2(2250,1200), content);
+            boss.Initialize(new Vector2(2250,1150), content);
 
             #region Fireball
             Fireball.Initialize(details,content);
