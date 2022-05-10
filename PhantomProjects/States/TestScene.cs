@@ -15,7 +15,7 @@ using PhantomProjects.Map_;
 
 namespace PhantomProjects.States
 {
-    public class TutorialState : State
+    public class TestScene : State
     {
         #region Tutorial- Declarations
 
@@ -25,6 +25,10 @@ namespace PhantomProjects.States
         //Camera & Map
         Camera camera;
         Map map;
+
+        //=====
+        PlatformManager platformManage;
+        //====
 
         //Static background
         Texture2D mainBackground;
@@ -37,25 +41,11 @@ namespace PhantomProjects.States
         Shield shield = new Shield();
 
         //-----------------------------------------
-        //Interactables
-        Keycard keycard;
-        HealthPotion healthPotion;
-        Door door;
-
-        //-----------------------------------------
         //Player Bullets
         Texture2D pBulletTexture;
         BulletManager pBullets = new BulletManager();
 
-        //-----------------------------------------
-        //Basic Enemy
-        EnemyManager EnemyA = new EnemyManager();
         GraphicsDevice details;
-
-        //-----------------------------------------
-        //Basic Enemy Bullets
-        Texture2D bulletETexture;
-        BulletEManager BulletBeams = new BulletEManager();
 
         //-----------------------------------------
         // Explosion(Blood) / GUI 
@@ -80,14 +70,11 @@ namespace PhantomProjects.States
 
         //Our Explosion Sound.
         private SoundEffect bloodSound;
-
-        // Game Music.
-        private Song gameMusic;
         Sounds SND = new Sounds();
 
         #endregion
 
-        public TutorialState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+        public TestScene(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
             _spriteBatch = new SpriteBatch(graphicsDevice);
@@ -101,29 +88,29 @@ namespace PhantomProjects.States
             camera = new Camera(graphicsDevice.Viewport);
 
             #region Map1_Generator 
-            
+
             map.Generate(new int[,]
             {
                 //  64x30 Width // 64x20 Height
                 { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 5},
-                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2},
-                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2},
-                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
                 { 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2}
                 }, 64);
 
@@ -143,22 +130,11 @@ namespace PhantomProjects.States
             shield.Initialize(content);
             #endregion
 
-            #region Basic Enemy
-
-            //Enemy
-            EnemyA.Initialize(details);
-            EnemyA.CreateEnemy(new Vector2(960, 1100), content);
-
-            #region Enemy Bullet
-            bulletETexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
-            BulletBeams.Initialize(bulletETexture, details);
-            #endregion
 
             #region Explosives
             // EXPLOSSIONS
             vfx = content.Load<Texture2D>("GUI\\bloodEffect");
             VFX.Initialize(vfx, details);
-            #endregion
             #endregion
 
             #region GUI 
@@ -176,32 +152,24 @@ namespace PhantomProjects.States
 
             #endregion
 
-            #region Interactables
-            keycard = new Keycard();
-            keycard.Initialize(content, new Vector2(1728, 500));
-
-            healthPotion = new HealthPotion();
-            healthPotion.Initialize(content, new Vector2(1472, 1170));
-
-            door = new Door();
-            door.Initialize(content, new Vector2(1728,155));
-            #endregion
 
             #region Game Sounds
             ////Sounds
             // Load the laserSound Effect and create the effect Instance
             bulletSound = content.Load<SoundEffect>("Sounds\\GunShot");
-
             // Load the laserSound Effect and create the effect Instance
             bloodSound = content.Load<SoundEffect>("Sounds\\BloodSound");
-
-            // Load the game music
-            gameMusic = content.Load<Song>("Sounds\\INGAMEMUSIC");
             SND.Initialize(bulletSound, bloodSound, null);
-            MediaPlayer.Play(gameMusic);
 
             #endregion
 
+
+
+            //
+
+            platformManage = new PlatformManager();
+            platformManage.CreatePlatforms(new Vector2(200, 1100), content, true, 100);
+            platformManage.CreatePlatforms(new Vector2(600, 1100), content, false, 100);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -221,14 +189,9 @@ namespace PhantomProjects.States
             //Map 
             map.Draw(_spriteBatch);
 
+            platformManage.DrawPlatfroms(_spriteBatch);
+
             #endregion
-
-            //Interactable
-            keycard.Draw(_spriteBatch);
-
-            healthPotion.Draw(_spriteBatch);
-
-            door.Draw(_spriteBatch);
 
             //Player Shield
             shield.Draw(_spriteBatch);
@@ -238,12 +201,6 @@ namespace PhantomProjects.States
 
             //Player Bullet
             pBullets.DrawBullets(_spriteBatch);
-
-            //Enemy
-            EnemyA.DrawEnemies(_spriteBatch);
-
-            //Enemy Bullet
-            BulletBeams.DrawBullet(_spriteBatch);
 
             //Explosions
             VFX.DrawExplosions(_spriteBatch);
@@ -262,7 +219,7 @@ namespace PhantomProjects.States
             _spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
             _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.White);
 
-            if(shield.Active == true)
+            if (shield.Active == true)
             {
                 /////ShieldTimer
                 _spriteBatch.Draw(shieldTimer, new Vector2(1155, 600), Color.White);
@@ -270,7 +227,7 @@ namespace PhantomProjects.States
             }
 
             ////HealthGUI
-            _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20),healthRectangle, Color.White);
+            _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20), healthRectangle, Color.White);
 
             _spriteBatch.End();
 
@@ -299,48 +256,24 @@ namespace PhantomProjects.States
                 {
                     enemy.Collision(tile.Rectangle, map.Width, map.Height);
                 }
-                
+
             }
+
+
+            platformManage.UpdatePlatforms(gameTime,player);
+
             #endregion
 
             healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
 
             //Player
             player.Update(gameTime);
-            pBullets.UpdateManagerBullet(gameTime, player,VFX, SND);
+            pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
             shield.Update(gameTime, player, guiInfo);
-
-            // Enemies & their bullets
-            EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);
-            BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
-
-
-            //Interactables
-            keycard.Update(gameTime, player, guiInfo);
-            healthPotion.Update(gameTime, player);
-            door.Update(gameTime, player, guiInfo);
 
             //Explotions
             VFX.UpdateExplosions(gameTime);
 
-            GameManager();
-        }
-
-        void GameManager()
-        {
-            // Clean Level and change to Game Over
-            if (player.Active == false)
-            {
-                EnemyA.CleanEnemies();
-                _game.GoToGameOver(true);
-            }
-
-            if(door.canChangeScene == true)
-            {
-                EnemyA.CleanEnemies();
-                _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS);
-                _game.GoToLevelOne(door.canChangeScene);
-            }
         }
     }
 }

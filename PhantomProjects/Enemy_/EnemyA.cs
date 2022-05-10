@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using PhantomProjects.States;
+using Microsoft.Xna.Framework.Content;
 using PhantomProjects.Player_;
 using PhantomProjects.Map_;
-using Microsoft.Xna.Framework.Content;
+
 
 namespace PhantomProjects.Enemy_
 {
