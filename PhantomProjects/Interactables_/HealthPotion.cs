@@ -36,19 +36,13 @@ namespace PhantomProjects.Interactables_
         {
             if(Active == true)
             {
-                Rectangle playerRectangle = new Rectangle(
-                                        (int)p.Position.X,
-                                        (int)p.Position.Y,
-                                        50,
-                                        50);
-
                 Rectangle potionRectangle = new Rectangle(
                                           (int)position.X,
                                           (int)position.Y,
                                           Width,
                                           Height);
 
-                if (potionRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) || 
+                if (potionRectangle.Intersects(p.rectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) || 
                     GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed))
                 {
                     Active = false;

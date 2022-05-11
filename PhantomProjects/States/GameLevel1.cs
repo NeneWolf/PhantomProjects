@@ -35,7 +35,7 @@ namespace PhantomProjects.States
 
         //----------------------------------------
         // Player
-        Player player;
+        Player player = new Player();
         int playerHealth, playerBarHealth, playerUpgradePoints;
 
         //Shield
@@ -43,8 +43,7 @@ namespace PhantomProjects.States
 
         //-----------------------------------------
         //Interactables
-        Keycard keycard;
-        HealthPotion healthPotion1, healthPotion2, healthPotion3, healthPotion4;
+        ItemManager itemManager = new ItemManager();
         Door door;
 
         //-----------------------------------------
@@ -114,9 +113,9 @@ namespace PhantomProjects.States
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5},
-                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-                { 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5},
+                { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+                { 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
@@ -139,7 +138,7 @@ namespace PhantomProjects.States
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 5},
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2},
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2},
             }, 64);
 
 
@@ -148,19 +147,17 @@ namespace PhantomProjects.States
             //Platforms
 
             platformManage = new PlatformManager();
-            platformManage.CreatePlatforms(new Vector2(2800, 880), content, true, 380);
-            platformManage.CreatePlatforms(new Vector2(2190, 530), content, false, 315);
+            platformManage.CreatePlatforms(new Vector2(2800, 880), content, true, 380,true);
+            platformManage.CreatePlatforms(new Vector2(2190, 530), content, false, 315, true);
 
-            platformManage.CreatePlatforms(new Vector2(100, 650), content, true, 190);
-            platformManage.CreatePlatforms(new Vector2(612, 395), content, true, 150);
+            platformManage.CreatePlatforms(new Vector2(100, 650), content, true, 190, true);
+            platformManage.CreatePlatforms(new Vector2(612, 395), content, true, 150, true);
 
             #endregion
 
             #region Player
             ReturnStoreData();
-
-            player = new Player();
-            player.Initialize(content, new Vector2(130, 1728));
+            player.Initialize(content, new Vector2(130, 1728)); //130,1728
 
             //Reset to the previous level values
             player.Health = playerHealth;
@@ -213,17 +210,14 @@ namespace PhantomProjects.States
             #endregion
 
             #region Interactables
-            keycard = new Keycard();
-            keycard.Initialize(content, new Vector2(1856, 450));
+            itemManager.SpawnKeyCard(content, new Vector2(1856, 450));
+            itemManager.SpawnKeyCard(content, new Vector2(190, 1480));
+            itemManager.SpawnKeyCard(content, new Vector2(2800, 180));
 
-            healthPotion1 = new HealthPotion();
-            healthPotion2 = new HealthPotion();
-            healthPotion3 = new HealthPotion();
-            healthPotion4 = new HealthPotion();
-            healthPotion1.Initialize(content, new Vector2(1900, 1800));
-            healthPotion2.Initialize(content, new Vector2(200, 835)); 
-            healthPotion3.Initialize(content, new Vector2(2700, 835));
-            healthPotion4.Initialize(content, new Vector2(448, 835));
+            itemManager.SpawnPotion(content, new Vector2(1900, 1800));
+            itemManager.SpawnPotion(content, new Vector2(200, 835));
+            itemManager.SpawnPotion(content, new Vector2(2700, 835));
+            itemManager.SpawnPotion(content, new Vector2(448, 835));
 
             door = new Door();
             door.Initialize(content, new Vector2(3072, 158));
@@ -268,12 +262,7 @@ namespace PhantomProjects.States
             #endregion
 
             //Interactable
-            keycard.Draw(_spriteBatch);
-
-            healthPotion1.Draw(_spriteBatch);
-            healthPotion2.Draw(_spriteBatch);
-            healthPotion3.Draw(_spriteBatch);
-            healthPotion4.Draw(_spriteBatch);
+            itemManager.DrawCollectibles(_spriteBatch);
 
             door.Draw(_spriteBatch);
 
@@ -346,13 +335,13 @@ namespace PhantomProjects.States
                 {
                     enemy.Collision(tile.Rectangle, map.Width, map.Height);
                 }
+                BulletBeams.Collision(tile.Rectangle, map.Width, map.Height);
 
-                
             }
             #endregion
 
             //Platforms
-            platformManage.UpdatePlatforms(gameTime, player);
+            platformManage.UpdatePlatforms(gameTime, player, true);
 
             //GUI
             healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
@@ -368,12 +357,9 @@ namespace PhantomProjects.States
 
 
             //Interactables
-            keycard.Update(gameTime, player, guiInfo);
-            healthPotion1.Update(gameTime, player);
-            healthPotion2.Update(gameTime, player);
-            healthPotion3.Update(gameTime, player);
-            healthPotion4.Update(gameTime, player);
-            door.Update(gameTime, player, guiInfo);
+            itemManager.UpdateKey(gameTime,player,guiInfo);
+            itemManager.UpdatePotion(gameTime, player, guiInfo);
+            door.Update(gameTime, player, guiInfo, 3);
 
             //Explotions
             VFX.UpdateExplosions(gameTime);
@@ -393,15 +379,22 @@ namespace PhantomProjects.States
             // Clean Level and change to Game Over
             if (player.Active == false)
             {
-                EnemyA.CleanEnemies();
+                CleanScene();
                 _game.GoToGameOver(true);
             }
 
             if (door.canChangeScene == true)
             {
-                EnemyA.CleanEnemies();
+                CleanScene();
                 _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS);
                 _game.GoToLevelTwo(door.canChangeScene);
+            }
+
+            void CleanScene()
+            {
+                EnemyA.CleanEnemies();
+                itemManager.RemoveCollectibles();
+                platformManage.CleanPlatforms();
             }
         }
     }

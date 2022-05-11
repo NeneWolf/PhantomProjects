@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PhantomProjects.Player_;
 using PhantomProjects.Explosion_;
+using PhantomProjects.Map_;
 
 namespace PhantomProjects.Enemy_
 {
@@ -108,6 +109,18 @@ namespace PhantomProjects.Enemy_
         public Rectangle RECTANGLE()
         {
             return bulletERectangle;
+        }
+
+        public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        {
+            foreach (BulletE B in BulletEManager.bulletEBeams)
+            {
+                if (bulletERectangle.TouchTopOf(newRectangle) || bulletERectangle.TouchLeftOf(newRectangle) ||
+                bulletERectangle.TouchRightOf(newRectangle) || bulletERectangle.TouchBottomOf(newRectangle))
+                {
+                    B.Active = false;
+                }
+            }
         }
 
         public void DrawBullet(SpriteBatch spriteBatch)

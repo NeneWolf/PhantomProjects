@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PhantomProjects.Enemy_;
+using PhantomProjects.Boss_;
 
 namespace PhantomProjects.Player_
 {
@@ -75,27 +76,7 @@ namespace PhantomProjects.Player_
                 currentAnim = shieldTexture;
                 Animate(gameTime);
 
-                foreach (BulletE B in BulletEManager.bulletEBeams)
-                {
-                    Rectangle bulletRectangle = new Rectangle(
-                        (int)B.Position.X,
-                        (int)B.Position.Y,
-                        B.Width,
-                        B.Height);
-
-                    if (bulletRectangle.Intersects(rectangle))
-                    {
-                        B.damage = 0;
-                        B.Active = false;
-                    }
-                }
-
-                if (shieldTimer == 0)
-                {
-                    Active = false;
-                    shieldTimer = 60 * 5;
-                    guiInfo.SHIELDTIMER = 0;
-                }
+                CancelIncomingDamage();
             }
         }
 
@@ -117,6 +98,46 @@ namespace PhantomProjects.Player_
             }
 
             sourceRect = new Rectangle((Frames * 152), 0, 152, 150);
+        }
+
+        void CancelIncomingDamage()
+        {
+            foreach (BulletE B in BulletEManager.bulletEBeams)
+            {
+                Rectangle bulletRectangle = new Rectangle(
+                    (int)B.Position.X,
+                    (int)B.Position.Y,
+                    B.Width,
+                    B.Height);
+
+                if (bulletRectangle.Intersects(rectangle))
+                {
+                    B.damage = 0;
+                    B.Active = false;
+                }
+            }
+
+            foreach (Fireball F in FireballManager.fireball)
+            {
+                Rectangle fireballRectangle = new Rectangle(
+                                        (int)F.Position.X,
+                                        (int)F.Position.Y,
+                                        F.Width,
+                                        F.Height);
+
+                if (fireballRectangle.Intersects(rectangle))
+                {
+                    F.damage = 0;
+                    F.Active = false;
+                }
+            }
+
+            if (shieldTimer == 0)
+            {
+                Active = false;
+                shieldTimer = 60 * 5;
+                guiInfo.SHIELDTIMER = 0;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

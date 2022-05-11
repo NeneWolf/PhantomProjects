@@ -29,7 +29,7 @@ namespace PhantomProjects.Boss_
         float distance; // Distance fixed ( the distance that the enemy will patrol )
         float oldDistance; // Compare old distance with the new distance
         float playerDistance, playerDistanceY; //Distance of Enemy from the player
-        int patrolDistance = 850, patrolDistanceY = 400;// Patrol distance
+        int patrolDistance = 850, patrolDistanceY = 200;// Patrol distance
 
         ///Details
         public Vector2 position; // Enemy position
@@ -61,7 +61,7 @@ namespace PhantomProjects.Boss_
 
             //Enemy Stats
             distance = 384f;
-            Health = 500;
+            Health = 300;
             Active = true;
             canReceiveReward = false;
 
