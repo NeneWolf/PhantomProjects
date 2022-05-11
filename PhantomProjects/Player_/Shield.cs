@@ -51,7 +51,7 @@ namespace PhantomProjects.Player_
             shieldAnimation = new Animation();
         }
 
-        public void Update(GameTime gameTime, Player p, GUI guiInfo)
+        public void Update(GameTime gameTime, Player p, bool bossActive,  GUI guiInfo)
         {
             position.X = p.Position.X -50;
             position.Y = p.Position.Y -50;
@@ -76,7 +76,7 @@ namespace PhantomProjects.Player_
                 currentAnim = shieldTexture;
                 Animate(gameTime);
 
-                CancelIncomingDamage();
+                CancelIncomingDamage(guiInfo, bossActive);
             }
         }
 
@@ -100,7 +100,7 @@ namespace PhantomProjects.Player_
             sourceRect = new Rectangle((Frames * 152), 0, 152, 150);
         }
 
-        void CancelIncomingDamage()
+        void CancelIncomingDamage(GUI guiInfo, bool bossActive)
         {
             foreach (BulletE B in BulletEManager.bulletEBeams)
             {
@@ -117,18 +117,21 @@ namespace PhantomProjects.Player_
                 }
             }
 
-            foreach (Fireball F in FireballManager.fireball)
+            if(bossActive == true)
             {
-                Rectangle fireballRectangle = new Rectangle(
-                                        (int)F.Position.X,
-                                        (int)F.Position.Y,
-                                        F.Width,
-                                        F.Height);
-
-                if (fireballRectangle.Intersects(rectangle))
+                foreach (Fireball F in FireballManager.fireball)
                 {
-                    F.damage = 0;
-                    F.Active = false;
+                    Rectangle fireballRectangle = new Rectangle(
+                                            (int)F.Position.X,
+                                            (int)F.Position.Y,
+                                            F.Width,
+                                            F.Height);
+
+                    if (fireballRectangle.Intersects(rectangle))
+                    {
+                        F.damage = 0;
+                        F.Active = false;
+                    }
                 }
             }
 

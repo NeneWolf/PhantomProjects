@@ -318,7 +318,7 @@ namespace PhantomProjects.States
             //Player
             player.Update(gameTime);
             pBullets.UpdateManagerBullet(gameTime, player,VFX, SND);
-            shield.Update(gameTime, player, guiInfo);
+            shield.Update(gameTime, player,false, guiInfo);
 
             // Enemies & their bullets
             EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);

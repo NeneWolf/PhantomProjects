@@ -269,7 +269,7 @@ namespace PhantomProjects.States
             //Player
             player.Update(gameTime);
             pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
-            shield.Update(gameTime, player, guiInfo);
+            shield.Update(gameTime, player,false, guiInfo);
 
             //Explotions
             VFX.UpdateExplosions(gameTime);
