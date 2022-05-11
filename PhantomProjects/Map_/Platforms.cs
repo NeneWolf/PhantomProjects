@@ -22,6 +22,7 @@ namespace PhantomProjects.Map_
         Vector2 currentPosition, destinePosition;
         float movingDistance;
 
+        bool Active;
         bool vertical;
 
         #endregion
@@ -35,7 +36,7 @@ namespace PhantomProjects.Map_
             get { return platformTexture.Height; }
         }
 
-        public void Initialize(Vector2 Position, ContentManager content, bool Horizontal, int MovingDistance)
+        public void Initialize(Vector2 Position, ContentManager content, bool Horizontal, int MovingDistance, bool active)
         {
             platformTexture = content.Load<Texture2D>("Menu\\Button");
 
@@ -43,6 +44,7 @@ namespace PhantomProjects.Map_
             currentPosition = position;
             vertical = Horizontal;
             movingDistance = MovingDistance;
+            Active = active;
 
             destinePosition.Y = position.Y - movingDistance;
             destinePosition.X = position.X + movingDistance;
@@ -50,10 +52,14 @@ namespace PhantomProjects.Map_
 
         public void Update(GameTime gameTime)
         {
-            position += velocity;
-            rectangle = new Rectangle((int)position.X, (int)position.Y, Width, Height);
-            PlatformMovement(gameTime);
+            if(Active == true)
+            {
+                position += velocity;
+                rectangle = new Rectangle((int)position.X, (int)position.Y, Width, Height);
+                PlatformMovement(gameTime);
+            }
         }
+        public bool UpdateStatus(bool activate) => Active = activate;
 
         void PlatformMovement(GameTime gameTime)
         {
@@ -61,22 +67,22 @@ namespace PhantomProjects.Map_
             {
                 if (currentPosition.Y == position.Y)
                 {
-                    velocity.Y -= 1f;
+                    velocity.Y -= 1.5f;
                 }
                 else if (position.Y <= destinePosition.Y)
                 {
-                    velocity.Y += 1f;
+                    velocity.Y += 1.5f;
                 }
             }
             else
             {
                 if (currentPosition.X == position.X)
                 {
-                    velocity.X += 1f;
+                    velocity.X += 1.5f;
                 }
                 else if (position.X >= destinePosition.X)
                 {
-                    velocity.X -= 1f;
+                    velocity.X -= 1.5f;
                 }
             }
         }
@@ -85,6 +91,8 @@ namespace PhantomProjects.Map_
         {
             return vertical;
         }
+
+        public bool IsActive() { return Active; }
 
         public void Draw(SpriteBatch spriteBatch)
         {

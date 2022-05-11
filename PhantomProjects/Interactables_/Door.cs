@@ -37,27 +37,17 @@ namespace PhantomProjects.Interactables_
             currentStatus = doorClose;
         }
 
-        public void Update(GameTime gameTime, Player p, GUI guiInfo)
+        public void Update(GameTime gameTime, Player p, GUI guiInfo, int AmountRequired)
         {
             if (Active == true)
             {
-                Rectangle playerRectangle = new Rectangle(
-                                        (int)p.Position.X,
-                                        (int)p.Position.Y,
-                                        50,
-                                        50);
+                Rectangle potionRectangle = new Rectangle((int)position.X,(int)position.Y,Width,Height);
 
-                Rectangle potionRectangle = new Rectangle(
-                                          (int)position.X,
-                                          (int)position.Y,
-                                          Width,
-                                          Height);
-
-                if (guiInfo.KEYS >=1)
+                if (guiInfo.KEYS == AmountRequired)
                 {
                     currentStatus = doorOpen;
 
-                    if (potionRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) ||
+                    if (potionRectangle.Intersects(p.RECTANGLE) && (Keyboard.GetState().IsKeyDown(Keys.F) ||
                         GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed))
                     {
                         canChangeScene = true;

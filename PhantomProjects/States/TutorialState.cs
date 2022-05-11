@@ -36,15 +36,14 @@ namespace PhantomProjects.States
 
         //----------------------------------------
         // Player
-        Player player;
+        Player player = new Player();
 
         //Shield
         Shield shield = new Shield();
 
         //-----------------------------------------
         //Interactables
-        Keycard keycard;
-        HealthPotion healthPotion;
+        ItemManager itemManager;
         Door door;
 
         //-----------------------------------------
@@ -137,13 +136,12 @@ namespace PhantomProjects.States
             // platforms 
 
             platformManage = new PlatformManager();
-            platformManage.CreatePlatforms(new Vector2(850, 880), content, true, 650);
+            platformManage.CreatePlatforms(new Vector2(850, 880), content, true, 650, true);
 
             #endregion
 
             #region Player
-            player = new Player();
-            player.Initialize(content, new Vector2(130,1100)); //130, 1100
+            player.Initialize(content, new Vector2(130, 1100)); //130, 1100
 
             //Player Bullets
             pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
@@ -187,11 +185,12 @@ namespace PhantomProjects.States
             #endregion
 
             #region Interactables
-            keycard = new Keycard();
-            keycard.Initialize(content, new Vector2(1728, 500));
+            itemManager = new ItemManager();
+            itemManager.SpawnKeyCard(content, new Vector2(1728, 500));
+            itemManager.SpawnKeyCard(content, new Vector2(1550, 190));
 
-            healthPotion = new HealthPotion();
-            healthPotion.Initialize(content, new Vector2(1472, 1170));
+            itemManager.SpawnPotion(content, new Vector2(1472, 1170));
+            itemManager.SpawnPotion(content, new Vector2(1300, 845));
 
             door = new Door();
             door.Initialize(content, new Vector2(1728,155));
@@ -213,7 +212,7 @@ namespace PhantomProjects.States
             #endregion
 
         }
-
+        
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
@@ -236,9 +235,7 @@ namespace PhantomProjects.States
             #endregion
 
             //Interactable
-            keycard.Draw(_spriteBatch);
-
-            healthPotion.Draw(_spriteBatch);
+            itemManager.DrawCollectibles(_spriteBatch);
 
             door.Draw(_spriteBatch);
 
@@ -311,12 +308,12 @@ namespace PhantomProjects.States
                 {
                     enemy.Collision(tile.Rectangle, map.Width, map.Height);
                 }
-                
+                BulletBeams.Collision(tile.Rectangle, map.Width, map.Height);
             }
             #endregion
             
             //Platforms
-            platformManage.UpdatePlatforms(gameTime, player);
+            platformManage.UpdatePlatforms(gameTime, player, true);
 
             //Player
             player.Update(gameTime);
@@ -329,9 +326,9 @@ namespace PhantomProjects.States
 
 
             //Interactables
-            keycard.Update(gameTime, player, guiInfo);
-            healthPotion.Update(gameTime, player);
-            door.Update(gameTime, player, guiInfo);
+            itemManager.UpdateKey(gameTime, player, guiInfo);
+            itemManager.UpdatePotion(gameTime, player, guiInfo);
+            door.Update(gameTime, player, guiInfo,2);
 
             //Explotions
             VFX.UpdateExplosions(gameTime);
@@ -347,18 +344,23 @@ namespace PhantomProjects.States
             // Clean Level and change to Game Over
             if (player.Active == false)
             {
-                EnemyA.CleanEnemies();
-                platformManage.CleanPlatforms();
+                CleanScene();
                 _game.GoToGameOver(true);
             }
 
             if(door.canChangeScene == true)
             {
-                EnemyA.CleanEnemies();
-                platformManage.CleanPlatforms();
+                CleanScene();
                 _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS);
                 _game.GoToLevelOne(door.canChangeScene);
             }
+        }
+
+        void CleanScene()
+        {
+            EnemyA.CleanEnemies();
+            itemManager.RemoveCollectibles();
+            platformManage.CleanPlatforms();
         }
     }
 }

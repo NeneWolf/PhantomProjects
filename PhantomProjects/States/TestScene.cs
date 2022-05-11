@@ -168,8 +168,8 @@ namespace PhantomProjects.States
             //
 
             platformManage = new PlatformManager();
-            platformManage.CreatePlatforms(new Vector2(200, 1100), content, true, 100);
-            platformManage.CreatePlatforms(new Vector2(600, 1100), content, false, 100);
+            platformManage.CreatePlatforms(new Vector2(200, 1100), content, true, 100, true);
+            platformManage.CreatePlatforms(new Vector2(600, 1100), content, false, 100, true);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -260,7 +260,7 @@ namespace PhantomProjects.States
             }
 
 
-            platformManage.UpdatePlatforms(gameTime,player);
+            platformManage.UpdatePlatforms(gameTime,player, true);
 
             #endregion
 

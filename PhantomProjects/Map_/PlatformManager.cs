@@ -34,22 +34,31 @@ namespace PhantomProjects.Map_
             }
         }
 
-        public void CreatePlatforms(Vector2 position, ContentManager content, bool Horizontal, int MovingDistance)
+        public void CreatePlatforms(Vector2 position, ContentManager content, bool Horizontal, int MovingDistance, bool turnOn)
         {
             Platforms platforms = new Platforms();
-            platforms.Initialize(position, content, Horizontal, MovingDistance);
+            platforms.Initialize(position, content, Horizontal, MovingDistance, turnOn);
             platform.Add(platforms);
         }
 
-        public void UpdatePlatforms(GameTime gameTime, Player player)
+        public void UpdatePlatforms(GameTime gameTime, Player player, bool activate)
         {
-            UpdateCollision(player);
-
-            for (int i = (platform.Count - 1); i >= 0; i--)
-            {
-                platform[i].Update(gameTime);
-            }
-
+           for (int i = (platform.Count - 1); i >= 0; i--)
+           {
+                if(platform[i].IsActive() == true)
+                {
+                    UpdateCollision(player);
+                    platform[i].UpdateStatus(true);
+                    platform[i].Update(gameTime);
+                }
+                
+                if(platform[i].IsActive() == false && activate == true)
+                {
+                    UpdateCollision(player);
+                    platform[i].UpdateStatus(true);
+                    platform[i].Update(gameTime);
+                }
+           }
         }
 
         public void CleanPlatforms()
