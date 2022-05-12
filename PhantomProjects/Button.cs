@@ -17,7 +17,7 @@ namespace PhantomProjects
         private SpriteFont _font;
         private bool _isHovering;
         private MouseState _previousMouse;
-        private Texture2D _texture;
+        public Texture2D _texture;
 
         public event EventHandler Click;
         public bool Clicked { get; private set; }
@@ -36,7 +36,7 @@ namespace PhantomProjects
         {
             _texture = texture;
             _font = font;
-            PenColour = Color.Black;
+            PenColour = Color.White;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

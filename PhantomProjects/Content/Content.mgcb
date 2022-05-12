@@ -109,6 +109,30 @@
 /processorParam:TextureFormat=Color
 /build:EnemyA/EnemyBullet.png
 
+#begin GUI/AbilityLocked.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/AbilityLocked.png
+
+#begin GUI/AbilityUnlocked.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/AbilityUnlocked.png
+
 #begin GUI/bloodEffect.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -194,6 +218,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:GUI/Potion.png
+
+#begin GUI/UpgradeArrowTest.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/UpgradeArrowTest.png
 
 #begin GUI/UpgradeCoin.png
 /importer:TextureImporter
@@ -327,6 +363,18 @@
 /processorParam:TextureFormat=Color
 /build:Menu/button.png
 
+#begin Menu/CharacterUpgrades.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Menu/CharacterUpgrades.png
+
 #begin Menu/GameComplete.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -363,6 +411,18 @@
 /processorParam:TextureFormat=Color
 /build:Menu/GameOver.png
 
+#begin Menu/GamePaused.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Menu/GamePaused.png
+
 #begin menuBackground.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -374,6 +434,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:menuBackground.png
+
+#begin PauseBackground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PauseBackground.png
 
 #begin Player/MaleLeftIdle.png
 /importer:TextureImporter

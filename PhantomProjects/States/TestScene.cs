@@ -12,6 +12,7 @@ using PhantomProjects.Interactables_;
 using PhantomProjects.Enemy_;
 using PhantomProjects.Explosion_;
 using PhantomProjects.Map_;
+using PhantomProjects.Menus_;
 
 namespace PhantomProjects.States
 {
@@ -72,6 +73,16 @@ namespace PhantomProjects.States
         private SoundEffect bloodSound;
         Sounds SND = new Sounds();
 
+        //
+        PauseMenu pauseMenu = new PauseMenu();
+        UpgradeMenu upgradeMenu = new UpgradeMenu();
+        private List<Component> _components;
+        //
+
+        // Gamepad states used to determine button presses
+        GamePadState currentGamePadState;
+        GamePadState previousGamePadState;
+
         #endregion
 
         public TestScene(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
@@ -82,6 +93,8 @@ namespace PhantomProjects.States
 
             // Set Map & Player
             map = new Map();
+            pauseMenu.Initialize(graphicsDevice, content, _game);
+            //upgradeMenu.Initialize(graphicsDevice, content, _game, shield, pBullets);
 
             //Tiles / Map / Camera
             Tiles.Content = content;
@@ -127,9 +140,8 @@ namespace PhantomProjects.States
             pBullets.Initialize(pBulletTexture);
 
             //Shield
-            shield.Initialize(content);
+            shield.Initialize(content, 20, 5);
             #endregion
-
 
             #region Explosives
             // EXPLOSSIONS
@@ -148,10 +160,28 @@ namespace PhantomProjects.States
             pointsGUI = content.Load<Texture2D>("GUI\\UpgradeCoin");
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
-            guiInfo.Initialize(0, 0, 0); // Set GUI with keys, upgrade points, shieldTimer
+            guiInfo.Initialize(0, 999999, 0, 9); // Set GUI with keys, upgrade points, shieldTimer
 
             #endregion
 
+            #region UpgradePoint
+            var buttonTexture = content.Load<Texture2D>("GUI\\UpgradeArrowTest");
+            var buttonFont = content.Load<SpriteFont>("GUI\\MenuFont");
+
+            var upgradebutton = new Button(buttonTexture, buttonFont)
+            {
+                Position = new Vector2(0, 580),
+                Text = "",
+            };
+
+            upgradebutton.Click += UpgradePauseMenu_Click;
+
+            _components = new List<Component>()
+                {
+                upgradebutton,
+            };
+
+            #endregion
 
             #region Game Sounds
             ////Sounds
@@ -163,13 +193,15 @@ namespace PhantomProjects.States
 
             #endregion
 
-
-
-            //
+            #region Platforms
+            //Platforms
 
             platformManage = new PlatformManager();
             platformManage.CreatePlatforms(new Vector2(200, 1100), content, true, 100, true);
             platformManage.CreatePlatforms(new Vector2(600, 1100), content, false, 100, true);
+            #endregion
+
+
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -207,8 +239,13 @@ namespace PhantomProjects.States
 
             _spriteBatch.End();
 
+
+
+
+
             // Static GUI
             _spriteBatch.Begin();
+
             _spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
 
             /////Upgrade points
@@ -219,15 +256,38 @@ namespace PhantomProjects.States
             _spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
             _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.White);
 
+
+            foreach (var component in _components)
+                component.Draw(gameTime, _spriteBatch);
+
+            //Shield Timer
+            _spriteBatch.Draw(shieldTimer, new Vector2(1000, 600), Color.White);
+
+
             if (shield.Active == true)
             {
-                /////ShieldTimer
-                _spriteBatch.Draw(shieldTimer, new Vector2(1155, 600), Color.White);
-                _spriteBatch.DrawString(guiFont, "Timer: " + guiInfo.SHIELDTIMER, new Vector2(1185, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Timer: " + guiInfo.SHIELDTIMER, new Vector2(1000, 610), Color.White);
+            }
+            else
+            {
+                _spriteBatch.DrawString(guiFont, "Cooldown: " + guiInfo.SHIELDCOOLDOWN, new Vector2(1000, 610), Color.White);
             }
 
             ////HealthGUI
             _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20), healthRectangle, Color.White);
+
+            upgradeMenu.Draw(gameTime, _spriteBatch);
+
+            _spriteBatch.End();
+
+
+
+
+
+
+            _spriteBatch.Begin();
+
+            pauseMenu.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.End();
 
@@ -240,40 +300,63 @@ namespace PhantomProjects.States
 
         public override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                _game.Exit();
+            pauseMenu.Update(gameTime);
+            upgradeMenu.Update(gameTime, guiInfo);
 
-            //Map
-            #region MapCollision
-            foreach (CollisionTiles tile in map.CollisionTiles)
+            foreach (var component in _components)
+                component.Update(gameTime);
+
+
+            previousGamePadState = currentGamePadState;
+            currentGamePadState = GamePad.GetState(PlayerIndex.One);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
             {
-                player.Collision(tile.Rectangle, map.Width, map.Height);
-                pBullets.Collision(tile.Rectangle, map.Width, map.Height);
+                pauseMenu.setPauseMenu(true);
+            }
 
-                camera.Update(player.Position, map.Width, map.Height);
+            if (pauseMenu.IsPaused() == false && upgradeMenu.IsUpgradePause() == false)
+            {
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    _game.Exit();
 
-                foreach (EnemyA enemy in EnemyManager.enemyType1)
+                //Map
+                #region MapCollision
+                foreach (CollisionTiles tile in map.CollisionTiles)
                 {
-                    enemy.Collision(tile.Rectangle, map.Width, map.Height);
+                    player.Collision(tile.Rectangle, map.Width, map.Height);
+                    pBullets.Collision(tile.Rectangle, map.Width, map.Height);
+
+                    camera.Update(player.Position, map.Width, map.Height);
+
+                    foreach (EnemyA enemy in EnemyManager.enemyType1)
+                    {
+                        enemy.Collision(tile.Rectangle, map.Width, map.Height);
+                    }
                 }
+
+
+                platformManage.UpdatePlatforms(gameTime, player, true);
+
+                #endregion
+
+                healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
+
+                //Player
+                player.Update(gameTime);
+                pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
+                shield.Update(gameTime, player, false, guiInfo);
+
+                //Explotions
+                VFX.UpdateExplosions(gameTime);
 
             }
 
+        }
 
-            platformManage.UpdatePlatforms(gameTime,player, true);
-
-            #endregion
-
-            healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
-
-            //Player
-            player.Update(gameTime);
-            pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
-            shield.Update(gameTime, player,false, guiInfo);
-
-            //Explotions
-            VFX.UpdateExplosions(gameTime);
-
+        private void UpgradePauseMenu_Click(object sender, EventArgs e)
+        {
+            upgradeMenu.setUpgradePauseMenu(true);
         }
     }
 }
