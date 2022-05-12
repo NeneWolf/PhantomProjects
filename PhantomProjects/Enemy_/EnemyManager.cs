@@ -51,11 +51,8 @@ namespace PhantomProjects.Enemy_
                     player.Health -= enemyType1[i].Damage;
                     player.BarHealth -= 15;
 
-                    //Since the enemy collided with the player destroy it
-                    enemyType1[i].Health -= 10;
-
-                    //Add the Explossion in the enemy location
-                    VFX.AddExplosion(enemyType1[i].LocationEnemy, SND);
+                    ////Since the enemy collided with the player destroy it
+                    //enemyType1[i].Health -= 10;
 
                     //if the player health is less than zero then player must be destroyed
                     if (player.Health <= 0)
@@ -91,6 +88,8 @@ namespace PhantomProjects.Enemy_
 
                 if (enemyType1[i].Active == false)
                 {
+                    //Add the Explossion in the enemy location
+                    VFX.AddExplosion(enemyType1[i].LocationEnemy, SND);
                     guiInfo.UPGRADEPOINTS += 50;
                     enemyType1.RemoveAt(i);
                 }

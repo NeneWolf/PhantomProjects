@@ -24,13 +24,12 @@ namespace PhantomProjects.Explosion_
             explosions = new List<Explosion>();
             explosionTexture = texture;
         }
-        public void AddExplosion(Vector2 enemyPosition, Sounds SND)
+        public void AddExplosion(Vector2 targetPosition, Sounds SND)
         {
             Animation explosionAnimation = new Animation();
 
-            explosionAnimation.Initialize(
-                explosionTexture,
-                enemyPosition,
+            explosionAnimation.Initialize(explosionTexture, 
+                targetPosition,
                 100,
                 100,
                 10,
@@ -40,7 +39,7 @@ namespace PhantomProjects.Explosion_
                 true);
 
             Explosion explosion = new Explosion();
-            explosion.Initialize(explosionAnimation, enemyPosition);
+            explosion.Initialize(explosionAnimation, targetPosition);
 
             explosions.Add(explosion);
             SND.BLOOD.Play();

@@ -219,6 +219,13 @@
 /processorParam:TextureFormat=Color
 /build:GUI/Pixilart_Sprite_Sheet_4.png
 
+#begin GUI/PixType.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:GUI/PixType.spritefont
+
 #begin GUI/PlayerHealthBar.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -315,6 +322,30 @@
 /processorParam:TextureFormat=Color
 /build:GUI/UpgradeCoin.png
 
+#begin GUI/WeaponDMGLocked.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/WeaponDMGLocked.png
+
+#begin GUI/WeaponDMGUpgrade.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/WeaponDMGUpgrade.png
+
 #begin Logos/Future App-logos_white.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -339,7 +370,7 @@
 /processorParam:TextureFormat=Color
 /build:Logos/Phantom Projects-logos_white.png
 
-#begin Map/ClosedDoor.png
+#begin Map/CloseDoor.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -349,7 +380,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Map/ClosedDoor.png
+/build:Map/CloseDoor.png
+
+#begin Map/DoorAnim.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/DoorAnim.png
 
 #begin Map/OpenDoor.png
 /importer:TextureImporter
@@ -362,6 +405,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Map/OpenDoor.png
+
+#begin Map/Platform.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/Platform.png
 
 #begin Map/Tile1.png
 /importer:TextureImporter
@@ -663,6 +718,18 @@
 /processorParam:TextureFormat=Color
 /build:Player/FemalePlayerSelected.png
 
+#begin Player/FemaleProfile.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Player/FemaleProfile.png
+
 #begin Player/FemaleRightIdle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -734,6 +801,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/MalePlayerSelected.png
+
+#begin Player/MaleProfile.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Player/MaleProfile.png
 
 #begin Player/MaleRightIdle.png
 /importer:TextureImporter

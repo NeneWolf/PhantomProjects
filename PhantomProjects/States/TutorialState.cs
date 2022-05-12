@@ -38,6 +38,7 @@ namespace PhantomProjects.States
         //----------------------------------------
         // Player
         Player player = new Player();
+        Texture2D profileF, profileM;
 
         //Shield
         Shield shield = new Shield();
@@ -69,7 +70,7 @@ namespace PhantomProjects.States
         ExplosionManager VFX = new ExplosionManager();
 
         // G.U.I Details
-        SpriteFont guiFont;
+        SpriteFont guiFont, guiFont2;
         Texture2D legand, shieldTimer;
         Texture2D keysGUI, pointsGUI;
         GUI guiInfo = new GUI();
@@ -108,7 +109,7 @@ namespace PhantomProjects.States
             // Set Map & Player
             map = new Map();
             pauseMenu.Initialize(graphicsDevice, content, _game);
-            upgradeMenu.Initialize(graphicsDevice, content, _game, shield, pBullets, true, true);
+            upgradeMenu.Initialize(graphicsDevice, content, _game, shield, pBullets, true, true, true);
 
             //Tiles / Map / Camera
             Tiles.Content = content;
@@ -149,6 +150,8 @@ namespace PhantomProjects.States
             #endregion
 
             #region Player
+            profileF = content.Load<Texture2D>("Player\\FemaleProfile");
+            profileM = content.Load<Texture2D>("Player\\MaleProfile");
             player.Initialize(content, new Vector2(130, 1100),_game.ReturnPlayerSelected()); //130, 1100
 
             //Player Bullets
@@ -157,6 +160,8 @@ namespace PhantomProjects.States
 
             //Shield
             shield.Initialize(content);
+            
+
             #endregion
 
             #region Basic Enemy
@@ -179,7 +184,8 @@ namespace PhantomProjects.States
 
             #region GUI 
             //FONTS
-            guiFont = content.Load<SpriteFont>("GUI\\GUIFont");
+            guiFont = content.Load<SpriteFont>("GUI\\PixType");
+            guiFont2 = content.Load<SpriteFont>("GUI\\GUIFont");
 
             // GUI
             legand = content.Load<Texture2D>("GUI\\legand");
@@ -188,7 +194,7 @@ namespace PhantomProjects.States
             pointsGUI = content.Load<Texture2D>("GUI\\UpgradeCoin");
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
-            guiInfo.Initialize(0, 1000, 0 ,0); // Set GUI with keys, upgrade points, shieldTimer
+            guiInfo.Initialize(0, 0, 0 ,0); // Set GUI with keys, upgrade points, shieldTimer
 
 
             #region UpgradePoint
@@ -216,11 +222,11 @@ namespace PhantomProjects.States
             itemManager.SpawnKeyCard(content, new Vector2(1728, 500));
             itemManager.SpawnKeyCard(content, new Vector2(1550, 190));
 
-            itemManager.SpawnPotion(content, new Vector2(1472, 1170));
-            itemManager.SpawnPotion(content, new Vector2(1300, 845));
+            itemManager.SpawnPotion(content, new Vector2(1472, 1165));
+            itemManager.SpawnPotion(content, new Vector2(1300, 835));
 
             door = new Door();
-            door.Initialize(content, new Vector2(1728,155));
+            door.Initialize(content, new Vector2(1600, -40));
             #endregion
 
             #region Game Sounds
@@ -293,35 +299,46 @@ namespace PhantomProjects.States
 
             // Static GUI
             _spriteBatch.Begin();
-            _spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
+            _spriteBatch.Draw(legand, new Rectangle(0, 0, 320, 100), Color.White);
+
+            //
+            if (_game.ReturnPlayerSelected() == 0)
+            {
+                _spriteBatch.Draw(profileF, new Vector2(0,0), Color.White);
+                
+            }
+            else
+                _spriteBatch.Draw(profileM, new Vector2(0, 0), Color.White);
+
+            ////HealthGUI
+            _spriteBatch.Draw(healthBarGUI, new Vector2(100, 10), healthRectangle, Color.White);
 
             /////Upgrade points
-            _spriteBatch.Draw(pointsGUI, new Vector2(925, 20), Color.White);
-            _spriteBatch.DrawString(guiFont, "" + guiInfo.UPGRADEPOINTS, new Vector2(985, 38), Color.White);
+            _spriteBatch.Draw(pointsGUI, new Vector2(100, 40), Color.White);
+            _spriteBatch.DrawString(guiFont, "" + guiInfo.UPGRADEPOINTS, new Vector2(150, 60), Color.White);
 
             /////keysGUI
-            _spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
-            _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.White);
+            _spriteBatch.Draw(keysGUI, new Vector2(200, 40), Color.White);
+            _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(250, 60), Color.White);
 
 
             foreach (var component in _components)
                 component.Draw(gameTime, _spriteBatch);
 
             //Shield Timer
-            _spriteBatch.Draw(shieldTimer, new Vector2(1140, 600), Color.White);
+            _spriteBatch.Draw(shieldTimer, new Vector2(1155, 600), Color.White);
 
 
             if (shield.Active == true)
             {
-                _spriteBatch.DrawString(guiFont, "Duration: " + guiInfo.SHIELDTIMER, new Vector2(1165, 610), Color.White);
+                _spriteBatch.DrawString(guiFont2, "Duration:" + guiInfo.SHIELDTIMER, new Vector2(1165, 610), Color.White);
             }
             else
             {
-                _spriteBatch.DrawString(guiFont, "Cooldown: " + guiInfo.SHIELDCOOLDOWN, new Vector2(1165, 610), Color.White);
+                _spriteBatch.DrawString(guiFont2, "Cooldown:" + guiInfo.SHIELDCOOLDOWN, new Vector2(1165, 610), Color.White);
             }
 
-            ////HealthGUI
-            _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20), healthRectangle, Color.White);
+
 
             upgradeMenu.Draw(gameTime, _spriteBatch);
 
@@ -388,7 +405,7 @@ namespace PhantomProjects.States
 
                 //Player
                 player.Update(gameTime);
-                pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
+                pBullets.UpdateManagerBullet(gameTime, player, VFX, SND,upgradeMenu);
                 shield.Update(gameTime, player, false, guiInfo);
 
                 // Enemies & their bullets
@@ -431,8 +448,10 @@ namespace PhantomProjects.States
                 var SRD = shield.ReturnD();
                 var UMSRC = upgradeMenu.ReturnSC();
                 var UMSRD = upgradeMenu.ReturnSD();
+                var UMDamage = upgradeMenu.ReturnDMG();
+
                 CleanScene();
-                _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS, SRC, SRD, UMSRC, UMSRD);
+                _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS, SRC, SRD, UMSRC, UMSRD, UMDamage);
                 _game.GoToLevelOne(door.canChangeScene);
             }
         }
