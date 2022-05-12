@@ -11,43 +11,66 @@ namespace PhantomProjects.Interactables_
 {
     class Door
     {
-        Texture2D doorOpen, doorClose, currentStatus;
+        public Animation doorAnimation;
+        Texture2D OpenDoor, CloseDoor, OpenPDoor,  currentStatus;
         Vector2 position;
+
+        bool canOpenDoor = true;
+
+        float elapsed;
+        float delay = 120f;
+        int Frames = 0;
+        public Rectangle doorRectangle, sourceRect;
+
         public bool Active, canChangeScene;
 
         public int Width
         {
-            get { return doorOpen.Width; }
+            get { return CloseDoor.Width; }
         }
 
         public int Height
         {
-            get { return doorOpen.Height; }
+            get { return CloseDoor.Height; }
         }
 
         public void Initialize(ContentManager Content, Vector2 pos)
         {
-            doorOpen = Content.Load<Texture2D>("Map\\OpenDoor");
-            doorClose = Content.Load<Texture2D>("Map\\ClosedDoor");
+            CloseDoor = Content.Load<Texture2D>("Map\\CloseDoor");
+            OpenDoor = Content.Load<Texture2D>("Map\\DoorAnim");
+            OpenPDoor = Content.Load<Texture2D>("Map\\OpenDoor");
+
             canChangeScene = false;
             Active = true;
             position = pos;
 
+            doorAnimation = new Animation();
+            currentStatus = CloseDoor;
 
-            currentStatus = doorClose;
         }
 
         public void Update(GameTime gameTime, Player p, GUI guiInfo, int AmountRequired)
         {
             if (Active == true)
             {
-                Rectangle potionRectangle = new Rectangle((int)position.X,(int)position.Y,Width,Height);
+                doorAnimation.Update(gameTime);
+
+                doorRectangle = new Rectangle((int)position.X, (int)position.Y, Width, Height);
 
                 if (guiInfo.KEYS == AmountRequired)
                 {
-                    currentStatus = doorOpen;
+                     if (canOpenDoor == true)
+                    {
+                        currentStatus = OpenDoor;
+                        Animate(gameTime);
+                    }
+                    else
+                    {
+                        currentStatus = OpenPDoor;
+                    }
 
-                    if (potionRectangle.Intersects(p.RECTANGLE) && (Keyboard.GetState().IsKeyDown(Keys.F) ||
+
+                    if (doorRectangle.Intersects(p.RECTANGLE) && (Keyboard.GetState().IsKeyDown(Keys.F) ||
                         GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed))
                     {
                         canChangeScene = true;
@@ -56,14 +79,40 @@ namespace PhantomProjects.Interactables_
             }
         }
 
-        public bool ReturnChangeSCene()
+        public bool ReturnChangeScene()
         {
             return canChangeScene;
         }
 
+        void Animate(GameTime gameTime)
+        {
+            elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (elapsed >= delay)
+            {
+                if (Frames >= 7)
+                {
+                    Frames = 0;
+                    canOpenDoor = false;
+                }
+                else
+                {
+                    Frames++;
+                }
+                elapsed = 0;
+            }
+
+            sourceRect = new Rectangle((Frames * 300), 0, 300, 300);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(currentStatus, position, Color.White);
+            if (currentStatus == OpenPDoor || currentStatus == CloseDoor)
+            {
+                spriteBatch.Draw(currentStatus, doorRectangle, Color.White);
+
+            }else 
+                spriteBatch.Draw(currentStatus, doorRectangle, sourceRect, Color.White);
         }
     }
 }

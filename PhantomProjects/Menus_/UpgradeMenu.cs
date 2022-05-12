@@ -21,9 +21,13 @@ namespace PhantomProjects.Menus_
 
         //Static background
         Texture2D mainBackground, upgradeLogo;
-        Texture2D shieldCooldownUpgrade, shieldDurationUpgrade, weaponDamageUpgrade, locked;
-        bool canshieldCooldownUpgrade, canshieldDurationUpgrade;
+        Texture2D shieldCooldownUpgrade, shieldDurationUpgrade;
         Texture2D shieldCooldownlocked, shieldDurationlocked, continueButton;
+        Texture2D weaponDamageUpgrade, weaponDamagelocked;
+
+        bool canshieldCooldownUpgrade, canshieldDurationUpgrade, canWeaponDamageUpgrade;
+
+
         SpriteFont buttonFont;
 
         Button continuegameButton, upgradeShieldDurationButton, upgradeShieldCooldownButton, upgradeWeaponDamageButton;
@@ -33,10 +37,11 @@ namespace PhantomProjects.Menus_
         private List<Component> _components;
 
         bool upgradePause = false;
+        public bool DamageUpgraded = false;
         public bool DurationUpgraded = false;
         public bool CooldownUpgraded = false;
 
-        public void Initialize(GraphicsDevice graphicsDevice, ContentManager content, Game1 Game, Shield Shield, BulletManager pbullets, bool canUpSC, bool canUpSD)
+        public void Initialize(GraphicsDevice graphicsDevice, ContentManager content, Game1 Game, Shield Shield, BulletManager pbullets, bool canUpSC, bool canUpSD, bool canUpDmg)
         {
             _game = Game;
             _graphicsDevice = graphicsDevice;
@@ -44,28 +49,39 @@ namespace PhantomProjects.Menus_
             shield = Shield;
             Pbullets = pbullets;
 
+            DamageUpgraded = canUpDmg;
+
             canshieldCooldownUpgrade = canUpSC;
             canshieldDurationUpgrade = canUpSD;
+            canWeaponDamageUpgrade = canUpDmg;
 
             mainBackground = content.Load<Texture2D>("PauseBackground");
             upgradeLogo = content.Load<Texture2D>("Menu\\CharacterUpgrades"); // To be changed
 
             //Abilities
             shieldCooldownUpgrade = content.Load<Texture2D>("GUI\\ShieldCooldownUp");
-            shieldDurationUpgrade = content.Load<Texture2D>("GUI\\ShieldDurationUp");
-
-
-            //weaponDamageUpgrade = content.Load<Texture2D>("GUI\\AbilityUnlocked");
             shieldCooldownlocked = content.Load<Texture2D>("GUI\\ShieldCooldownLocked");
+
+            shieldDurationUpgrade = content.Load<Texture2D>("GUI\\ShieldDurationUp");
             shieldDurationlocked = content.Load<Texture2D>("GUI\\ShieldDurationLocked");
+
+            weaponDamageUpgrade = content.Load<Texture2D>("GUI\\WeaponDMGUpgrade");
+            weaponDamagelocked = content.Load<Texture2D>("GUI\\WeaponDMGLocked");
 
 
             continueButton = content.Load<Texture2D>("Menu\\Continue");
             buttonFont = content.Load<SpriteFont>("GUI\\MenuFont");
 
+            upgradeWeaponDamageButton = new Button(weaponDamagelocked, buttonFont)
+            {
+                Position = new Vector2(440, 280),
+                Text = "",
+            };
+            upgradeWeaponDamageButton.Click += UpgradeWeaponDamageGame_Click;
+
             upgradeShieldDurationButton = new Button(shieldDurationlocked, buttonFont)
             {
-                Position = new Vector2(540, 380),
+                Position = new Vector2(600, 280),
                 Text = "",
             };
 
@@ -78,7 +94,7 @@ namespace PhantomProjects.Menus_
 
             upgradeShieldCooldownButton = new Button(shieldCooldownlocked, buttonFont)
             {
-                Position = new Vector2(700, 380),
+                Position = new Vector2(760, 280),
                 Text = "",
             };
 
@@ -87,12 +103,7 @@ namespace PhantomProjects.Menus_
 
             upgradeShieldCooldownButton.Click += upgradeShieldCooldownButton_Click;
 
-            //upgradeWeaponDamageButton = new Button(locked, buttonFont)
-            //{
-            //    Position = new Vector2(690, 380),
-            //    Text = "",
-            //};
-            //upgradeWeaponDamageButton.Click += UpgradeWeaponDamageGame_Click;
+
 
 
             //
@@ -107,8 +118,8 @@ namespace PhantomProjects.Menus_
                 {
                 continuegameButton,
                 upgradeShieldDurationButton,
-                upgradeShieldCooldownButton
-                //upgradeWeaponDamageButton
+                upgradeShieldCooldownButton,
+                upgradeWeaponDamageButton
                 };
 
         }
@@ -127,6 +138,17 @@ namespace PhantomProjects.Menus_
 
         public bool setUpgradePauseMenu(bool pauseUpgrade) => upgradePause = pauseUpgrade;
 
+        private void UpgradeWeaponDamageGame_Click(object sender, EventArgs e)
+        {
+            if (canWeaponDamageUpgrade = true && guiInfo.UPGRADEPOINTS > 300 && upgradeWeaponDamageButton._texture == weaponDamagelocked)
+            {
+                upgradeWeaponDamageButton._texture = weaponDamageUpgrade;
+                guiInfo.UPGRADEPOINTS -= 300;
+                canWeaponDamageUpgrade = false;
+                DamageUpgraded = true;
+            }
+        }
+        
         private void upgradeShieldDurationButton_Click(object sender, EventArgs e)
         {
             if (canshieldDurationUpgrade == true && guiInfo.UPGRADEPOINTS > 100 && upgradeShieldDurationButton._texture == shieldDurationlocked)
@@ -151,15 +173,7 @@ namespace PhantomProjects.Menus_
             }
         }
 
-        //private void UpgradeWeaponDamageGame_Click(object sender, EventArgs e)
-        //{
-        //    if (guiInfo.UPGRADEPOINTS > 300 && upgradeWeaponDamageButton._texture == locked)
-        //    {
-        //        upgradeWeaponDamageButton._texture = weaponDamageUpgrade;
-        //        guiInfo.UPGRADEPOINTS -= 300;
-        //        Pbullets.ChangeBulletDamage(100);
-        //    }
-        //}
+
 
         private void UpgradeUnPauseGame_Click(object sender, EventArgs e)
         {
@@ -168,6 +182,8 @@ namespace PhantomProjects.Menus_
 
         public bool ReturnSC() { return canshieldCooldownUpgrade; }
         public bool ReturnSD() { return canshieldDurationUpgrade; }
+        public bool ReturnDMG() { return canWeaponDamageUpgrade; }
+
 
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

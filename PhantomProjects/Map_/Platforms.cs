@@ -38,7 +38,7 @@ namespace PhantomProjects.Map_
 
         public void Initialize(Vector2 Position, ContentManager content, bool Horizontal, int MovingDistance, bool active)
         {
-            platformTexture = content.Load<Texture2D>("Menu\\Button");
+            platformTexture = content.Load<Texture2D>("Map\\Platform");
 
             position = Position;
             currentPosition = position;

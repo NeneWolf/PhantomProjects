@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using PhantomProjects.Menus_;
 
 namespace PhantomProjects.Player_
 {
@@ -14,6 +15,7 @@ namespace PhantomProjects.Player_
         float bulletMoveSpeed;
         public Vector2 Position;
         public int Damage = 10;
+        public int DMGUpgrade = 20;
         public bool Active;
         #endregion
 
@@ -27,11 +29,16 @@ namespace PhantomProjects.Player_
             get { return BulletAnimation.FrameHeight; }
         }
 
-        public void Initialize(Animation animation, Vector2 position, Player p)
+        public void Initialize(Animation animation, Vector2 position, Player p, UpgradeMenu upgrade)
         {
             BulletAnimation = animation;
             Position = position;
             Active = true;
+
+            if (!upgrade.ReturnDMG())
+            {
+                Damage += DMGUpgrade;
+            }
 
             if (p.currentAnim == p.playerRight || p.currentAnim == p.idleRight)
             {
@@ -47,8 +54,7 @@ namespace PhantomProjects.Player_
             BulletAnimation.Update(gameTime);
         }
 
-
-        //public int DamageReturn() { return Damage; }
+        public int DamageReturn() { return Damage; }
         
         public void Draw(SpriteBatch spriteBatch)
         {

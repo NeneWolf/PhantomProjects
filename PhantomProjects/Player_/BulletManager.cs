@@ -8,6 +8,7 @@ using PhantomProjects.Boss_;
 using PhantomProjects.Enemy_;
 using PhantomProjects.Explosion_;
 using PhantomProjects.Map_;
+using PhantomProjects.Menus_;
 
 namespace PhantomProjects.Player_
 {
@@ -33,17 +34,17 @@ namespace PhantomProjects.Player_
             bulletTexture = texture;
         }
 
-        private static void FireBullet(GameTime gameTime, Player p, Sounds SND)
+        private static void FireBullet(GameTime gameTime, Player p, Sounds SND, UpgradeMenu upgrade)
         {
             if (gameTime.TotalGameTime - previousBulletSpawnTime > bulletSpawnTime)
             {
                 previousBulletSpawnTime = gameTime.TotalGameTime;
-                AddBullet(p);
+                AddBullet(p, upgrade);
                 SND.BULLET.Play();
             }
         }
 
-        private static void AddBullet(Player p)
+        private static void AddBullet(Player p, UpgradeMenu upgrade)
         {
             Animation bulletAnimation = new Animation();
             bulletAnimation.Initialize(bulletTexture, p.Position, 46, 16, 1, 30, Color.White, 1f, true);
@@ -62,15 +63,15 @@ namespace PhantomProjects.Player_
                 bulletPosition.X -= 25;
             }
 
-            bullet.Initialize(bulletAnimation, bulletPosition, p);
+            bullet.Initialize(bulletAnimation, bulletPosition, p, upgrade);
             bullets.Add(bullet);
         }
 
-        public void UpdateManagerBullet(GameTime gameTime, Player p, ExplosionManager VFX, Sounds SND)
+        public void UpdateManagerBullet(GameTime gameTime, Player p, ExplosionManager VFX, Sounds SND, UpgradeMenu upgrade)
         {
              if (Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed )
             {
-                FireBullet(gameTime, p, SND);
+                FireBullet(gameTime, p, SND, upgrade);
             }
 
             for (var i = 0; i < bullets.Count; i++)
@@ -98,7 +99,7 @@ namespace PhantomProjects.Player_
                     if (bulletRectangle.Intersects(e.rectangle))
                     {
                         // Show the explosion where the player was.
-                        VFX.AddExplosion(B.Position, SND);
+                        VFX.AddExplosion(new Vector2(B.Position.X + 20, B.Position.Y -20), SND);
 
                         e.Health -= B.Damage;
                         B.Active = false;
