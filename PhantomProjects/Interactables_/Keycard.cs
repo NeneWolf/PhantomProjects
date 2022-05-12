@@ -12,51 +12,50 @@ namespace PhantomProjects.Interactables_
     class Keycard
     {
         #region Definitions
-        Texture2D keyCardTexture;
+        public Animation keycardAnimation;
+        Texture2D keycardTexture;
+        public Rectangle sourceRect;
         Vector2 position;
         public bool Active;
 
-
-        // Gamepad states used to determine button presses
-        GamePadState currentGamePadState;
-        GamePadState previousGamePadState;
-
+        float elapsed;
+        float delay = 60f;
+        int Frames = 0;
         #endregion
 
         public int Width
         {
-            get { return keyCardTexture.Width; }
+            get { return keycardAnimation.FrameWidth; }
         }
 
         public int Height
         {
-            get { return keyCardTexture.Height; }
+            get { return keycardAnimation.FrameHeight; }
         }
 
         public void Initialize(ContentManager Content, Vector2 pos)
         {
-            keyCardTexture = Content.Load<Texture2D>("GUI\\key");
+            keycardTexture = Content.Load<Texture2D>("GUI\\KeyCard");
             Active = true;
             position = pos;
+
+            keycardAnimation = new Animation();
         }
 
         public void Update(GameTime gameTime, Player p, GUI guiInfo)
         {
-            if(Active == true)
+            if (Active == true)
             {
-                Rectangle playerRectangle = new Rectangle(
-                            (int)p.Position.X,
-                            (int)p.Position.Y,
-                            50,
-                            50);
+                keycardAnimation.Update(gameTime);
+                Animate(gameTime);
 
                 Rectangle cardRectangle = new Rectangle(
                                           (int)position.X,
                                           (int)position.Y,
-                                          Width,
-                                          Height);
+                                          Width + 50,
+                                          Height + 50);
 
-                if (cardRectangle.Intersects(playerRectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) || 
+                if (cardRectangle.Intersects(p.rectangle) && (Keyboard.GetState().IsKeyDown(Keys.F) ||
                     GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed))
                 {
                     Active = false;
@@ -65,11 +64,31 @@ namespace PhantomProjects.Interactables_
             }
         }
 
+        void Animate(GameTime gameTime)
+        {
+            elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (elapsed >= delay)
+            {
+                if (Frames >= 17)
+                {
+                    Frames = 0;
+                }
+                else
+                {
+                    Frames++;
+                }
+                elapsed = 0;
+            }
+
+            sourceRect = new Rectangle((Frames * 70), 0, 70, 70);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             if (Active == true)
             {
-                spriteBatch.Draw(keyCardTexture, position, Color.White);
+                spriteBatch.Draw(keycardTexture, position, sourceRect, Color.White);
             }
         }
     }
