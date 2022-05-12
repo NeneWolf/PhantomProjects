@@ -12,6 +12,7 @@ using PhantomProjects.Interactables_;
 using PhantomProjects.Enemy_;
 using PhantomProjects.Explosion_;
 using PhantomProjects.Map_;
+using PhantomProjects.Menus_;
 
 namespace PhantomProjects.States
 {
@@ -36,7 +37,8 @@ namespace PhantomProjects.States
         //----------------------------------------
         // Player
         Player player = new Player();
-        int playerHealth, playerBarHealth, playerUpgradePoints;
+        int playerHealth, playerBarHealth, playerUpgradePoints, shieldCooldownN, shieldDurationN;
+        bool canShieldD, canShieldC;
 
         //Shield
         Shield shield = new Shield();
@@ -89,6 +91,11 @@ namespace PhantomProjects.States
         private Song gameMusic;
         Sounds SND = new Sounds();
 
+        //Pause & Upgrade Menu 
+        PauseMenu pauseMenu = new PauseMenu();
+        UpgradeMenu upgradeMenu = new UpgradeMenu();
+        private List<Component> _components;
+
         #endregion
 
         public GameLevel1(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
@@ -99,6 +106,10 @@ namespace PhantomProjects.States
 
             // Set Map & Player
             map = new Map();
+
+            ReturnStoreData();
+            pauseMenu.Initialize(graphicsDevice, content, _game);
+            upgradeMenu.Initialize(graphicsDevice, content, _game, shield, pBullets,canShieldC,canShieldD);
 
             //Tiles / Map / Camera
             Tiles.Content = content;
@@ -156,7 +167,6 @@ namespace PhantomProjects.States
             #endregion
 
             #region Player
-            ReturnStoreData();
             player.Initialize(content, new Vector2(130, 1728)); //130,1728
 
             //Reset to the previous level values
@@ -168,7 +178,7 @@ namespace PhantomProjects.States
             pBullets.Initialize(pBulletTexture);
 
             //Shield
-            shield.Initialize(content);
+            shield.Initialize(content, shieldCooldownN, shieldDurationN);
             #endregion
 
             #region Basic Enemy
@@ -205,7 +215,25 @@ namespace PhantomProjects.States
             pointsGUI = content.Load<Texture2D>("GUI\\UpgradeCoin");
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
-            guiInfo.Initialize(0, playerUpgradePoints, 0); // Set GUI with keys, upgrade points, shieldTimer
+            guiInfo.Initialize(0, playerUpgradePoints, 0,0); // Set GUI with keys, upgrade points, shieldTimer
+            #endregion
+
+            #region UpgradePoint
+            var buttonTexture = content.Load<Texture2D>("GUI\\UpgradeArrowTest");
+            var buttonFont = content.Load<SpriteFont>("GUI\\MenuFont");
+
+            var upgradebutton = new Button(buttonTexture, buttonFont)
+            {
+                Position = new Vector2(0, 580),
+                Text = "",
+            };
+
+            upgradebutton.Click += UpgradePauseMenu_Click;
+
+            _components = new List<Component>()
+                {
+                upgradebutton,
+            };
 
             #endregion
 
@@ -286,6 +314,12 @@ namespace PhantomProjects.States
 
             _spriteBatch.End();
 
+
+
+
+
+
+
             // Static GUI
             _spriteBatch.Begin();
             _spriteBatch.Draw(legand, new Vector2(0, 0), Color.White);
@@ -298,15 +332,38 @@ namespace PhantomProjects.States
             _spriteBatch.Draw(keysGUI, new Vector2(1095, 20), Color.White);
             _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(1155, 38), Color.White);
 
+
+            foreach (var component in _components)
+                component.Draw(gameTime, _spriteBatch);
+
+            //Shield Timer
+            _spriteBatch.Draw(shieldTimer, new Vector2(1140, 600), Color.White);
+
+
             if (shield.Active == true)
             {
-                /////ShieldTimer
-                _spriteBatch.Draw(shieldTimer, new Vector2(1155, 600), Color.White);
-                _spriteBatch.DrawString(guiFont, "Timer: " + guiInfo.SHIELDTIMER, new Vector2(1185, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Timer: " + guiInfo.SHIELDTIMER, new Vector2(1145, 610), Color.White);
+            }
+            else
+            {
+                _spriteBatch.DrawString(guiFont, "Cooldown: " + guiInfo.SHIELDCOOLDOWN, new Vector2(1145, 610), Color.White);
             }
 
             ////HealthGUI
             _spriteBatch.Draw(healthBarGUI, new Vector2(10, 20), healthRectangle, Color.White);
+
+            upgradeMenu.Draw(gameTime, _spriteBatch);
+
+            _spriteBatch.End();
+
+
+
+
+
+
+            _spriteBatch.Begin();
+
+            pauseMenu.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.End();
 
@@ -319,52 +376,70 @@ namespace PhantomProjects.States
 
         public override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                _game.Exit();
-
-            //Map
-            #region MapCollision
-            foreach (CollisionTiles tile in map.CollisionTiles)
-            {
-                player.Collision(tile.Rectangle, map.Width, map.Height);
-                pBullets.Collision(tile.Rectangle, map.Width, map.Height);
-
-                camera.Update(player.Position, map.Width, map.Height);
-
-                foreach (EnemyA enemy in EnemyManager.enemyType1)
-                {
-                    enemy.Collision(tile.Rectangle, map.Width, map.Height);
-                }
-                BulletBeams.Collision(tile.Rectangle, map.Width, map.Height);
-
-            }
-            #endregion
-
-            //Platforms
-            platformManage.UpdatePlatforms(gameTime, player, true);
-
-            //GUI
-            healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
-
-            //Player
-            player.Update(gameTime);
-            pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
-            shield.Update(gameTime, player,false, guiInfo);
-
-            // Enemies & their bullets
-            EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);
-            BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
-
-
-            //Interactables
-            itemManager.UpdateKey(gameTime,player,guiInfo);
-            itemManager.UpdatePotion(gameTime, player, guiInfo);
-            door.Update(gameTime, player, guiInfo, 3);
-
-            //Explotions
-            VFX.UpdateExplosions(gameTime);
-
             GameManager();
+
+            pauseMenu.Update(gameTime);
+            upgradeMenu.Update(gameTime, guiInfo);
+
+            foreach (var component in _components)
+                component.Update(gameTime);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                pauseMenu.setPauseMenu(true);
+            }
+
+            if (pauseMenu.IsPaused() == false && upgradeMenu.IsUpgradePause() == false)
+            {
+
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    _game.Exit();
+
+                //Map
+                #region MapCollision
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                {
+                    player.Collision(tile.Rectangle, map.Width, map.Height);
+                    pBullets.Collision(tile.Rectangle, map.Width, map.Height);
+
+                    camera.Update(player.Position, map.Width, map.Height);
+
+                    foreach (EnemyA enemy in EnemyManager.enemyType1)
+                    {
+                        enemy.Collision(tile.Rectangle, map.Width, map.Height);
+                    }
+                    BulletBeams.Collision(tile.Rectangle, map.Width, map.Height);
+
+                }
+                #endregion
+
+                //Platforms
+                platformManage.UpdatePlatforms(gameTime, player, true);
+
+                //GUI
+                healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
+
+                //Player
+                player.Update(gameTime);
+                pBullets.UpdateManagerBullet(gameTime, player, VFX, SND);
+                shield.Update(gameTime, player, false, guiInfo);
+
+                // Enemies & their bullets
+                EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);
+                BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
+
+
+                //Interactables
+                itemManager.UpdateKey(gameTime, player, guiInfo);
+                itemManager.UpdatePotion(gameTime, player, guiInfo);
+                door.Update(gameTime, player, guiInfo, 3);
+
+                //Explotions
+                VFX.UpdateExplosions(gameTime);
+
+                GameManager();
+            }
+
         }
 
         void ReturnStoreData()
@@ -372,6 +447,17 @@ namespace PhantomProjects.States
             playerHealth = _game.ReturnHealth();
             playerBarHealth = _game.ReturnHealthBar();
             playerUpgradePoints = _game.ReturnPoints();
+
+            shieldCooldownN = _game.ReturnShieldCooldown();
+            shieldDurationN = _game.ReturnShieldDuration();
+
+            canShieldC = _game.ReturnShieldUpC();
+            canShieldD = _game.ReturnShieldUpD();
+        }
+
+        private void UpgradePauseMenu_Click(object sender, EventArgs e)
+        {
+            upgradeMenu.setUpgradePauseMenu(true);
         }
 
         void GameManager()
@@ -385,17 +471,21 @@ namespace PhantomProjects.States
 
             if (door.canChangeScene == true)
             {
+                var SRC = shield.ReturnC();
+                var SRD = shield.ReturnD();
+                var UMSRC = upgradeMenu.ReturnSC();
+                var UMSRD = upgradeMenu.ReturnSD();
                 CleanScene();
-                _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS);
+                _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS, SRC, SRD, UMSRC, UMSRD);
                 _game.GoToLevelTwo(door.canChangeScene);
             }
+        }
 
-            void CleanScene()
-            {
-                EnemyA.CleanEnemies();
-                itemManager.RemoveCollectibles();
-                platformManage.CleanPlatforms();
-            }
+        void CleanScene()
+        {
+            EnemyA.CleanEnemies();
+            itemManager.RemoveCollectibles();
+            platformManage.CleanPlatforms();
         }
     }
 }

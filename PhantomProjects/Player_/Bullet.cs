@@ -13,7 +13,7 @@ namespace PhantomProjects.Player_
         public Animation BulletAnimation;
         float bulletMoveSpeed;
         public Vector2 Position;
-        public int Damage = 20;
+        public int Damage = 10;
         public bool Active;
         #endregion
 
@@ -46,6 +46,9 @@ namespace PhantomProjects.Player_
             BulletAnimation.Position = Position;
             BulletAnimation.Update(gameTime);
         }
+
+
+        //public int DamageReturn() { return Damage; }
         
         public void Draw(SpriteBatch spriteBatch)
         {

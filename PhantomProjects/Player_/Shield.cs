@@ -19,6 +19,7 @@ namespace PhantomProjects.Player_
         int shieldTimer;
         int cooldown;
 
+        int cooldownNumber, durationNumber;
         float elapsed;
         float delay = 120f;
         int Frames = 0;
@@ -40,13 +41,15 @@ namespace PhantomProjects.Player_
             get { return position; }
         }
 
-        public void Initialize(ContentManager Content)
+        public void Initialize(ContentManager Content, int cooldownN, int durationN)
         {
             shieldTexture = Content.Load<Texture2D>("Player\\PlayerShield");
 
             Active = false;
             shieldTimer = 60 * 5;
             cooldown = 0;
+            cooldownNumber = cooldownN;
+            durationNumber = durationN;
 
             shieldAnimation = new Animation();
         }
@@ -56,12 +59,10 @@ namespace PhantomProjects.Player_
             position.X = p.Position.X -50;
             position.Y = p.Position.Y -50;
 
-            cooldown--;
-
             if ((Keyboard.GetState().IsKeyDown(Keys.E) || GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed) && cooldown <= 0)
             {
                 Active = true;
-                cooldown = 60 * 15;
+                cooldown = 60 * cooldownNumber;
             }
 
             if (Active == true)
@@ -70,13 +71,23 @@ namespace PhantomProjects.Player_
                 shieldAnimation.Position = position;
                 shieldAnimation.Update(gameTime);
 
-                guiInfo.SHIELDTIMER = shieldTimer;
+                guiInfo.SHIELDTIMER = ((shieldTimer+100)/100);
                 shieldTimer--;
 
                 currentAnim = shieldTexture;
                 Animate(gameTime);
 
-                CancelIncomingDamage(guiInfo, bossActive);
+                CancelIncomingDamage(guiInfo, bossActive, durationNumber);
+            }
+            else
+            {
+                if (cooldown <= 0)
+                {
+                    guiInfo.SHIELDCOOLDOWN = 0;
+                }
+                else guiInfo.SHIELDCOOLDOWN = ((cooldown + 100) / 100);
+
+                cooldown--;
             }
         }
 
@@ -100,15 +111,15 @@ namespace PhantomProjects.Player_
             sourceRect = new Rectangle((Frames * 152), 0, 152, 150);
         }
 
-        void CancelIncomingDamage(GUI guiInfo, bool bossActive)
+        void CancelIncomingDamage(GUI guiInfo, bool bossActive, int duration)
         {
             foreach (BulletE B in BulletEManager.bulletEBeams)
             {
                 Rectangle bulletRectangle = new Rectangle(
-                    (int)B.Position.X,
-                    (int)B.Position.Y,
-                    B.Width,
-                    B.Height);
+                                        (int)B.Position.X,
+                                        (int)B.Position.Y,
+                                        B.Width,
+                                        B.Height);
 
                 if (bulletRectangle.Intersects(rectangle))
                 {
@@ -117,7 +128,7 @@ namespace PhantomProjects.Player_
                 }
             }
 
-            if(bossActive == true)
+            if (bossActive == true)
             {
                 foreach (Fireball F in FireballManager.fireball)
                 {
@@ -138,10 +149,16 @@ namespace PhantomProjects.Player_
             if (shieldTimer == 0)
             {
                 Active = false;
-                shieldTimer = 60 * 5;
+                shieldTimer = 60 * duration; // change the 5 to a variable - Duration of the shield
                 guiInfo.SHIELDTIMER = 0;
             }
         }
+
+        public void UpdateDuration(int duration) { durationNumber = duration; }
+        public void UpdateCooldown(int cooldown) { cooldownNumber = cooldown; }
+
+        public int ReturnD() { return durationNumber; }
+        public int ReturnC() { return cooldownNumber; }
 
         public void Draw(SpriteBatch spriteBatch)
         {

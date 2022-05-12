@@ -20,11 +20,9 @@ namespace PhantomProjects.Player_
         const float SECONDS_IN_MINUTE = 100f;
         const float RATE_OF_FIRE = 100f;
 
+        //public int damage;
         static TimeSpan bulletSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
         static TimeSpan previousBulletSpawnTime;
-
-        GamePadState currentGamePadState;
-        GamePadState previousGamePadState;
 
         #endregion
 
@@ -78,6 +76,7 @@ namespace PhantomProjects.Player_
             for (var i = 0; i < bullets.Count; i++)
             {
                 bullets[i].Update(gameTime);
+
                 if (!bullets[i].Active || bullets[i].Position.X > bullets[i].Position.X+ 1280 || 
                     bullets[i].Position.X < bullets[i].Position.X - 1280)
                 {
@@ -144,6 +143,7 @@ namespace PhantomProjects.Player_
             }
         }
 
+        //public int ReturnBulletDamage() { return damage; }
 
         public void DrawBullets(SpriteBatch spriteBatch)
         {
