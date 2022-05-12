@@ -30,14 +30,14 @@ namespace PhantomProjects.States
             mainBackground = content.Load<Texture2D>("Menu\\GameComplete"); // change background image
 
             //Buttons
-            var buttonTexture = _content.Load<Texture2D>("Menu\\button");
+            var buttonTexture = _content.Load<Texture2D>("Menu\\MainMenu");
             var buttonFont = _content.Load<SpriteFont>("GUI\\MenuFont");
 
 
             var mainMenuButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2(540, 585),
-                Text = "Main Menu",
+                Text = "",
             };
 
             mainMenuButton.Click += MainMenuButton_Click;

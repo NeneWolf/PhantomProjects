@@ -29,7 +29,7 @@ namespace PhantomProjects.States
 
         //-----------------------------------------
         // Moving Platforms
-        PlatformManager platformManage;
+        PlatformManager platformManage = new PlatformManager();
 
         //Static background
         Texture2D mainBackground;
@@ -103,6 +103,7 @@ namespace PhantomProjects.States
         {
             _spriteBatch = new SpriteBatch(graphicsDevice);
             details = graphicsDevice;
+            CleanScene();
 
             // Set Map & Player
             map = new Map();
@@ -157,7 +158,6 @@ namespace PhantomProjects.States
 
             //Platforms
 
-            platformManage = new PlatformManager();
             platformManage.CreatePlatforms(new Vector2(2800, 880), content, true, 380,true);
             platformManage.CreatePlatforms(new Vector2(2190, 530), content, false, 315, true);
 
@@ -167,7 +167,7 @@ namespace PhantomProjects.States
             #endregion
 
             #region Player
-            player.Initialize(content, new Vector2(130, 1728)); //130,1728
+            player.Initialize(content, new Vector2(130, 1728), _game.ReturnPlayerSelected()); //130,1728
 
             //Reset to the previous level values
             player.Health = playerHealth;
@@ -178,7 +178,7 @@ namespace PhantomProjects.States
             pBullets.Initialize(pBulletTexture);
 
             //Shield
-            shield.Initialize(content, shieldCooldownN, shieldDurationN);
+            shield.Initialize(content);
             #endregion
 
             #region Basic Enemy
@@ -342,11 +342,11 @@ namespace PhantomProjects.States
 
             if (shield.Active == true)
             {
-                _spriteBatch.DrawString(guiFont, "Timer: " + guiInfo.SHIELDTIMER, new Vector2(1145, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Duration: " + guiInfo.SHIELDTIMER, new Vector2(1165, 610), Color.White);
             }
             else
             {
-                _spriteBatch.DrawString(guiFont, "Cooldown: " + guiInfo.SHIELDCOOLDOWN, new Vector2(1145, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Cooldown: " + guiInfo.SHIELDCOOLDOWN, new Vector2(1165, 610), Color.White);
             }
 
             ////HealthGUI
@@ -481,11 +481,22 @@ namespace PhantomProjects.States
             }
         }
 
-        void CleanScene()
+        public void CleanScene()
         {
-            EnemyA.CleanEnemies();
-            itemManager.RemoveCollectibles();
-            platformManage.CleanPlatforms();
+            if (EnemyManager.enemyType1.Count > 0)
+            {
+                EnemyA.CleanEnemies();
+            }
+
+            if (ItemManager.Keycard.Count > 0 && ItemManager.Potions.Count > 0)
+            {
+                itemManager.RemoveCollectibles();
+            }
+
+            if (PlatformManager.platform.Count > 0)
+            {
+                platformManage.CleanPlatforms();
+            }
         }
     }
 }

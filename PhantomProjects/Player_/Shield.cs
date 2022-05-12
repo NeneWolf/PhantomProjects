@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using PhantomProjects.Enemy_;
 using PhantomProjects.Boss_;
+using PhantomProjects.Menus_;
 
 namespace PhantomProjects.Player_
 {
@@ -16,10 +17,10 @@ namespace PhantomProjects.Player_
         Texture2D shieldTexture, currentAnim;
         Vector2 position;
         public bool Active;
-        int shieldTimer;
-        int cooldown;
+        int shieldUptime, cooldown;
+        public int shieldDuration = 5, cdDelay = 20;
+        UpgradeMenu upgrade;
 
-        int cooldownNumber, durationNumber;
         float elapsed;
         float delay = 120f;
         int Frames = 0;
@@ -41,43 +42,41 @@ namespace PhantomProjects.Player_
             get { return position; }
         }
 
-        public void Initialize(ContentManager Content, int cooldownN, int durationN)
+        public void Initialize(ContentManager Content)
         {
             shieldTexture = Content.Load<Texture2D>("Player\\PlayerShield");
 
             Active = false;
-            shieldTimer = 60 * 5;
-            cooldown = 0;
-            cooldownNumber = cooldownN;
-            durationNumber = durationN;
 
             shieldAnimation = new Animation();
         }
 
-        public void Update(GameTime gameTime, Player p, bool bossActive,  GUI guiInfo)
+        public void Update(GameTime gameTime, Player p, bool bossActive, GUI guiInfo)
         {
-            position.X = p.Position.X -50;
-            position.Y = p.Position.Y -50;
+            position.X = p.Position.X - 50;
+            position.Y = p.Position.Y - 50;
 
             if ((Keyboard.GetState().IsKeyDown(Keys.E) || GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed) && cooldown <= 0)
             {
                 Active = true;
-                cooldown = 60 * cooldownNumber;
+                shieldUptime = 60 * shieldDuration;
+                cooldown = 0;
+                cooldown = 60 * cdDelay;
             }
 
             if (Active == true)
             {
-                rectangle = new Rectangle((int)position.X, (int)position.Y, 150,150);
+                rectangle = new Rectangle((int)position.X, (int)position.Y, 150, 150);
                 shieldAnimation.Position = position;
                 shieldAnimation.Update(gameTime);
 
-                guiInfo.SHIELDTIMER = ((shieldTimer+100)/100);
-                shieldTimer--;
+                guiInfo.SHIELDTIMER = (shieldUptime + 30) / 60;
+                shieldUptime--;
 
                 currentAnim = shieldTexture;
                 Animate(gameTime);
 
-                CancelIncomingDamage(guiInfo, bossActive, durationNumber);
+                CancelIncomingDamage(guiInfo, bossActive, shieldDuration);
             }
             else
             {
@@ -85,7 +84,7 @@ namespace PhantomProjects.Player_
                 {
                     guiInfo.SHIELDCOOLDOWN = 0;
                 }
-                else guiInfo.SHIELDCOOLDOWN = ((cooldown + 100) / 100);
+                else guiInfo.SHIELDCOOLDOWN = (cooldown + 30) / 60;
 
                 cooldown--;
             }
@@ -146,19 +145,25 @@ namespace PhantomProjects.Player_
                 }
             }
 
-            if (shieldTimer == 0)
+            if (shieldUptime == 0)
             {
                 Active = false;
-                shieldTimer = 60 * duration; // change the 5 to a variable - Duration of the shield
+                shieldUptime = 60 * duration; // change the 5 to a variable - Duration of the shield
                 guiInfo.SHIELDTIMER = 0;
             }
         }
 
-        public void UpdateDuration(int duration) { durationNumber = duration; }
-        public void UpdateCooldown(int cooldown) { cooldownNumber = cooldown; }
+        public void UpdateDuration(int duration)
+        {
+            shieldDuration = duration;
+        }
+        public void UpdateCooldown(int cooldown)
+        {
+            cdDelay = cooldown;
+        }
 
-        public int ReturnD() { return durationNumber; }
-        public int ReturnC() { return cooldownNumber; }
+        public int ReturnD() { return shieldDuration; }
+        public int ReturnC() { return cdDelay; }
 
         public void Draw(SpriteBatch spriteBatch)
         {

@@ -11,8 +11,8 @@ namespace PhantomProjects.Interactables_
 {
     class ItemManager
     {
-        static List<HealthPotion> Potions = new List<HealthPotion>();
-        static List<Keycard> Keycard = new List<Keycard>();
+        static public List<HealthPotion> Potions = new List<HealthPotion>();
+        static public List<Keycard> Keycard = new List<Keycard>();
 
         public void SpawnPotion(ContentManager Content, Vector2 Position)
         {

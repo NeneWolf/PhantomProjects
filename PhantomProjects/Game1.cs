@@ -18,7 +18,7 @@ namespace PhantomProjects
 
         bool scene1 = false, scene2 = false, gameOver = false, endGame = false;
 
-        int playerHealth, healthBar, upgradePoints, shieldCooldown, shieldDuration, weaponDamage;
+        int playerSelected, playerHealth, healthBar, upgradePoints, shieldCooldown, shieldDuration, weaponDamage;
         bool shieldUpC, shieldUpD;
 
 
@@ -96,6 +96,15 @@ namespace PhantomProjects
                 _nexState = new GameOver(this, graphics.GraphicsDevice, Content);
             }
         }
+
+
+        public void SaveCharacterSelected(int player)
+        {
+            // 0 - Female, 1 - Male
+            playerSelected = player;
+        }
+
+
         public bool GoToLevelOne(bool move) => scene1 = move;
         public bool GoToLevelTwo(bool move) => scene2 = move;
         public bool GoToEndGame(bool move) => endGame = move;
@@ -110,8 +119,9 @@ namespace PhantomProjects
             shieldDuration = shieldD;
             shieldUpC = canUpShieldC;
             shieldUpD = canUpShieldD;
-            //weaponDamage = weaponD;
         }
+
+        public int ReturnPlayerSelected() { return playerSelected; }
 
         public int ReturnHealth() { return playerHealth; }
         public int ReturnHealthBar() { return healthBar; }
@@ -122,7 +132,6 @@ namespace PhantomProjects
 
         public bool ReturnShieldUpC() { return shieldUpC; }
         public bool ReturnShieldUpD() { return shieldUpD; }
-        //public int ReturnWeaponDamage() { return weaponDamage; }
 
         protected override void Draw(GameTime gameTime)
         {
