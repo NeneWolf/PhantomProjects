@@ -55,12 +55,22 @@ namespace PhantomProjects.Player_
         }
 
 
-        public void Initialize(ContentManager content, Vector2 newPosition)
+        public void Initialize(ContentManager content, Vector2 newPosition, int playerSelected)
         {
-            playerRight = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
-            playerLeft = content.Load<Texture2D>("Player\\MalePlayerLeftWalk");
-            idleRight = content.Load<Texture2D>("Player\\MaleRightIdle");
-            idleLeft = content.Load<Texture2D>("Player\\MaleLeftIdle");
+            if(playerSelected == 0)
+            {
+                playerRight = content.Load<Texture2D>("Player\\FemalePlayerRightWalk");
+                playerLeft = content.Load<Texture2D>("Player\\FemalePlayerLeftWalk");
+                idleRight = content.Load<Texture2D>("Player\\FemaleRightIdle");
+                idleLeft = content.Load<Texture2D>("Player\\FemaleLeftIdle");
+            }
+            else
+            {
+                playerRight = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
+                playerLeft = content.Load<Texture2D>("Player\\MalePlayerLeftWalk");
+                idleRight = content.Load<Texture2D>("Player\\MaleRightIdle");
+                idleLeft = content.Load<Texture2D>("Player\\MaleLeftIdle");
+            }
 
             // Set the player to be active
             Active = true;

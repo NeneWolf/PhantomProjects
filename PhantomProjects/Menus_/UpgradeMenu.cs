@@ -23,7 +23,7 @@ namespace PhantomProjects.Menus_
         Texture2D mainBackground, upgradeLogo;
         Texture2D shieldCooldownUpgrade, shieldDurationUpgrade, weaponDamageUpgrade, locked;
         bool canshieldCooldownUpgrade, canshieldDurationUpgrade;
-        Texture2D buttonTexture;
+        Texture2D shieldCooldownlocked, shieldDurationlocked, continueButton;
         SpriteFont buttonFont;
 
         Button continuegameButton, upgradeShieldDurationButton, upgradeShieldCooldownButton, upgradeWeaponDamageButton;
@@ -33,6 +33,8 @@ namespace PhantomProjects.Menus_
         private List<Component> _components;
 
         bool upgradePause = false;
+        public bool DurationUpgraded = false;
+        public bool CooldownUpgraded = false;
 
         public void Initialize(GraphicsDevice graphicsDevice, ContentManager content, Game1 Game, Shield Shield, BulletManager pbullets, bool canUpSC, bool canUpSD)
         {
@@ -42,26 +44,29 @@ namespace PhantomProjects.Menus_
             shield = Shield;
             Pbullets = pbullets;
 
-            canshieldCooldownUpgrade = canUpSC; 
+            canshieldCooldownUpgrade = canUpSC;
             canshieldDurationUpgrade = canUpSD;
 
             mainBackground = content.Load<Texture2D>("PauseBackground");
             upgradeLogo = content.Load<Texture2D>("Menu\\CharacterUpgrades"); // To be changed
 
             //Abilities
-            shieldCooldownUpgrade = content.Load<Texture2D>("GUI\\AbilityUnlocked");
-            shieldDurationUpgrade = content.Load<Texture2D>("GUI\\AbilityUnlocked");
-            weaponDamageUpgrade = content.Load<Texture2D>("GUI\\AbilityUnlocked");
-            locked = content.Load<Texture2D>("GUI\\AbilityLocked");
+            shieldCooldownUpgrade = content.Load<Texture2D>("GUI\\ShieldCooldownUp");
+            shieldDurationUpgrade = content.Load<Texture2D>("GUI\\ShieldDurationUp");
 
 
-            buttonTexture = content.Load<Texture2D>("Menu\\button");
+            //weaponDamageUpgrade = content.Load<Texture2D>("GUI\\AbilityUnlocked");
+            shieldCooldownlocked = content.Load<Texture2D>("GUI\\ShieldCooldownLocked");
+            shieldDurationlocked = content.Load<Texture2D>("GUI\\ShieldDurationLocked");
+
+
+            continueButton = content.Load<Texture2D>("Menu\\Continue");
             buttonFont = content.Load<SpriteFont>("GUI\\MenuFont");
 
-            upgradeShieldDurationButton = new Button(locked, buttonFont)
+            upgradeShieldDurationButton = new Button(shieldDurationlocked, buttonFont)
             {
                 Position = new Vector2(540, 380),
-                Text = "Duration",
+                Text = "",
             };
 
             if (canshieldDurationUpgrade == false)
@@ -71,10 +76,10 @@ namespace PhantomProjects.Menus_
             upgradeShieldDurationButton.Click += upgradeShieldDurationButton_Click;
 
 
-            upgradeShieldCooldownButton = new Button(locked, buttonFont)
+            upgradeShieldCooldownButton = new Button(shieldCooldownlocked, buttonFont)
             {
                 Position = new Vector2(700, 380),
-                Text = "Cooldown",
+                Text = "",
             };
 
             if (canshieldCooldownUpgrade == false)
@@ -91,10 +96,10 @@ namespace PhantomProjects.Menus_
 
 
             //
-            continuegameButton = new Button(buttonTexture, buttonFont)
+            continuegameButton = new Button(continueButton, buttonFont)
             {
-                Position = new Vector2(540, 435),
-                Text = "Continue",
+                Position = new Vector2(570, 535),
+                Text = "",
             };
             continuegameButton.Click += UpgradeUnPauseGame_Click;
 
@@ -124,23 +129,25 @@ namespace PhantomProjects.Menus_
 
         private void upgradeShieldDurationButton_Click(object sender, EventArgs e)
         {
-            if(canshieldDurationUpgrade == true && guiInfo.UPGRADEPOINTS > 100 && upgradeShieldDurationButton._texture == locked)
+            if (canshieldDurationUpgrade == true && guiInfo.UPGRADEPOINTS > 100 && upgradeShieldDurationButton._texture == shieldDurationlocked)
             {
-                upgradeShieldDurationButton._texture = shieldCooldownUpgrade;
+                upgradeShieldDurationButton._texture = shieldDurationUpgrade;
                 guiInfo.UPGRADEPOINTS -= 100;
                 shield.UpdateDuration(7);
                 canshieldDurationUpgrade = false;
+                DurationUpgraded = true;
             }
         }
 
         private void upgradeShieldCooldownButton_Click(object sender, EventArgs e)
         {
-            if (canshieldCooldownUpgrade == true && guiInfo.UPGRADEPOINTS > 200 && upgradeShieldCooldownButton._texture == locked)
+            if (canshieldCooldownUpgrade == true && guiInfo.UPGRADEPOINTS > 200 && upgradeShieldCooldownButton._texture == shieldCooldownlocked)
             {
-                upgradeShieldCooldownButton._texture = shieldDurationUpgrade;
+                upgradeShieldCooldownButton._texture = shieldCooldownUpgrade;
                 guiInfo.UPGRADEPOINTS -= 200;
-                shield.UpdateCooldown(17);
+                shield.UpdateCooldown(15);
                 canshieldCooldownUpgrade = false;
+                CooldownUpgraded = true;
             }
         }
 

@@ -29,37 +29,40 @@ namespace PhantomProjects.States
             gameLogo = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white");
             companyLogo = content.Load<Texture2D>("Logos\\Future App-logos_white");
 
-            var buttonTexture = _content.Load<Texture2D>("Menu\\button");
+            var playTexture = _content.Load<Texture2D>("Menu\\Play");
+            var creditsTexture = _content.Load<Texture2D>("Menu\\Credits");
+            var controls = _content.Load<Texture2D>("Menu\\Controls");
+            var exit = _content.Load<Texture2D>("Menu\\Exit");
             var buttonFont = _content.Load<SpriteFont>("GUI\\MenuFont");
 
-            var newGameButton = new Button(buttonTexture, buttonFont)
+            var newGameButton = new Button(playTexture, buttonFont)
             {
-                Position = new Vector2(540, 435),
-                Text = "New Game",
+                Position = new Vector2(570, 435),
+                Text = "",
             };
 
             newGameButton.Click += NewGameButton_Click;
 
-            var gameControlButton = new Button(buttonTexture, buttonFont)
+            var gameControlButton = new Button(controls, buttonFont)
             {
-                Position = new Vector2(540, 485),
-                Text = "Controls",
+                Position = new Vector2(570, 485),
+                Text = "",
             };
 
             gameControlButton.Click += LoadControlButton_Click;
 
-            var loadCreditButton = new Button(buttonTexture, buttonFont)
+            var loadCreditButton = new Button(creditsTexture, buttonFont)
             {
-                Position = new Vector2(540, 535),
-                Text = "Credits",
+                Position = new Vector2(570, 535),
+                Text = "",
             };
 
             loadCreditButton.Click += LoadCreditButton_Click;
 
-            var quitGameButton = new Button(buttonTexture, buttonFont)
+            var quitGameButton = new Button(exit, buttonFont)
             {
-                Position = new Vector2(540, 585),
-                Text = "Quit Game",
+                Position = new Vector2(570, 585),
+                Text = "",
             };
 
             quitGameButton.Click += QuitGameButton_Click;
@@ -99,7 +102,7 @@ namespace PhantomProjects.States
         // Level 1
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new TutorialState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new SelectPlayer(_game, _graphicsDevice, _content));
         }
 
         // 

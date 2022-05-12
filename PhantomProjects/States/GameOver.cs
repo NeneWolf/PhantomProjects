@@ -27,24 +27,25 @@ namespace PhantomProjects.States
             MediaPlayer.Play(menuMusic);
 
             //Background
-            mainBackground = content.Load<Texture2D>("Menu\\GameOver"); // change the background
+            mainBackground = content.Load<Texture2D>("Menu\\GameOver");
 
             //Buttons
-            var buttonTexture = _content.Load<Texture2D>("Menu\\button");
+            var PlayTexture = _content.Load<Texture2D>("Menu\\Play");
+            var mainMenuTexture = _content.Load<Texture2D>("Menu\\MainMenu");
             var buttonFont = _content.Load<SpriteFont>("GUI\\MenuFont");
 
-            var tryAgainButton = new Button(buttonTexture, buttonFont)
+            var tryAgainButton = new Button(PlayTexture, buttonFont)
             {
                 Position = new Vector2(780, 445),
-                Text = "Try Again",
+                Text = "",
             };
 
             tryAgainButton.Click += TryAgainButton_Click;
 
-            var mainMenuButton = new Button(buttonTexture, buttonFont)
+            var mainMenuButton = new Button(mainMenuTexture, buttonFont)
             {
                 Position = new Vector2(780, 500),
-                Text = "Main Menu",
+                Text = "",
             };
 
             mainMenuButton.Click += MainMenuButton_Click;

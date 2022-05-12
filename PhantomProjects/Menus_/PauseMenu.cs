@@ -17,10 +17,11 @@ namespace PhantomProjects.Menus_
         Game1 _game;
         GraphicsDevice _graphicsDevice;
         ContentManager _content;
+        State gameState;
 
         //Static background
-        Texture2D mainBackground, pauseLogo;
-        Texture2D buttonTexture;
+        Texture2D mainBackground, pauseLogo, exit;
+        Texture2D continueTexture, mainMenuTexture;
         SpriteFont buttonFont;
         private List<Component> _components;
 
@@ -34,27 +35,29 @@ namespace PhantomProjects.Menus_
 
             mainBackground = content.Load<Texture2D>("PauseBackground");
             pauseLogo = content.Load<Texture2D>("Menu\\GamePaused"); // To be changed
-            buttonTexture = content.Load<Texture2D>("Menu\\button");
+            continueTexture = content.Load<Texture2D>("Menu\\Continue");
+            mainMenuTexture = content.Load<Texture2D>("Menu\\MainMenu");
+            exit = _content.Load<Texture2D>("Menu\\Exit");
             buttonFont = content.Load<SpriteFont>("GUI\\MenuFont");
 
-            var continuegameButton = new Button(buttonTexture, buttonFont)
+            var continuegameButton = new Button(continueTexture, buttonFont)
             {
-                Position = new Vector2(540, 335),
-                Text = "Continue",
+                Position = new Vector2(570, 335),
+                Text = "",
             };
             continuegameButton.Click += UnPauseGame_Click;
 
-            var MainMenuButton = new Button(buttonTexture, buttonFont)
+            var MainMenuButton = new Button(mainMenuTexture, buttonFont)
             {
-                Position = new Vector2(540, 385),
-                Text = "Menu",
+                Position = new Vector2(570, 395),
+                Text = "",
             };
             MainMenuButton.Click += MainMenuGame_Click;
 
-            var quitGameButton = new Button(buttonTexture, buttonFont)
+            var quitGameButton = new Button(exit, buttonFont)
             {
-                Position = new Vector2(540, 435),
-                Text = "Quit",
+                Position = new Vector2(570, 455),
+                Text = "",
             };
             quitGameButton.Click += QuitGame_Click;
 

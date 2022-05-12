@@ -29,7 +29,7 @@ namespace PhantomProjects.States
 
         //-----------------------------------------
         // Moving Platforms
-        PlatformManager platformManage;
+        PlatformManager platformManage = new PlatformManager();
 
 
         //Static background
@@ -44,7 +44,7 @@ namespace PhantomProjects.States
 
         //-----------------------------------------
         //Interactables
-        ItemManager itemManager;
+        ItemManager itemManager = new ItemManager();
         Door door;
 
         //-----------------------------------------
@@ -103,6 +103,8 @@ namespace PhantomProjects.States
             _spriteBatch = new SpriteBatch(graphicsDevice);
             details = graphicsDevice;
 
+            CleanScene();
+
             // Set Map & Player
             map = new Map();
             pauseMenu.Initialize(graphicsDevice, content, _game);
@@ -142,21 +144,19 @@ namespace PhantomProjects.States
             mainBackground = content.Load<Texture2D>("background");
 
             // platforms 
-
-            platformManage = new PlatformManager();
             platformManage.CreatePlatforms(new Vector2(850, 880), content, true, 650, true);
 
             #endregion
 
             #region Player
-            player.Initialize(content, new Vector2(130, 1100)); //130, 1100
+            player.Initialize(content, new Vector2(130, 1100),_game.ReturnPlayerSelected()); //130, 1100
 
             //Player Bullets
             pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
             pBullets.Initialize(pBulletTexture);
 
             //Shield
-            shield.Initialize(content, 20, 5);
+            shield.Initialize(content);
             #endregion
 
             #region Basic Enemy
@@ -213,7 +213,6 @@ namespace PhantomProjects.States
             #endregion
 
             #region Interactables
-            itemManager = new ItemManager();
             itemManager.SpawnKeyCard(content, new Vector2(1728, 500));
             itemManager.SpawnKeyCard(content, new Vector2(1550, 190));
 
@@ -314,11 +313,11 @@ namespace PhantomProjects.States
 
             if (shield.Active == true)
             {
-                _spriteBatch.DrawString(guiFont, "Timer: " + guiInfo.SHIELDTIMER, new Vector2(1145, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Duration: " + guiInfo.SHIELDTIMER, new Vector2(1165, 610), Color.White);
             }
             else
             {
-                _spriteBatch.DrawString(guiFont, "Cooldown: " + guiInfo.SHIELDCOOLDOWN, new Vector2(1145, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Cooldown: " + guiInfo.SHIELDCOOLDOWN, new Vector2(1165, 610), Color.White);
             }
 
             ////HealthGUI
@@ -438,11 +437,22 @@ namespace PhantomProjects.States
             }
         }
 
-        void CleanScene()
+        public void CleanScene()
         {
-            EnemyA.CleanEnemies();
-            itemManager.RemoveCollectibles();
-            platformManage.CleanPlatforms();
+            if(EnemyManager.enemyType1.Count > 0)
+            {
+                EnemyA.CleanEnemies();
+            }
+
+            if(ItemManager.Keycard.Count > 0 && ItemManager.Potions.Count > 0)
+            {
+                itemManager.RemoveCollectibles();
+            }
+
+            if(PlatformManager.platform.Count > 0)
+            {
+                platformManage.CleanPlatforms();
+            }
         }
     }
 }
