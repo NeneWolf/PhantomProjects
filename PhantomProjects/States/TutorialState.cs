@@ -245,6 +245,7 @@ namespace PhantomProjects.States
             gameMusic = content.Load<Song>("Sounds\\INGAMEMUSIC");
             SND.Initialize(bulletSound, bloodSound, null);
             MediaPlayer.Play(gameMusic);
+            MediaPlayer.IsRepeating = true;
 
             #endregion
 
