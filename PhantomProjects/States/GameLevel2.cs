@@ -195,8 +195,7 @@ namespace PhantomProjects.States
             player.BarHealth = playerBarHealth;
 
             //Player Bullets
-            pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
-            pBullets.Initialize(pBulletTexture);
+            pBullets.Initialize(content);
 
             //Shield
             //Restore shield cooldown & duration data
@@ -212,11 +211,9 @@ namespace PhantomProjects.States
             EnemyA.CreateEnemy(new Vector2(1150, 2400), content);
             EnemyA.CreateEnemy(new Vector2(1300, 2400), content);
 
-            #region Enemy Bullet
-            bulletETexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
-            BulletBeams.Initialize(bulletETexture, details);
-            #endregion
-
+            // Enemy Bullet
+            BulletBeams.Initialize(content, details);
+            
             #endregion
 
             #region Boss
@@ -478,8 +475,7 @@ namespace PhantomProjects.States
 
                 //Player
                 player.Update(gameTime);
-                pBullets.UpdateManagerBullet(gameTime, player, VFX, SND,upgradeMenu);
-                pBullets.UpdateBullet(gameTime, player, boss, VFX, SND);
+                pBullets.UpdateManagerBullet(gameTime, player, VFX, SND, boss, upgradeMenu);
                 shield.Update(gameTime, player, true, guiInfo);
 
                 // Enemies & their bullets

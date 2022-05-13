@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PhantomProjects.Boss_;
@@ -15,7 +16,7 @@ namespace PhantomProjects.Player_
     class BulletManager
     {
         #region Definitions
-        static Texture2D bulletTexture;
+        static Texture2D bulletTextureRight, bulletTextureLeft;
         static Rectangle bulletRectangle;
         static public List<Bullet> bullets;
         const float SECONDS_IN_MINUTE = 100f;
@@ -27,11 +28,12 @@ namespace PhantomProjects.Player_
 
         #endregion
 
-        public void Initialize(Texture2D texture)
+        public void Initialize(ContentManager content)
         {
             bullets = new List<Bullet>();
             previousBulletSpawnTime = TimeSpan.Zero;
-            bulletTexture = texture;
+            bulletTextureRight = content.Load<Texture2D>("EnemyA\\EnemyBulletRight");
+            bulletTextureLeft = content.Load<Texture2D>("EnemyA\\EnemyBulletLeft"); ;
         }
 
         private static void FireBullet(GameTime gameTime, Player p, Sounds SND, UpgradeMenu upgrade)
@@ -47,7 +49,7 @@ namespace PhantomProjects.Player_
         private static void AddBullet(Player p, UpgradeMenu upgrade)
         {
             Animation bulletAnimation = new Animation();
-            bulletAnimation.Initialize(bulletTexture, p.Position, 46, 16, 1, 30, Color.White, 1f, true);
+            
             Bullet bullet = new Bullet();
 
             var bulletPosition = p.Position;
@@ -55,11 +57,13 @@ namespace PhantomProjects.Player_
             //change bullet spawn position depending on the side
             if (p.currentAnim == p.playerRight || p.currentAnim == p.idleRight)
             {
+                bulletAnimation.Initialize(bulletTextureRight, p.Position, 46, 16, 1, 30, Color.White, 1f, true);
                 bulletPosition.Y += 40;
                 bulletPosition.X += 25;
             }
             else
             {
+                bulletAnimation.Initialize(bulletTextureLeft, p.Position, 46, 16, 1, 30, Color.White, 1f, true);
                 bulletPosition.Y += 40;
                 bulletPosition.X -= 25;
             }
@@ -68,8 +72,9 @@ namespace PhantomProjects.Player_
             bullets.Add(bullet);
         }
 
-        public void UpdateManagerBullet(GameTime gameTime, Player p, ExplosionManager VFX, Sounds SND, UpgradeMenu upgrade)
+        public void UpdateManagerBullet(GameTime gameTime, Player p, ExplosionManager VFX, Sounds SND,Boss boss, UpgradeMenu upgrade)
         {
+            // if input is pressed, player fire bullets
              if (Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed )
             {
                 FireBullet(gameTime, p, SND, upgrade);
@@ -99,33 +104,24 @@ namespace PhantomProjects.Player_
                 {
                     if (bulletRectangle.Intersects(e.rectangle))
                     {
-                        // Show the explosion where the player was.
+                        // Show the blood where the enemy is
                         VFX.AddExplosion(new Vector2(B.Position.X + 20, B.Position.Y -20), SND);
 
+                        //Reduce enemy Health & disactivate bullet
                         e.Health -= B.Damage;
                         B.Active = false;
                     }
                 }
-            }
-        }
 
-        public void UpdateBullet(GameTime gameTime, Player p, Boss boss, ExplosionManager VFX, Sounds SND)
-        {
-            if(boss.Active == true)
-            {
-                foreach (Bullet B in BulletManager.bullets)
+                //Boss case
+                if (boss != null && boss.Active == true)
                 {
-                    bulletRectangle = new Rectangle(
-                      (int)B.Position.X,
-                      (int)B.Position.Y,
-                      B.Width,
-                      B.Height);
-
                     if (bulletRectangle.Intersects(boss.RECTANGLE))
                     {
-                        // Show the explosion where the player was.
+                        // Show the blood where the boss is
                         VFX.AddExplosion(B.Position, SND);
 
+                        //Reduce enemy Health & disactivate bullet
                         boss.Health -= B.Damage;
                         B.Active = false;
                     }
@@ -135,6 +131,7 @@ namespace PhantomProjects.Player_
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
+            //Bullet Colliding with Tiles get destroyed
             foreach(Bullet B in BulletManager.bullets)
             {
                 if (bulletRectangle.TouchTopOf(newRectangle) || bulletRectangle.TouchLeftOf(newRectangle) ||
@@ -144,8 +141,6 @@ namespace PhantomProjects.Player_
                 }
             }
         }
-
-        //public int ReturnBulletDamage() { return damage; }
 
         public void DrawBullets(SpriteBatch spriteBatch)
         {

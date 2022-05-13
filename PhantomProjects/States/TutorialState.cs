@@ -157,8 +157,7 @@ namespace PhantomProjects.States
             player.Initialize(content, new Vector2(130, 1100),_game.ReturnPlayerSelected()); // Default spawn : 130, 1100
 
             //Player Bullets
-            pBulletTexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
-            pBullets.Initialize(pBulletTexture);
+            pBullets.Initialize(content);
 
             //Shield
             shield.Initialize(content);
@@ -171,10 +170,8 @@ namespace PhantomProjects.States
             EnemyA.Initialize(details);
             EnemyA.CreateEnemy(new Vector2(960, 1100), content);
 
-            #region Enemy Bullet
-            bulletETexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
-            BulletBeams.Initialize(bulletETexture, details);
-            #endregion
+           // Enemy Bullet
+            BulletBeams.Initialize(content, details);
 
             #endregion
 
@@ -415,7 +412,7 @@ namespace PhantomProjects.States
 
                 //Player
                 player.Update(gameTime);
-                pBullets.UpdateManagerBullet(gameTime, player, VFX, SND,upgradeMenu);
+                pBullets.UpdateManagerBullet(gameTime, player, VFX, SND,null, upgradeMenu);
                 shield.Update(gameTime, player, false, guiInfo);
 
                 // Enemies & their bullets

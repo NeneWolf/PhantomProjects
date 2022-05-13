@@ -7,12 +7,13 @@ using Microsoft.Xna.Framework.Input;
 using PhantomProjects.Player_;
 using PhantomProjects.Explosion_;
 using PhantomProjects.Map_;
+using Microsoft.Xna.Framework.Content;
 
 namespace PhantomProjects.Enemy_
 {
     class BulletEManager
     {
-        static Texture2D bulletETexture;
+        static Texture2D bulletETextureRight, bulletETextureLeft;
         static Rectangle bulletERectangle;
         static public List<BulletE> bulletEBeams;
         const float SECONDS_IN_MINUTE = 105f;
@@ -25,13 +26,16 @@ namespace PhantomProjects.Enemy_
 
         static bool direction;
 
-        public void Initialize(Texture2D texture, GraphicsDevice Graphics)
+        public void Initialize(ContentManager content, GraphicsDevice Graphics)
         {
             bulletEBeams = new List<BulletE>();
             previousBulletSpawnTime = TimeSpan.Zero;
-            bulletETexture = texture;
+            
             graphicsInfo.X = Graphics.Viewport.Width;
             graphicsInfo.Y = Graphics.Viewport.Height;
+
+            bulletETextureRight = content.Load<Texture2D>("EnemyA\\EnemyBulletRight");
+            bulletETextureLeft = content.Load<Texture2D>("EnemyA\\EnemyBulletLeft"); ;
         }
 
         public static void FireBulletE(GameTime gameTime, EnemyA e, bool Direction, Sounds SND)
@@ -49,17 +53,19 @@ namespace PhantomProjects.Enemy_
         private static void AddBullet(EnemyA e)
         {
             Animation bulletAnimation = new Animation();
-            bulletAnimation.Initialize(bulletETexture, e.position, 46, 16, 1, 30, Color.White, 1f, true);
+            
             BulletE bullet = new BulletE();
 
             var bulletPosition = e.position;
             if (!direction)
             {
+                bulletAnimation.Initialize(bulletETextureLeft, e.position, 46, 16, 1, 30, Color.White, 1f, true);
                 bulletPosition.Y += 22;
                 bulletPosition.X -= 1;
             }
             else
             {
+                bulletAnimation.Initialize(bulletETextureRight, e.position, 46, 16, 1, 30, Color.White, 1f, true);
                 bulletPosition.Y += 22;
                 bulletPosition.X += 55;
             }
