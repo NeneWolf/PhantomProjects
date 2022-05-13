@@ -78,11 +78,13 @@ namespace PhantomProjects.Boss_
         #region Methods
         public void Update(GameTime gameTime, Player player, GUI guiInfo, Sounds SND)
         {
-            //Check if the boss is active
-            IsDead(guiInfo);
+
 
             if (Active == true)
             {
+                //Check if the boss is active
+                IsDead(guiInfo);
+
                 //If active, set the velocity of the boss & rectangle
                 position += velocity;
                 rectangle = new Rectangle((int)position.X, (int)position.Y, 200, 180);

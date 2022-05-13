@@ -54,7 +54,7 @@ namespace PhantomProjects.Menus_
 
             //Load textures
             mainBackground = content.Load<Texture2D>("Backgrounds\\PauseBackground");
-            upgradeLogo = content.Load<Texture2D>("Menu\\CharacterUpgrades"); // To be changed
+            upgradeLogo = content.Load<Texture2D>("Menu\\CharacterUpgrades"); 
 
             //Ability Upgrade Icons
             shieldCooldownUpgrade = content.Load<Texture2D>("GUI\\ShieldCooldownUp");
@@ -149,7 +149,7 @@ namespace PhantomProjects.Menus_
         private void UpgradeWeaponDamageGame_Click(object sender, EventArgs e)
         {
             //Check if following conditions are met
-            if (canWeaponDamageUpgrade = true && guiInfo.UPGRADEPOINTS > 300 && upgradeWeaponDamageButton._texture == weaponDamagelocked)
+            if (canWeaponDamageUpgrade = true && guiInfo.UPGRADEPOINTS >= 300 && upgradeWeaponDamageButton._texture == weaponDamagelocked)
             {
                 upgradeWeaponDamageButton._texture = weaponDamageUpgrade;
 
@@ -162,7 +162,7 @@ namespace PhantomProjects.Menus_
 
         private void upgradeShieldDurationButton_Click(object sender, EventArgs e)
         {
-            if (canshieldDurationUpgrade == true && guiInfo.UPGRADEPOINTS > 100 && upgradeShieldDurationButton._texture == shieldDurationlocked)
+            if (canshieldDurationUpgrade == true && guiInfo.UPGRADEPOINTS >= 100 && upgradeShieldDurationButton._texture == shieldDurationlocked)
             {
                 upgradeShieldDurationButton._texture = shieldDurationUpgrade;
                 guiInfo.UPGRADEPOINTS -= 100;
@@ -174,7 +174,7 @@ namespace PhantomProjects.Menus_
 
         private void upgradeShieldCooldownButton_Click(object sender, EventArgs e)
         {
-            if (canshieldCooldownUpgrade == true && guiInfo.UPGRADEPOINTS > 200 && upgradeShieldCooldownButton._texture == shieldCooldownlocked)
+            if (canshieldCooldownUpgrade == true && guiInfo.UPGRADEPOINTS >= 200 && upgradeShieldCooldownButton._texture == shieldCooldownlocked)
             {
                 upgradeShieldCooldownButton._texture = shieldCooldownUpgrade;
                 guiInfo.UPGRADEPOINTS -= 200;
@@ -207,9 +207,9 @@ namespace PhantomProjects.Menus_
                 spriteBatch.DrawString(titleFont, "Weapon", new Vector2(415, 220), Color.White);
                 spriteBatch.DrawString(titleFont, "Shield", new Vector2(665, 220), Color.White);
 
-                spriteBatch.DrawString(buttonFont, "100", new Vector2(450, 350), Color.White);
-                spriteBatch.DrawString(buttonFont, "200", new Vector2(610, 350), Color.White);
-                spriteBatch.DrawString(buttonFont, "300", new Vector2(770, 350), Color.White);
+                spriteBatch.DrawString(buttonFont, "300", new Vector2(450, 350), Color.White);
+                spriteBatch.DrawString(buttonFont, "100", new Vector2(610, 350), Color.White);
+                spriteBatch.DrawString(buttonFont, "200", new Vector2(770, 350), Color.White);
                 #endregion
 
                 foreach (var component in _components)
