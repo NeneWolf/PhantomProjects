@@ -13,19 +13,19 @@ namespace PhantomProjects.Player_
 {
     class Shield
     {
+        #region Declarations
+
         public Animation shieldAnimation;
         Texture2D shieldTexture, currentAnim;
         Vector2 position;
         public bool Active;
-        int shieldUptime, cooldown;
+        int shieldUptime,cooldown;
         public int shieldDuration = 5, cdDelay = 20;
-        UpgradeMenu upgrade;
-
         float elapsed;
         float delay = 120f;
         int Frames = 0;
-
         public Rectangle rectangle, sourceRect;
+        #endregion
 
         public int Width
         {
@@ -53,9 +53,11 @@ namespace PhantomProjects.Player_
 
         public void Update(GameTime gameTime, Player p, bool bossActive, GUI guiInfo)
         {
+            //Shield Position based on the player
             position.X = p.Position.X - 50;
             position.Y = p.Position.Y - 50;
 
+            //Turn on the shield
             if ((Keyboard.GetState().IsKeyDown(Keys.E) || GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed) && cooldown <= 0)
             {
                 Active = true;
@@ -112,6 +114,7 @@ namespace PhantomProjects.Player_
 
         void CancelIncomingDamage(GUI guiInfo, bool bossActive, int duration)
         {
+            //check for enemy bullets
             foreach (BulletE B in BulletEManager.bulletEBeams)
             {
                 Rectangle bulletRectangle = new Rectangle(
@@ -127,6 +130,7 @@ namespace PhantomProjects.Player_
                 }
             }
 
+            //check if a boss exists, check contact with the fireballs
             if (bossActive == true)
             {
                 foreach (Fireball F in FireballManager.fireball)
@@ -148,20 +152,23 @@ namespace PhantomProjects.Player_
             if (shieldUptime == 0)
             {
                 Active = false;
-                shieldUptime = 60 * duration; // change the 5 to a variable - Duration of the shield
+                shieldUptime = 60 * duration; 
                 guiInfo.SHIELDTIMER = 0;
             }
         }
 
+        //Update Duration & Cooldown
         public void UpdateDuration(int duration)
         {
             shieldDuration = duration;
         }
+
         public void UpdateCooldown(int cooldown)
         {
             cdDelay = cooldown;
         }
 
+        //Send data to save in scene
         public int ReturnD() { return shieldDuration; }
         public int ReturnC() { return cdDelay; }
 

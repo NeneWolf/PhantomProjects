@@ -48,7 +48,7 @@ namespace PhantomProjects.States
         //-----------------------------------------
         //Interactables
         ItemManager itemManager = new ItemManager();
-        Door door;
+        Door door = new Door();
 
         //-----------------------------------------
         //Basic Enemy
@@ -68,7 +68,7 @@ namespace PhantomProjects.States
 
         //-----------------------------------------
         // G.U.I. Details
-        SpriteFont guiFont, guiFont2;
+        SpriteFont guiFont;
         Texture2D legand, shieldTimer;
         Texture2D keysGUI, pointsGUI;
         GUI guiInfo = new GUI();
@@ -234,7 +234,6 @@ namespace PhantomProjects.States
             itemManager.SpawnPotion(content, new Vector2(1300, 835));
 
             //Doors
-            door = new Door();
             door.Initialize(content, new Vector2(1600, -40));
             #endregion
 
@@ -411,6 +410,9 @@ namespace PhantomProjects.States
                 //Platforms
                 platformManage.UpdatePlatforms(gameTime, player, true);
 
+                //GUI - Player Health
+                healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
+
                 //Player
                 player.Update(gameTime);
                 pBullets.UpdateManagerBullet(gameTime, player, VFX, SND,upgradeMenu);
@@ -427,9 +429,6 @@ namespace PhantomProjects.States
 
                 //Explotions
                 VFX.UpdateExplosions(gameTime);
-
-                //GUI - Player Health
-                healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
 
             }
         }
@@ -458,6 +457,7 @@ namespace PhantomProjects.States
                 var UMDamage = upgradeMenu.ReturnDMG();
 
                 CleanScene();
+
                 _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS, SRC, SRD, UMSRC, UMSRD, UMDamage);
                 _game.GoToLevelOne(door.canChangeScene);
             }

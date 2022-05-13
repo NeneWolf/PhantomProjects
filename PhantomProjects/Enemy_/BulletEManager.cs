@@ -15,8 +15,8 @@ namespace PhantomProjects.Enemy_
         static Texture2D bulletETexture;
         static Rectangle bulletERectangle;
         static public List<BulletE> bulletEBeams;
-        const float SECONDS_IN_MINUTE = 60f;
-        const float RATE_OF_FIRE = 120f;
+        const float SECONDS_IN_MINUTE = 105f;
+        const float RATE_OF_FIRE = 115f;
 
         static TimeSpan bulletSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
         static TimeSpan previousBulletSpawnTime;
@@ -55,13 +55,13 @@ namespace PhantomProjects.Enemy_
             var bulletPosition = e.position;
             if (!direction)
             {
-                bulletPosition.Y += 17;
-                bulletPosition.X -= 55;
+                bulletPosition.Y += 22;
+                bulletPosition.X -= 1;
             }
             else
             {
-                bulletPosition.Y += 17;
-                bulletPosition.X += 35;
+                bulletPosition.Y += 22;
+                bulletPosition.X += 55;
             }
 
             bullet.Initialize(bulletAnimation, bulletPosition, direction);
