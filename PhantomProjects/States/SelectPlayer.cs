@@ -88,7 +88,6 @@ namespace PhantomProjects.States
             canContinue = true;
         }
 
-
         private void MalePlayerButton_Click(object sender, EventArgs e)
         {
             femalePlayerButton._texture = femaleCharacter;

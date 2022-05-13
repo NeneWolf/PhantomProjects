@@ -19,7 +19,7 @@ namespace PhantomProjects.Decoration_
 
         //Variables for the animation method
         float elapsed;
-        float delay = 120f;
+        float delay = 250f;
         int Frames = 0;
 
         //Get the width of the texture
@@ -40,7 +40,7 @@ namespace PhantomProjects.Decoration_
         public void Initialize(ContentManager Content, Vector2 pos)
         {
             //Load texture
-            lightPotionTexture = Content.Load<Texture2D>("GUI\\HealthPotion");
+            lightPotionTexture = Content.Load<Texture2D>("Decorations\\lights");
 
             //Initialize variables
             Active = true;
@@ -85,7 +85,7 @@ namespace PhantomProjects.Decoration_
                 elapsed = 0;
             }
 
-            sourceRect = new Rectangle((Frames * 70), 0, 70, 70);
+            sourceRect = new Rectangle((Frames * 150), 0, 150, 100);
         }
 
         //Draw Method

@@ -11,7 +11,7 @@ namespace PhantomProjects.Interactables_
     {
         #region Declarations
         public Animation doorAnimation;
-        Texture2D OpenDoor, CloseDoor, OpenPDoor, currentStatus;
+        Texture2D doorOpening, closeDoor, doorOpen, currentStatus;
         Vector2 position;
 
         bool canOpenDoor = true;
@@ -25,12 +25,12 @@ namespace PhantomProjects.Interactables_
 
         public int Width
         {
-            get { return CloseDoor.Width; }
+            get { return doorAnimation.FrameWidth; }
         }
 
         public int Height
         {
-            get { return CloseDoor.Height; }
+            get { return doorAnimation.FrameHeight; }
         }
         #endregion
 
@@ -39,9 +39,9 @@ namespace PhantomProjects.Interactables_
         public void Initialize(ContentManager Content, Vector2 pos)
         {
             //Load textures
-            CloseDoor = Content.Load<Texture2D>("Map\\CloseDoor");
-            OpenDoor = Content.Load<Texture2D>("Map\\DoorAnim");
-            OpenPDoor = Content.Load<Texture2D>("Map\\OpenDoor");
+            closeDoor = Content.Load<Texture2D>("Map\\CloseDoor");
+            doorOpening = Content.Load<Texture2D>("Map\\doorOpening");
+            doorOpen = Content.Load<Texture2D>("Map\\doorOpen");
 
             //Initialize variables
             canChangeScene = false;
@@ -50,7 +50,7 @@ namespace PhantomProjects.Interactables_
 
             //Create animation
             doorAnimation = new Animation();
-            currentStatus = CloseDoor;
+            currentStatus = closeDoor;
 
         }
         #endregion
@@ -63,18 +63,19 @@ namespace PhantomProjects.Interactables_
             {
                 doorAnimation.Update(gameTime);
 
-                doorRectangle = new Rectangle((int)position.X, (int)position.Y, Width, Height);
+                doorRectangle = new Rectangle((int)position.X, (int)position.Y, 300, 300);
 
                 if (guiInfo.KEYS == AmountRequired)
                 {
                     if (canOpenDoor == true)
                     {
-                        currentStatus = OpenDoor;
+                        currentStatus = doorOpening;
                         Animate(gameTime);
                     }
                     else
                     {
-                        currentStatus = OpenPDoor;
+                        currentStatus = doorOpen;
+                        Animate(gameTime);
                     }
 
                     //Check to see if the scene can be changed
@@ -100,7 +101,7 @@ namespace PhantomProjects.Interactables_
 
             if (elapsed >= delay)
             {
-                if (Frames >= 7)
+                if (Frames >= 6)
                 {
                     Frames = 0;
                     canOpenDoor = false;
@@ -118,7 +119,7 @@ namespace PhantomProjects.Interactables_
         //Draw Method
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (currentStatus == OpenPDoor || currentStatus == CloseDoor)
+            if (currentStatus == closeDoor)
             {
                 spriteBatch.Draw(currentStatus, doorRectangle, Color.White);
 

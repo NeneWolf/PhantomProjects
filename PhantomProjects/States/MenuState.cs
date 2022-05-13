@@ -100,7 +100,7 @@ namespace PhantomProjects.States
                 component.Update(gameTime);
         }
 
-        // Level 1
+        // Select Character
         private void NewGameButton_Click(object sender, EventArgs e)
         {
             _game.ChangeState(new SelectPlayer(_game, _graphicsDevice, _content));

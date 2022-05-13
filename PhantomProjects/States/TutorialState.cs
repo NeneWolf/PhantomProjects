@@ -98,8 +98,10 @@ namespace PhantomProjects.States
         private List<Component> _components;
 
         //-----------------------------------------
-        //Decoration - Light
-        Lights lightDecoration;
+        //Decoration - Light ( to be improved )
+        Lights lightDecoration = new Lights();
+        Lights lightDecoration2 = new Lights(); 
+        Lights lightDecoration3 = new Lights();
 
         #endregion
 
@@ -196,7 +198,7 @@ namespace PhantomProjects.States
 
             // Images
             legand = content.Load<Texture2D>("GUI\\legand");
-            shieldTimer = content.Load<Texture2D>("Menu\\Button");
+            shieldTimer = content.Load<Texture2D>("GUI\\GUIBackground");
             keysGUI = content.Load<Texture2D>("GUI\\key");
             pointsGUI = content.Load<Texture2D>("GUI\\UpgradeCoin");
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
@@ -240,8 +242,11 @@ namespace PhantomProjects.States
             #endregion
 
             #region Decoration
-            //lightDecoration = new Lights();
-            //lightDecoration.Initialize(content, new Vector2());
+            // lights spawning...
+            lightDecoration.Initialize(content, new Vector2(130, 1025));
+            lightDecoration2.Initialize(content, new Vector2(530, 1025));
+            lightDecoration3.Initialize(content, new Vector2(930, 1025));
+
             #endregion
 
             #region Game Sounds
@@ -254,8 +259,11 @@ namespace PhantomProjects.States
             // Load the game music
             gameMusic = content.Load<Song>("Sounds\\INGAMEMUSIC");
             SND.Initialize(bulletSound, bloodSound, null);
+
+            //Media ( music )
             MediaPlayer.Play(gameMusic);
             MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.5f;
 
             #endregion
 
@@ -277,8 +285,13 @@ namespace PhantomProjects.States
             //Map 
             map.Draw(_spriteBatch);
 
+            //platform
             platformManage.DrawPlatfroms(_spriteBatch);
 
+            //lights
+            lightDecoration.Draw(_spriteBatch);
+            lightDecoration2.Draw(_spriteBatch);
+            lightDecoration3.Draw(_spriteBatch);
             #endregion
 
             #region Interactable
@@ -319,7 +332,8 @@ namespace PhantomProjects.States
             _spriteBatch.Begin();
 
             //Background Image of the top GUI
-            _spriteBatch.Draw(legand, new Rectangle(0, 0, 320, 100), Color.White);
+            _spriteBatch.Draw(shieldTimer, new Rectangle(100, 35, 120, 30), Color.White);
+            _spriteBatch.Draw(shieldTimer, new Rectangle(100, 70, 120, 30), Color.White);
 
             //Draw profile depending on the player choosen 
             if (_game.ReturnPlayerSelected() == 0)
@@ -334,19 +348,19 @@ namespace PhantomProjects.States
             _spriteBatch.Draw(healthBarGUI, new Vector2(100, 10), healthRectangle, Color.White);
 
             //Upgrade points
-            _spriteBatch.Draw(pointsGUI, new Vector2(100, 40), Color.White);
-            _spriteBatch.DrawString(guiFont, "" + guiInfo.UPGRADEPOINTS, new Vector2(150, 60), Color.White);
+            _spriteBatch.Draw(pointsGUI, new Vector2(100, 25), Color.White);
+            _spriteBatch.DrawString(guiFont, "" + guiInfo.UPGRADEPOINTS, new Vector2(150, 39), Color.White);
 
             //keys
-            _spriteBatch.Draw(keysGUI, new Vector2(200, 40), Color.White);
-            _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(250, 60), Color.White);
+            _spriteBatch.Draw(keysGUI, new Vector2(100, 60), Color.White);
+            _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(150, 75), Color.White);
 
             //Draw all buttons
             foreach (var component in _components)
                 component.Draw(gameTime, _spriteBatch);
 
             //Background Image of the bottom right GUI ( Shield )
-            _spriteBatch.Draw(shieldTimer, new Vector2(1155, 600), Color.White);
+            _spriteBatch.Draw(shieldTimer, new Vector2(1145, 600), Color.White);
 
             //// Draw Duration if the shield is active / Draw Cooldown if the shield is not active
             if (shield.Active == true)
@@ -422,6 +436,11 @@ namespace PhantomProjects.States
 
                 //Platforms
                 platformManage.UpdatePlatforms(gameTime, player, true);
+
+                //Lights
+                lightDecoration.Update(gameTime);
+                lightDecoration2.Update(gameTime);
+                lightDecoration3.Update(gameTime);
 
                 //GUI - Player Health
                 healthRectangle = new Rectangle(0, 0, player.BarHealth, 16);
