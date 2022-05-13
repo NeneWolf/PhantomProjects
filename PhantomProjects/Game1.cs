@@ -51,7 +51,7 @@ namespace PhantomProjects
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
+            _currentState = new CompanyIntro(this, graphics.GraphicsDevice, Content);
         }
 
         protected override void Update(GameTime gameTime)

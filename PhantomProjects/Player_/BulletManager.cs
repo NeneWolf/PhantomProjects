@@ -52,14 +52,15 @@ namespace PhantomProjects.Player_
 
             var bulletPosition = p.Position;
 
+            //change bullet spawn position depending on the side
             if (p.currentAnim == p.playerRight || p.currentAnim == p.idleRight)
             {
-                bulletPosition.Y += 50;
+                bulletPosition.Y += 40;
                 bulletPosition.X += 25;
             }
             else
             {
-                bulletPosition.Y += 50;
+                bulletPosition.Y += 40;
                 bulletPosition.X -= 25;
             }
 

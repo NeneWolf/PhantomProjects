@@ -18,7 +18,7 @@ namespace PhantomProjects.States
 {
     public class GameLevel1 : State
     {
-        #region Tutorial- Declarations
+        #region Level 1- Declarations
 
         private SpriteBatch _spriteBatch;
 
@@ -50,7 +50,7 @@ namespace PhantomProjects.States
         //-----------------------------------------
         //Interactables
         ItemManager itemManager = new ItemManager();
-        Door door;
+        Door door = new Door();
 
         //-----------------------------------------
         //Basic Enemy
@@ -70,7 +70,7 @@ namespace PhantomProjects.States
 
         //-----------------------------------------
         // G.U.I Details
-        SpriteFont guiFont, guiFont2;
+        SpriteFont guiFont;
         Texture2D legand, shieldTimer;
         Texture2D keysGUI, pointsGUI;
         GUI guiInfo = new GUI();
@@ -124,9 +124,9 @@ namespace PhantomProjects.States
             Tiles.Content = content;
             camera = new Camera(graphicsDevice.Viewport);
 
+            //  64x50 Width // 64x30 Height
             map.Generate(new int[,]
             {
-                //  64x50 Width // 64x30 Height
                 { 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
                 { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
@@ -208,7 +208,7 @@ namespace PhantomProjects.States
             #endregion
 
             #region Blood Explosions
-            // Blood Explosions
+            //Blood Explosions
             vfx = content.Load<Texture2D>("GUI\\bloodEffect");
             VFX.Initialize(vfx, details);
             #endregion
@@ -255,26 +255,27 @@ namespace PhantomProjects.States
 
             #endregion
 
-            #region Interactables
+            #region Interactables ( Potions/Keys/Door )
+            //Keys
             itemManager.SpawnKeyCard(content, new Vector2(1856, 450));
             itemManager.SpawnKeyCard(content, new Vector2(190, 1465));
             itemManager.SpawnKeyCard(content, new Vector2(2800, 180));
 
+            //Potions
             itemManager.SpawnPotion(content, new Vector2(1900, 1795));
             itemManager.SpawnPotion(content, new Vector2(200, 835));
             itemManager.SpawnPotion(content, new Vector2(2700, 835));
             itemManager.SpawnPotion(content, new Vector2(448, 835));
 
-            door = new Door();
+            //Door
             door.Initialize(content, new Vector2(2890, -45));
             #endregion
 
             #region Game Sounds
-            ////Sounds
-            // Load the laserSound Effect and create the effect Instance
+            // Player & Basic Enemy bullet sound
             bulletSound = content.Load<SoundEffect>("Sounds\\GunShot");
 
-            // Load the laserSound Effect and create the effect Instance
+            // Blood Sound
             bloodSound = content.Load<SoundEffect>("Sounds\\BloodSound");
 
             // Load the game music
@@ -289,7 +290,7 @@ namespace PhantomProjects.States
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            #region Draw the map 
+            #region First Layer
 
 
             _spriteBatch.Begin(SpriteSortMode.Deferred,
@@ -297,6 +298,7 @@ namespace PhantomProjects.States
                    null, null, null, null,
                    camera.Transform);
 
+            #region Map / Background / Platforms
             // Main background
             _spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 3500, 3000), Color.White);
 
@@ -307,11 +309,14 @@ namespace PhantomProjects.States
             platformManage.DrawPlatfroms(_spriteBatch);
             #endregion
 
+            #region Interactable
             //Interactable
             itemManager.DrawCollectibles(_spriteBatch);
 
             door.Draw(_spriteBatch);
+            #endregion
 
+            #region Player
             //Player Shield
             shield.Draw(_spriteBatch);
 
@@ -320,29 +325,31 @@ namespace PhantomProjects.States
 
             //Player Bullet
             pBullets.DrawBullets(_spriteBatch);
+            #endregion
 
+            #region Basic Enemy
             //Enemy
             EnemyA.DrawEnemies(_spriteBatch);
 
             //Enemy Bullet
             BulletBeams.DrawBullet(_spriteBatch);
+            #endregion
 
             //Explosions
             VFX.DrawExplosions(_spriteBatch);
 
             _spriteBatch.End();
 
+            #endregion
 
-
-
-
-
-
+            #region Second Layer -  GUI's
             // Static GUI
             _spriteBatch.Begin();
+
+            //Background Image of the top GUI
             _spriteBatch.Draw(legand, new Rectangle(0, 0, 320, 100), Color.White);
 
-            //
+            //Draw profile depending on the player choosen 
             if (_game.ReturnPlayerSelected() == 0)
             {
                 _spriteBatch.Draw(profileF, new Vector2(0, 0), Color.White);
@@ -351,25 +358,25 @@ namespace PhantomProjects.States
             else
                 _spriteBatch.Draw(profileM, new Vector2(0, 0), Color.White);
 
-            ////HealthGUI
+            //HealthGUI
             _spriteBatch.Draw(healthBarGUI, new Vector2(100, 10), healthRectangle, Color.White);
 
-            /////Upgrade points
+            //Upgrade points
             _spriteBatch.Draw(pointsGUI, new Vector2(100, 40), Color.White);
             _spriteBatch.DrawString(guiFont, "" + guiInfo.UPGRADEPOINTS, new Vector2(150, 60), Color.White);
 
-            /////keysGUI
+            //keys
             _spriteBatch.Draw(keysGUI, new Vector2(200, 40), Color.White);
             _spriteBatch.DrawString(guiFont, "" + guiInfo.KEYS, new Vector2(250, 60), Color.White);
 
-
+            //Draw all buttons
             foreach (var component in _components)
                 component.Draw(gameTime, _spriteBatch);
 
-            //Shield Timer
+            //Background Image of the bottom right GUI ( Shield )
             _spriteBatch.Draw(shieldTimer, new Vector2(1155, 600), Color.White);
 
-
+            //// Draw Duration if the shield is active / Draw Cooldown if the shield is not active
             if (shield.Active == true)
             {
                 _spriteBatch.DrawString(guiFont, "Duration:" + guiInfo.SHIELDTIMER, new Vector2(1165, 610), Color.White);
@@ -379,21 +386,17 @@ namespace PhantomProjects.States
                 _spriteBatch.DrawString(guiFont, "Cooldown:" + guiInfo.SHIELDCOOLDOWN, new Vector2(1165, 610), Color.White);
             }
 
-            upgradeMenu.Draw(gameTime, _spriteBatch);
-
             _spriteBatch.End();
+            #endregion
 
-
-
-
-
-
+            #region Third Layer - Upgrade & Pause Menu
             _spriteBatch.Begin();
 
+            upgradeMenu.Draw(gameTime, _spriteBatch);
             pauseMenu.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.End();
-
+            #endregion
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -403,24 +406,26 @@ namespace PhantomProjects.States
 
         public override void Update(GameTime gameTime)
         {
+            // Game Manager - Manages the progress/data/scenes and communicates with Game1
             GameManager();
 
+            //Update Pause & Upgrade Menu
             pauseMenu.Update(gameTime);
             upgradeMenu.Update(gameTime, guiInfo);
 
+            //Update buttons
             foreach (var component in _components)
                 component.Update(gameTime);
 
+            //Check if player has pressed P to call pause Menu
             if (Keyboard.GetState().IsKeyDown(Keys.P))
             {
                 pauseMenu.setPauseMenu(true);
             }
 
+            // If Pause Menu or Upgrade Menu open, no other update will run, "pausing" the game
             if (pauseMenu.IsPaused() == false && upgradeMenu.IsUpgradePause() == false)
             {
-
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    _game.Exit();
 
                 //Map
                 #region MapCollision
@@ -455,7 +460,6 @@ namespace PhantomProjects.States
                 EnemyA.UpdateEnemy(gameTime, player, VFX, guiInfo, SND);
                 BulletBeams.UpdateManagerBulletE(gameTime, player, VFX, SND);
 
-
                 //Interactables
                 itemManager.UpdateKey(gameTime, player, guiInfo);
                 itemManager.UpdatePotion(gameTime, player, guiInfo);
@@ -463,14 +467,13 @@ namespace PhantomProjects.States
 
                 //Explotions
                 VFX.UpdateExplosions(gameTime);
-
-                GameManager();
             }
 
         }
 
         void ReturnStoreData()
         {
+            // Call and bring all the data from Game1 from previous scenes
             playerHealth = _game.ReturnHealth();
             playerBarHealth = _game.ReturnHealthBar();
             playerUpgradePoints = _game.ReturnPoints();
@@ -498,6 +501,7 @@ namespace PhantomProjects.States
                 _game.GoToGameOver(true);
             }
 
+            // Save all data in Game1 and Change State
             if (door.canChangeScene == true)
             {
                 var SRC = shield.ReturnC();
@@ -505,7 +509,9 @@ namespace PhantomProjects.States
                 var UMSRC = upgradeMenu.ReturnSC();
                 var UMSRD = upgradeMenu.ReturnSD();
                 var UMDamage = upgradeMenu.ReturnDMG();
+
                 CleanScene();
+
                 _game.SaveHealthAndUpgradePoints(player.Health, player.BarHealth, guiInfo.UPGRADEPOINTS, SRC, SRD, UMSRC, UMSRD, UMDamage);
                 _game.GoToLevelTwo(door.canChangeScene);
             }
@@ -513,6 +519,7 @@ namespace PhantomProjects.States
 
         public void CleanScene()
         {
+            // Clean every list if they contain any items
             if (EnemyManager.enemyType1.Count > 0)
             {
                 EnemyA.CleanEnemies();

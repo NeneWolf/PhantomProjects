@@ -12,6 +12,8 @@ namespace PhantomProjects.Player_
 {
     class Player
     {
+        #region Declarations
+
         public Animation playerAnimation;
         public Texture2D playerRight, playerLeft, idleRight, idleLeft, currentAnim;
         float elapsed;
@@ -38,12 +40,14 @@ namespace PhantomProjects.Player_
         GamePadState currentGamePadState;
         GamePadState previousGamePadState;
 
-        // Get the width of the player ship
+        #endregion
+
+        // Get the width of the player
         public int Width
         {
             get { return playerAnimation.FrameWidth; }
         }
-        // Get the height of the player ship
+        // Get the height of the player 
         public int Height
         {
             get { return playerAnimation.FrameHeight; }
@@ -54,30 +58,18 @@ namespace PhantomProjects.Player_
             get { return position; }
         }
 
-
         public void Initialize(ContentManager content, Vector2 newPosition, int playerSelected)
         {
-            if(playerSelected == 0)
-            {
-                playerRight = content.Load<Texture2D>("Player\\FemalePlayerRightWalk");
-                playerLeft = content.Load<Texture2D>("Player\\FemalePlayerLeftWalk");
-                idleRight = content.Load<Texture2D>("Player\\FemaleRightIdle");
-                idleLeft = content.Load<Texture2D>("Player\\FemaleLeftIdle");
-            }
-            else
-            {
-                playerRight = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
-                playerLeft = content.Load<Texture2D>("Player\\MalePlayerLeftWalk");
-                idleRight = content.Load<Texture2D>("Player\\MaleRightIdle");
-                idleLeft = content.Load<Texture2D>("Player\\MaleLeftIdle");
-            }
+            // Select player content
+            SelectCharacterContent(content, playerSelected);
 
             // Set the player to be active
             Active = true;
+
             // Set the player health
             Health = 100;
 
-            // the size of the health bar... this will be used to cute the bar based on the damage 100 - 10d and 150 - 15d
+            // the size of the health bar... this will be used to cut the bar based on the damage 100 - 10d // 150 - 15d
             BarHealth = 150;
 
             position = newPosition;
@@ -91,7 +83,7 @@ namespace PhantomProjects.Player_
         {
             IsDead();
 
-            if(Active == true)
+            if (Active == true)
             {
                 // Gamepad controls
                 previousGamePadState = currentGamePadState;
@@ -111,7 +103,7 @@ namespace PhantomProjects.Player_
 
         private void Input(GameTime gameTime)
         {
-
+            // Moving
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D) ||
                 currentGamePadState.DPad.Right == ButtonState.Pressed || currentGamePadState.ThumbSticks.Left.X == 1)
             {
@@ -120,7 +112,7 @@ namespace PhantomProjects.Player_
                 Animate(gameTime);
                 right = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)||
+            else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A) ||
                 currentGamePadState.DPad.Left == ButtonState.Pressed || currentGamePadState.ThumbSticks.Left.X == -1)
             {
                 velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
@@ -143,6 +135,7 @@ namespace PhantomProjects.Player_
                 }
             }
 
+            //Jumping
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) ||
                 currentGamePadState.Buttons.A == ButtonState.Pressed) && hasJumped == false)
             {
@@ -229,18 +222,35 @@ namespace PhantomProjects.Player_
             sourceRect = new Rectangle((Frames * 50), 0, 50, 100);
         }
 
-
-        public Rectangle RECTANGLE
-        {
-            get { return rectangle; }
-        }
-
         private void IsDead()
         {
             if (Health <= 0)
             {
                 Active = false;
             }
+        }
+
+        public void SelectCharacterContent(ContentManager content, int playerSelected)
+        {
+            if (playerSelected == 0)
+            {
+                playerRight = content.Load<Texture2D>("Player\\FemalePlayerRightWalk");
+                playerLeft = content.Load<Texture2D>("Player\\FemalePlayerLeftWalk");
+                idleRight = content.Load<Texture2D>("Player\\FemaleRightIdle");
+                idleLeft = content.Load<Texture2D>("Player\\FemaleLeftIdle");
+            }
+            else
+            {
+                playerRight = content.Load<Texture2D>("Player\\MalePlayerRightWalk");
+                playerLeft = content.Load<Texture2D>("Player\\MalePlayerLeftWalk");
+                idleRight = content.Load<Texture2D>("Player\\MaleRightIdle");
+                idleLeft = content.Load<Texture2D>("Player\\MaleLeftIdle");
+            }
+        }
+
+        public Rectangle RECTANGLE
+        {
+            get { return rectangle; }
         }
 
         public void Draw(SpriteBatch spriteBatch)
