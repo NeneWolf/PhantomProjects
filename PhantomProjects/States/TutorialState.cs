@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using PhantomProjects.Player_;
 using PhantomProjects.Interactables_;
-using PhantomProjects.Enemy_;
 using PhantomProjects.Explosion_;
+using PhantomProjects.Player_;
+using PhantomProjects.Enemy_;
 using PhantomProjects.Map_;
 using PhantomProjects.Menus_;
+using PhantomProjects.GUI_;
 
 namespace PhantomProjects.States
 {
@@ -197,7 +197,7 @@ namespace PhantomProjects.States
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
             // Default initiation of GUI 
-            guiInfo.Initialize(0, 0, 0 ,0); // 0 Keys, 0 Points, default shield duration, default shield cooldown
+            guiInfo.Initialize(0, 1000, 0 ,0); // 0 Keys, 0 Points, default shield duration, default shield cooldown
 
             #region UpgradePoint
             // Bottom right GUI, Upgrade Menu

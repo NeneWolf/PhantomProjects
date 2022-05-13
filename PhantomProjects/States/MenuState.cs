@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using PhantomProjects.GUI_;
 
 namespace PhantomProjects.States
 {
     public class MenuState : State
     {
+        #region Menu State - Declarations
         // Game Music.
         private Song menuMusic;
 
         //Static background
         Texture2D mainBackground, gameLogo, companyLogo;
         private List<Component> _components;
+        #endregion
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 using PhantomProjects.Menus_;
 
 namespace PhantomProjects.Player_
 {
     class Bullet
     {
-        #region Definitions
+        #region Declarations
         public Animation BulletAnimation;
         float bulletMoveSpeed;
         public Vector2 Position;

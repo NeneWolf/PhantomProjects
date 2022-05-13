@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +14,7 @@ namespace PhantomProjects.Player_
 {
     class BulletManager
     {
-        #region Definitions
+        #region Declarations
         static Texture2D bulletTextureRight, bulletTextureLeft;
         static Rectangle bulletRectangle;
         static public List<Bullet> bullets;

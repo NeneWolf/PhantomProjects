@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
+using PhantomProjects.GUI_;
 
 namespace PhantomProjects.States
 {
     public class GameControls : State
     {
+        #region Game Controls - Declarations
         //Static background
         Texture2D mainBackground;
         private List<Component> _components;
+        #endregion
 
         public GameControls(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
