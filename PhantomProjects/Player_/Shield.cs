@@ -77,7 +77,7 @@ namespace PhantomProjects.Player_
             //Prevent taking damage when the shield is active and collides with other projectiles
             if (Active == true)
             {
-                rectangle = new Rectangle((int)position.X, (int)position.Y, 150, 150);
+                rectangle = new Rectangle((int)position.X -20, (int)position.Y-25, 200, 180);
                 shieldAnimation.Position = position;
                 shieldAnimation.Update(gameTime);
 
