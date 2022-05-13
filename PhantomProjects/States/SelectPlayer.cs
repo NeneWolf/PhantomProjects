@@ -24,7 +24,7 @@ namespace PhantomProjects.States
         {
             canContinue = false;
             selectCharacterTexture = content.Load<Texture2D>("Menu\\SelectPlayer");
-            mainBackground = content.Load<Texture2D>("SelectCharacterBackground");
+            mainBackground = content.Load<Texture2D>("Backgrounds\\SelectCharacterBackground");
 
             femaleCharacterSelected = content.Load<Texture2D>("Player\\FemalePlayerSelected");
             maleCharacterSelected = content.Load<Texture2D>("Player\\MalePlayerSelected");

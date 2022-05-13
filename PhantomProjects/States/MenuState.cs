@@ -25,7 +25,7 @@ namespace PhantomProjects.States
             menuMusic = content.Load<Song>("Sounds\\MENU");
             MediaPlayer.Play(menuMusic);
 
-            mainBackground = content.Load<Texture2D>("menuBackground");
+            mainBackground = content.Load<Texture2D>("Backgrounds\\menuBackground");
             gameLogo = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white");
             companyLogo = content.Load<Texture2D>("Logos\\Future App-logos_white");
 

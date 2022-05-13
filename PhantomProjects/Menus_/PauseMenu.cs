@@ -29,7 +29,7 @@ namespace PhantomProjects.Menus_
             _graphicsDevice = graphicsDevice;
             _content = content;
 
-            mainBackground = content.Load<Texture2D>("PauseBackground");
+            mainBackground = content.Load<Texture2D>("Backgrounds\\PauseBackground");
             pauseLogo = content.Load<Texture2D>("Menu\\GamePaused"); // To be changed
             continueTexture = content.Load<Texture2D>("Menu\\Continue");
             mainMenuTexture = content.Load<Texture2D>("Menu\\MainMenu");

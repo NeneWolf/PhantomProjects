@@ -146,7 +146,7 @@ namespace PhantomProjects.States
                 }, 64);
 
             //Map background image
-            mainBackground = content.Load<Texture2D>("background");
+            mainBackground = content.Load<Texture2D>("Backgrounds\\background");
 
             // Platforms 
             platformManage.CreatePlatforms(new Vector2(850, 880), content, true, 650, true);
