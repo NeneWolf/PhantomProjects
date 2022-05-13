@@ -106,7 +106,7 @@ namespace PhantomProjects.Enemy_
                 bulletEBeams[i].Update(gameTime);
 
                 // Remove any bullet that is out of range our inactive
-                if (!bulletEBeams[i].Active || bulletEBeams[i].Position.X > 8000 || bulletEBeams[i].Position.X < -8000)
+                if (!bulletEBeams[i].Active || bulletEBeams[i].Position.X > 4000 || bulletEBeams[i].Position.X < -4000)
                 {
                     bulletEBeams.Remove(bulletEBeams[i]);
                 }
@@ -130,7 +130,7 @@ namespace PhantomProjects.Enemy_
 
                     // Damage Player
                     p.Health -= b.damage;
-                    p.BarHealth -= 15;
+                    p.BarHealth -= 10;
 
                     //set bullet to inactive
                     b.Active = false;

@@ -23,6 +23,7 @@ namespace PhantomProjects.Menus_
         private List<Component> _components;
 
         bool pause = false;
+        Button continuegameButton, MainMenuButton, quitGameButton;
         #endregion
 
         #region Constructor
@@ -42,21 +43,21 @@ namespace PhantomProjects.Menus_
             buttonFont = content.Load<SpriteFont>("GUI\\MenuFont");
 
             //Create buttons
-            var continuegameButton = new Button(continueTexture, buttonFont)
+             continuegameButton = new Button(continueTexture, buttonFont)
             {
                 Position = new Vector2(570, 335),
                 Text = "",
             };
             continuegameButton.Click += UnPauseGame_Click;
 
-            var MainMenuButton = new Button(mainMenuTexture, buttonFont)
+            MainMenuButton = new Button(mainMenuTexture, buttonFont)
             {
                 Position = new Vector2(570, 395),
                 Text = "",
             };
             MainMenuButton.Click += MainMenuGame_Click;
 
-            var quitGameButton = new Button(exit, buttonFont)
+            quitGameButton = new Button(exit, buttonFont)
             {
                 Position = new Vector2(570, 455),
                 Text = "",
@@ -82,6 +83,7 @@ namespace PhantomProjects.Menus_
                 foreach (var component in _components)
                     component.Update(gameTime);
             }
+            
         }
 
         //Method to check if game is paused

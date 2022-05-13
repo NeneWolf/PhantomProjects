@@ -197,7 +197,7 @@ namespace PhantomProjects.States
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
             // Default initiation of GUI 
-            guiInfo.Initialize(0, 1000, 0 ,0); // 0 Keys, 0 Points, default shield duration, default shield cooldown
+            guiInfo.Initialize(0, 0, 0 ,0); // 0 Keys, 0 Points, default shield duration, default shield cooldown
 
             #region UpgradePoint
             // Bottom right GUI, Upgrade Menu
@@ -224,7 +224,7 @@ namespace PhantomProjects.States
             #region Interactables ( Potions/Keys/Door )
             //Keys
             itemManager.SpawnKeyCard(content, new Vector2(1728, 500));
-            itemManager.SpawnKeyCard(content, new Vector2(1550, 190));
+            itemManager.SpawnKeyCard(content, new Vector2(1525, 190));
 
             //Potions
             itemManager.SpawnPotion(content, new Vector2(1472, 1165));
@@ -375,6 +375,11 @@ namespace PhantomProjects.States
             pauseMenu.Update(gameTime);
             upgradeMenu.Update(gameTime, guiInfo);
 
+            if (pauseMenu.IsPaused() == true)
+            {
+                upgradeMenu.setUpgradePauseMenu(false);
+            }
+
             //Update buttons
             foreach (var component in _components)
                 component.Update(gameTime);
@@ -433,7 +438,10 @@ namespace PhantomProjects.States
 
         private void UpgradePauseMenu_Click(object sender, EventArgs e)
         {
-            upgradeMenu.setUpgradePauseMenu(true);
+            if (pauseMenu.IsPaused() == false)
+            {
+                upgradeMenu.setUpgradePauseMenu(true);
+            }
         }
 
         void GameManager()

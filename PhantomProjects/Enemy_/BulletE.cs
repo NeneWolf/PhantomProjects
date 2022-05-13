@@ -34,7 +34,7 @@ namespace PhantomProjects.Enemy_
             BulletAnimation = animation; // set animation for the bullet
             Position = position; // set the postion
             Active = true;
-            damage = 10;
+            damage = 5;
 
             // check whats the direction that the bullet is being fired and switch the velocity accordingly 
             if (Right)
