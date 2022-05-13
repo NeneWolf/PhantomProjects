@@ -10,12 +10,13 @@ namespace PhantomProjects.Enemy_
 {
     class EnemyManager
     {
-        #region Definitions 
+        #region Declarations 
+        //Create a list for all enemies 
         static public List<EnemyA> enemyType1 = new List<EnemyA>();
 
-        //Handle the graphics info
-        Vector2 graphicsInfo;
+        Vector2 graphicsInfo;//Handle the graphics info
         #endregion
+
         public void Initialize(GraphicsDevice Graphics)
         {
             graphicsInfo.X = Graphics.Viewport.Width;
@@ -86,9 +87,13 @@ namespace PhantomProjects.Enemy_
 
                 if (enemyType1[i].Active == false)
                 {
-                    //Add the Explossion in the enemy location
+                    //Add the blood explosion in the enemy location
                     VFX.AddExplosion(enemyType1[i].LocationEnemy, SND);
+
+                    //add upgrade points into the gui 
                     guiInfo.UPGRADEPOINTS += 50;
+
+                    //remove this enemy from the list
                     enemyType1.RemoveAt(i);
                 }
             }
@@ -96,6 +101,7 @@ namespace PhantomProjects.Enemy_
 
         public void CleanEnemies()
         {
+            // clean the entire list
             for(int i = (enemyType1.Count - 1); i >= 0; i--)
             {
                 enemyType1[i].Active = false;

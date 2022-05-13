@@ -10,10 +10,10 @@ namespace PhantomProjects.Enemy_
     class EnemyA
     {
         #region Declarations
-        /////Enemy Canvas
-        ///Animation
-        public Animation enemyAnimation;
-        Texture2D enemyRight, enemyLeft, currentAnim;
+        public Animation enemyAnimation;//Enemy Animation
+        Texture2D enemyRight, enemyLeft, currentAnim; //Enemy Textures for the animation
+
+        //Animation parameters
         float elapsed;
         float delay = 120f;
         int Frames = 0;
@@ -34,15 +34,18 @@ namespace PhantomProjects.Enemy_
         public int Damage;
         #endregion
 
-        //Get the dimentions of the enemy
+        // Return dimentions of the enemy based on the enemy animation frame width/height
         public int Width
         {
             get { return enemyAnimation.FrameWidth; }
         }
+
         public int Height
         {
             get { return enemyAnimation.FrameHeight; }
         }
+
+        //Get the position of the enemy
         public Vector2 LocationEnemy
         {
             get { return position; }
@@ -50,28 +53,33 @@ namespace PhantomProjects.Enemy_
 
         public void Initialize(Animation animation, Vector2 newPosition, ContentManager content)
         {
+            //Initialise enemy content
             enemyLeft = content.Load<Texture2D>("EnemyA\\enemyALeft");
             enemyRight = content.Load<Texture2D>("EnemyA\\enemyARight");
 
-            enemyAnimation = animation;
+            //Set position
             position = newPosition;
+
+            //Set animation texture & initialise Animation
+            enemyAnimation = animation;
             currentAnim = enemyRight;
 
-            //Enemy Stats
+            //Set enemy Stats
             distance = 384f;
             Health = 100;
             Active = true;
             Damage = 10;
-
             oldDistance = distance;
 
         }
 
         public void Update(GameTime gameTime, Player player, Sounds SND)
         {
+            //If active, set the velocity of the enemy & rectangle
             position += velocity;
             rectangle = new Rectangle((int)position.X, (int)position.Y, 100, 93);
 
+            //Set the animation position to the current enemy position & update
             enemyAnimation.Position = position;
             enemyAnimation.Update(gameTime);
 
@@ -89,7 +97,7 @@ namespace PhantomProjects.Enemy_
             if (player.Active == true)
                 HuntPlayer(gameTime, SND);
 
-            //Check health & dmg
+            //Check Enemy health
             IsDead();
 
             // check if its fauling
@@ -100,6 +108,9 @@ namespace PhantomProjects.Enemy_
 
         void Patrol(GameTime gameTime)
         {
+            // Calculates the current position of the enemy & add or subtract velocity
+            // Making the enemy walk left and right until it reaches a certain distance
+
             if (distance <= 0)
             {
                 right = true;
@@ -111,19 +122,27 @@ namespace PhantomProjects.Enemy_
                 velocity.X = -1f;
             }
 
-            if (right) distance += 1; // update the distance
+            // update the distance
+            if (right) distance += 1; 
             else distance -= 1;
         }
 
         void HuntPlayer(GameTime gameTime, Sounds SND)
         {
+            // Calculates if the player enters the patrol distance ( X and Y )
+            // if the player at any point gets inside this distance, the enemy will start "Hunting" the player
+
             if ((playerDistance >= -patrolDistance && playerDistance <= patrolDistance) &&
                 (playerDistanceY >= -patrolDistanceY && playerDistanceY <= patrolDistanceY))
             {
                 if (playerDistance < -1f)
                 {
+                    //Left Behaviour
+                    // if the player is in a certain distance of the enemy, it will start attacking
                     BulletEManager.FireBulletE(gameTime, this, false, SND);
 
+                    //if the player moved a certain distance of the boss while in the attack mode
+                    //Enemy will move towards the player until that distance is again meet.
                     if (playerDistance > -200)
                     {
                         currentAnim = enemyLeft;
@@ -134,7 +153,12 @@ namespace PhantomProjects.Enemy_
                 }
                 else if (playerDistance > 1f)
                 {
+                    //Right Behaviour
+                    // if the player is in a certain distance of the enemy, it will start attacking
                     BulletEManager.FireBulletE(gameTime, this, true, SND);
+
+                    //if the player moved a certain distance of the boss while in the attack mode
+                    //Enemy will move towards the player until that distance is again meet.
                     if (playerDistance < 200)
                     {
                         currentAnim = enemyRight;
@@ -154,6 +178,7 @@ namespace PhantomProjects.Enemy_
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
+            // Checks if the Enemy is colliding with any tile
             if (rectangle.TouchTopOf(newRectangle))
             {
                 rectangle.Y = newRectangle.Y - rectangle.Height;
@@ -183,6 +208,8 @@ namespace PhantomProjects.Enemy_
 
         void AnimationCheck(GameTime gameTime)
         {
+            // Changes animation depending of the velocity of the enemy
+            // If x is position set it to the Right animation, negative will set to Left animation
             if (velocity.X > 0f)
             {
                 currentAnim = enemyRight;
@@ -195,6 +222,7 @@ namespace PhantomProjects.Enemy_
             }
         }
 
+        //Animation Methods
         void Animate(GameTime gameTime)
         {
             elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -216,12 +244,14 @@ namespace PhantomProjects.Enemy_
 
         void IsDead()
         {
+            // if at any point the enemy health is below or 0, it will be considered dead
             if (Health <= 0)
             {
                 Active = false;
             }            
         }
 
+        //Returns the enemy rectangle
         public Rectangle RECTANGLE
         {
             get { return rectangle; }
@@ -234,3 +264,4 @@ namespace PhantomProjects.Enemy_
 
     }
 }
+ 
