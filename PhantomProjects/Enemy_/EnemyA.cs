@@ -25,7 +25,7 @@ namespace PhantomProjects.Enemy_
         float distance; // Distance fixed ( the distance that the enemy will patrol )
         float oldDistance; // Compare old distance with the new distance
         float playerDistance, playerDistanceY; //Distance of Enemy from the player
-        int patrolDistance = 384, patrolDistanceY = 200;// Patrol distance
+        int patrolDistance = 384, patrolDistanceY = 100;// Patrol distance
 
         ///Details
         public Vector2 position; // Enemy position
