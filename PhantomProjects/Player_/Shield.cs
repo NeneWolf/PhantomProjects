@@ -2,12 +2,9 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using PhantomProjects.GUI_;
 using PhantomProjects.Enemy_;
 using PhantomProjects.Boss_;
-using PhantomProjects.Menus_;
 
 namespace PhantomProjects.Player_
 {

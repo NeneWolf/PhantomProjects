@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
+using PhantomProjects.GUI_;
 
 namespace PhantomProjects.States
 {
     public class CreditState : State
     {
+        #region Credit State - Declarations
         //Static background
         Texture2D mainBackground, gameLogo;
         private List<Component> _components;
+        #endregion
 
         public CreditState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)

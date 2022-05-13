@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using PhantomProjects.Player_;
-using System;
 using System.Collections.Generic;
-using System.Text;
-
+using PhantomProjects.Player_;
+using PhantomProjects.GUI_;
 
 namespace PhantomProjects.Interactables_
 {

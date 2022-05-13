@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using PhantomProjects.GUI_;
 
 namespace PhantomProjects.States
 {
     public class GameOver : State
     {
+        #region Game Over - Declarations
         // Game Music.
         private Song menuMusic;
         private List<Component> _components;
 
         //Static background
         Texture2D mainBackground;
+        #endregion
 
         public GameOver(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
         : base(game, graphicsDevice, content)

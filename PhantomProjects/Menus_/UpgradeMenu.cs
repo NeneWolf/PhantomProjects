@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework;
 using PhantomProjects.Player_;
-using PhantomProjects.States;
+using PhantomProjects.GUI_;
 
 namespace PhantomProjects.Menus_
 {
     class UpgradeMenu
     {
+        #region Declarations
         Game1 _game;
         GraphicsDevice _graphicsDevice;
         ContentManager _content;
@@ -40,6 +36,7 @@ namespace PhantomProjects.Menus_
         public bool DamageUpgraded = false;
         public bool DurationUpgraded = false;
         public bool CooldownUpgraded = false;
+        #endregion
 
         public void Initialize(GraphicsDevice graphicsDevice, ContentManager content, Game1 Game, Shield Shield, BulletManager pbullets, bool canUpSC, bool canUpSD, bool canUpDmg)
         {
@@ -79,6 +76,10 @@ namespace PhantomProjects.Menus_
             };
             upgradeWeaponDamageButton.Click += UpgradeWeaponDamageGame_Click;
 
+            if (canWeaponDamageUpgrade == false)
+                upgradeWeaponDamageButton._texture = weaponDamageUpgrade;
+
+
             upgradeShieldDurationButton = new Button(shieldDurationlocked, buttonFont)
             {
                 Position = new Vector2(600, 280),
@@ -104,9 +105,6 @@ namespace PhantomProjects.Menus_
             upgradeShieldCooldownButton.Click += upgradeShieldCooldownButton_Click;
 
 
-
-
-            //
             continuegameButton = new Button(continueButton, buttonFont)
             {
                 Position = new Vector2(570, 535),
