@@ -230,8 +230,7 @@ namespace PhantomProjects.States
 
             #region GUI 
             //FONTS
-            guiFont = content.Load<SpriteFont>("GUI\\PixType");
-            guiFont2 = content.Load<SpriteFont>("GUI\\GUIFont");
+            guiFont = content.Load<SpriteFont>("GUI\\GUIFont");
 
             // GUI
             legand = content.Load<Texture2D>("GUI\\legand");
@@ -384,11 +383,11 @@ namespace PhantomProjects.States
 
             if (shield.Active == true)
             {
-                _spriteBatch.DrawString(guiFont2, "Duration:" + guiInfo.SHIELDTIMER, new Vector2(1165, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Duration:" + guiInfo.SHIELDTIMER, new Vector2(1165, 610), Color.White);
             }
             else
             {
-                _spriteBatch.DrawString(guiFont2, "Cooldown:" + guiInfo.SHIELDCOOLDOWN, new Vector2(1165, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Cooldown:" + guiInfo.SHIELDCOOLDOWN, new Vector2(1165, 610), Color.White);
             }
 
             upgradeMenu.Draw(gameTime, _spriteBatch);
