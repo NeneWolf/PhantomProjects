@@ -25,9 +25,8 @@ namespace PhantomProjects.States
         //-----------------------------------------
         //Camera & Map
         Camera camera;
-        Map map;
+        Map map = new Map();
 
-        //-----------------------------------------
         // Moving Platforms
         PlatformManager platformManage = new PlatformManager();
 
@@ -44,32 +43,32 @@ namespace PhantomProjects.States
         //Shield
         Shield shield = new Shield();
 
+        //Player Bullets
+        Texture2D pBulletTexture;
+        BulletManager pBullets = new BulletManager();
+
         //-----------------------------------------
         //Interactables
         ItemManager itemManager = new ItemManager();
         Door door;
 
         //-----------------------------------------
-        //Player Bullets
-        Texture2D pBulletTexture;
-        BulletManager pBullets = new BulletManager();
-
-        //-----------------------------------------
         //Basic Enemy
         EnemyManager EnemyA = new EnemyManager();
         GraphicsDevice details;
 
-        //-----------------------------------------
         //Basic Enemy Bullets
         Texture2D bulletETexture;
         BulletEManager BulletBeams = new BulletEManager();
 
         //-----------------------------------------
-        // Explosion(Blood) / GUI 
+        // Explosion(Blood)
         Texture2D vfx;
+
         //Controls all the explosion
         ExplosionManager VFX = new ExplosionManager();
 
+        //-----------------------------------------
         // G.U.I Details
         SpriteFont guiFont, guiFont2;
         Texture2D legand, shieldTimer;
@@ -80,21 +79,23 @@ namespace PhantomProjects.States
         Texture2D healthBarGUI;
         Rectangle healthRectangle;
 
-        //------------ sounds ------------
-
-        //Our Laser Sound and Instance
+        //-----------------------------------------
+        // Sounds - Bullet
         private SoundEffect bulletSound;
 
-        //Our Explosion Sound.
+        // Sounds - Explosion
         private SoundEffect bloodSound;
 
-        // Game Music.
+        // Sounds - Game Music
         private Song gameMusic;
         Sounds SND = new Sounds();
 
+        //-----------------------------------------
         //Pause & Upgrade Menu 
         PauseMenu pauseMenu = new PauseMenu();
         UpgradeMenu upgradeMenu = new UpgradeMenu();
+
+        //Button
         private List<Component> _components;
 
         #endregion
@@ -104,21 +105,25 @@ namespace PhantomProjects.States
         {
             _spriteBatch = new SpriteBatch(graphicsDevice);
             details = graphicsDevice;
+
+            //Clean any list before starting to load the level
             CleanScene();
-
-            // Set Map & Player
-            map = new Map();
-
+            
+            // Restore data from Game1 regards previous Scenes
             ReturnStoreData();
+
+            #region Pause & Upgrade Menu
+            // Set the Payse & Upgrade Menu
             pauseMenu.Initialize(graphicsDevice, content, _game);
             upgradeMenu.Initialize(graphicsDevice, content, _game, shield, pBullets,canShieldC,canShieldD,canUpDmg);
+            #endregion
+
+            #region Map / Tiles / Camera 
 
             //Tiles / Map / Camera
             Tiles.Content = content;
             camera = new Camera(graphicsDevice.Viewport);
 
-            #region Map1_Generator 
-            
             map.Generate(new int[,]
             {
                 //  64x50 Width // 64x30 Height
@@ -154,7 +159,7 @@ namespace PhantomProjects.States
                 { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2},
             }, 64);
 
-
+            //Map background image
             mainBackground = content.Load<Texture2D>("background");
 
             //Platforms
@@ -168,8 +173,7 @@ namespace PhantomProjects.States
             #endregion
 
             #region Player
-            profileF = content.Load<Texture2D>("Player\\FemaleProfile");
-            profileM = content.Load<Texture2D>("Player\\MaleProfile");
+
             player.Initialize(content, new Vector2(130, 1728), _game.ReturnPlayerSelected()); //130,1728
 
             //Reset to the previous level values
@@ -181,6 +185,7 @@ namespace PhantomProjects.States
             pBullets.Initialize(pBulletTexture);
 
             //Shield
+            //Restore shield cooldown & duration data
             shield.UpdateDuration(shieldDurationN);
             shield.UpdateCooldown(shieldCooldownN);
             shield.Initialize(content);
@@ -200,30 +205,36 @@ namespace PhantomProjects.States
             bulletETexture = content.Load<Texture2D>("EnemyA\\EnemyBullet");
             BulletBeams.Initialize(bulletETexture, details);
             #endregion
+            #endregion
 
-            #region Explosives
-            // EXPLOSSIONS
+            #region Blood Explosions
+            // Blood Explosions
             vfx = content.Load<Texture2D>("GUI\\bloodEffect");
             VFX.Initialize(vfx, details);
             #endregion
-            #endregion
 
-            #region GUI 
-            //FONTS
-            guiFont = content.Load<SpriteFont>("GUI\\PixType");
-            guiFont2 = content.Load<SpriteFont>("GUI\\GUIFont");
+            #region G.U.I. 
 
-            // GUI
+            //Character Profile
+            profileF = content.Load<Texture2D>("Player\\FemaleProfile");
+            profileM = content.Load<Texture2D>("Player\\MaleProfile");
+
+            //Fonts
+            guiFont = content.Load<SpriteFont>("GUI\\GUIFont");
+
+            //Images
             legand = content.Load<Texture2D>("GUI\\legand");
             shieldTimer = content.Load<Texture2D>("Menu\\Button");
             keysGUI = content.Load<Texture2D>("GUI\\key");
             pointsGUI = content.Load<Texture2D>("GUI\\UpgradeCoin");
             healthBarGUI = content.Load<Texture2D>("GUI\\PlayerHealthBar");
 
-            guiInfo.Initialize(0, playerUpgradePoints, 0,0); // Set GUI with keys, upgrade points, shieldTimer
-            #endregion
+            //Initiation of GUI 
+            guiInfo.Initialize(0, playerUpgradePoints, 0,0); // 0 Keys, Restored data from previous scenes regards Points, shield duration, shield cooldown
+            
 
             #region UpgradePoint
+            // Bottom right GUI, Upgrade Menu
             var buttonTexture = content.Load<Texture2D>("GUI\\UpgradeArrowTest");
             var buttonFont = content.Load<SpriteFont>("GUI\\MenuFont");
 
@@ -239,6 +250,8 @@ namespace PhantomProjects.States
                 {
                 upgradebutton,
             };
+
+            #endregion
 
             #endregion
 
@@ -359,11 +372,11 @@ namespace PhantomProjects.States
 
             if (shield.Active == true)
             {
-                _spriteBatch.DrawString(guiFont2, "Duration:" + guiInfo.SHIELDTIMER, new Vector2(1165, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Duration:" + guiInfo.SHIELDTIMER, new Vector2(1165, 610), Color.White);
             }
             else
             {
-                _spriteBatch.DrawString(guiFont2, "Cooldown:" + guiInfo.SHIELDCOOLDOWN, new Vector2(1165, 610), Color.White);
+                _spriteBatch.DrawString(guiFont, "Cooldown:" + guiInfo.SHIELDCOOLDOWN, new Vector2(1165, 610), Color.White);
             }
 
             upgradeMenu.Draw(gameTime, _spriteBatch);
