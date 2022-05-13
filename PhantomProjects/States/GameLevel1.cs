@@ -423,7 +423,7 @@ namespace PhantomProjects.States
                 component.Update(gameTime);
 
             //Check if player has pressed P to call pause Menu
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            if (Keyboard.GetState().IsKeyDown(Keys.P) || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 pauseMenu.setPauseMenu(true);
             }

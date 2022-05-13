@@ -13,10 +13,11 @@ namespace PhantomProjects.States
         #region End Game - Declarations
         // Game Music.
         private Song menuMusic;
-        private List<Component> _components;
 
         //Static background
         Texture2D mainBackground;
+
+        int menuTimer;
         #endregion
 
         public EndGame(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
@@ -28,25 +29,9 @@ namespace PhantomProjects.States
             MediaPlayer.IsRepeating = true;
 
             //Background
-            mainBackground = content.Load<Texture2D>("Menu\\GameComplete"); 
+            mainBackground = content.Load<Texture2D>("Menu\\GameComplete");
 
-            //Buttons
-            var buttonTexture = _content.Load<Texture2D>("Menu\\MainMenu");
-            var buttonFont = _content.Load<SpriteFont>("GUI\\MenuFont");
-
-
-            var mainMenuButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(540, 585),
-                Text = "",
-            };
-
-            mainMenuButton.Click += MainMenuButton_Click;
-
-            _components = new List<Component>()
-          {
-            mainMenuButton,
-          };
+            menuTimer = 60 * 5;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -54,24 +39,23 @@ namespace PhantomProjects.States
             spriteBatch.Begin();
             // Main background
             spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 700), Color.White);
-
-            foreach (var component in _components)
-                component.Draw(gameTime, spriteBatch);
-
             spriteBatch.End();
-        }
-
-        private void MainMenuButton_Click(object sender, EventArgs e)
-        {
-            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
         }
 
         public override void PostUpdate(GameTime gameTime) { }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var component in _components)
-                component.Update(gameTime);
+            menuTimer--;
+            ChangeScene(menuTimer);
+        }
+
+        void ChangeScene(int timer)
+        {
+            if (timer < 0)
+            {
+                _game.ChangeState(new CreditState(_game, _graphicsDevice, _content));
+            }
         }
     }
 }

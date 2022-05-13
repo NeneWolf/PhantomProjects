@@ -13,6 +13,7 @@ using PhantomProjects.Enemy_;
 using PhantomProjects.Map_;
 using PhantomProjects.Menus_;
 using PhantomProjects.GUI_;
+using PhantomProjects.Decoration_;
 
 namespace PhantomProjects.States
 {
@@ -96,8 +97,12 @@ namespace PhantomProjects.States
         //Button
         private List<Component> _components;
 
+        //-----------------------------------------
+        //Decoration - Light
+        Lights lightDecoration;
+
         #endregion
-        
+
         public TutorialState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
@@ -232,6 +237,11 @@ namespace PhantomProjects.States
 
             //Doors
             door.Initialize(content, new Vector2(1600, -40));
+            #endregion
+
+            #region Decoration
+            //lightDecoration = new Lights();
+            //lightDecoration.Initialize(content, new Vector2());
             #endregion
 
             #region Game Sounds
@@ -385,7 +395,7 @@ namespace PhantomProjects.States
                 component.Update(gameTime);
 
             //Check if player has pressed P to call pause Menu
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            if (Keyboard.GetState().IsKeyDown(Keys.P) || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 pauseMenu.setPauseMenu(true);
             }

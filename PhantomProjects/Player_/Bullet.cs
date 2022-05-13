@@ -10,8 +10,8 @@ namespace PhantomProjects.Player_
         public Animation BulletAnimation;
         float bulletMoveSpeed;
         public Vector2 Position;
-        public int Damage = 10;
-        public int DMGUpgrade = 20;
+        public int Damage = 15;
+        public int DMGUpgrade = 2;
         public bool Active;
 
         public int Width
@@ -35,7 +35,7 @@ namespace PhantomProjects.Player_
             //Check if weapondamage has been upgraded
             if (!upgrade.ReturnDMG())
             {
-                Damage += DMGUpgrade;
+                Damage *= DMGUpgrade;
             }
 
             //Change direction of firing the bullet
