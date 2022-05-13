@@ -28,6 +28,7 @@ namespace PhantomProjects.Enemy_
         static bool direction;
         #endregion
 
+        #region Construtor
         public void Initialize(ContentManager content, GraphicsDevice Graphics)
         {
             // Create the new list
@@ -44,7 +45,9 @@ namespace PhantomProjects.Enemy_
             bulletETextureRight = content.Load<Texture2D>("EnemyA\\EnemyBulletRight");
             bulletETextureLeft = content.Load<Texture2D>("EnemyA\\EnemyBulletLeft"); ;
         }
+        #endregion
 
+        #region Methods
         // Method that will initialise each bullet
         public static void FireBulletE(GameTime gameTime, EnemyA e, bool Direction, Sounds SND)
         {
@@ -163,5 +166,6 @@ namespace PhantomProjects.Enemy_
                 b.Draw(spriteBatch);
             }
         }
+        #endregion
     }
 }

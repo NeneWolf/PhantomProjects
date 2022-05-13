@@ -10,6 +10,7 @@ namespace PhantomProjects.Menus_
 {
     class PauseMenu
     {
+        #region Declarations
         Game1 _game;
         GraphicsDevice _graphicsDevice;
         ContentManager _content;
@@ -22,13 +23,17 @@ namespace PhantomProjects.Menus_
         private List<Component> _components;
 
         bool pause = false;
+        #endregion
 
+        #region Constructor
         public void Initialize(GraphicsDevice graphicsDevice, ContentManager content, Game1 Game)
         {
+            //Initialize variables
             _game = Game;
             _graphicsDevice = graphicsDevice;
             _content = content;
 
+            //Load textures
             mainBackground = content.Load<Texture2D>("Backgrounds\\PauseBackground");
             pauseLogo = content.Load<Texture2D>("Menu\\GamePaused"); // To be changed
             continueTexture = content.Load<Texture2D>("Menu\\Continue");
@@ -36,6 +41,7 @@ namespace PhantomProjects.Menus_
             exit = _content.Load<Texture2D>("Menu\\Exit");
             buttonFont = content.Load<SpriteFont>("GUI\\MenuFont");
 
+            //Create buttons
             var continuegameButton = new Button(continueTexture, buttonFont)
             {
                 Position = new Vector2(570, 335),
@@ -64,33 +70,44 @@ namespace PhantomProjects.Menus_
                 quitGameButton,
                 };
         }
+        #endregion
 
+        #region Methods
+
+        //Update Method
         public void Update(GameTime gameTime)
         {
             if (pause == true)
             {
                 foreach (var component in _components)
                     component.Update(gameTime);
-            }           
+            }
         }
 
+        //Method to check if game is paused
         public bool IsPaused() { return pause; }
 
         public bool setPauseMenu(bool pauseMenu) => pause = pauseMenu;
 
+        //Method to resume the game
         private void UnPauseGame_Click(object sender, EventArgs e)
         {
             setPauseMenu(false);
         }
+
+        //Method to go back to the menu
         private void MainMenuGame_Click(object sender, EventArgs e)
         {
             _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
         }
+
+        //Method to quit the game
         private void QuitGame_Click(object sender, EventArgs e)
         {
             _game.Exit();
         }
 
+        //Draw Method
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (pause == true)
@@ -102,5 +119,6 @@ namespace PhantomProjects.Menus_
                     component.Draw(gameTime, spriteBatch);
             }
         }
+        #endregion
     }
 }

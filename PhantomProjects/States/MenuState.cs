@@ -24,6 +24,7 @@ namespace PhantomProjects.States
         {
             menuMusic = content.Load<Song>("Sounds\\MENU");
             MediaPlayer.Play(menuMusic);
+            MediaPlayer.IsRepeating = true;
 
             mainBackground = content.Load<Texture2D>("Backgrounds\\menuBackground");
             gameLogo = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white");
@@ -105,7 +106,7 @@ namespace PhantomProjects.States
             _game.ChangeState(new SelectPlayer(_game, _graphicsDevice, _content));
         }
 
-        // 
+        // Controls Scene
         private void LoadControlButton_Click(object sender, EventArgs e)
         {
             _game.ChangeState(new GameControls(_game, _graphicsDevice, _content));

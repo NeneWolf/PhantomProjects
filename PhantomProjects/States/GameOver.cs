@@ -25,6 +25,7 @@ namespace PhantomProjects.States
             //Background Music
             menuMusic = content.Load<Song>("Sounds\\MENU");
             MediaPlayer.Play(menuMusic);
+            MediaPlayer.IsRepeating = true;
 
             //Background
             mainBackground = content.Load<Texture2D>("Menu\\GameOver");
@@ -56,6 +57,7 @@ namespace PhantomProjects.States
             mainMenuButton
           };
         }
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();

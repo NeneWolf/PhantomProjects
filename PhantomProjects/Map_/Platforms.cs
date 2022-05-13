@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
-using PhantomProjects.States;
-using PhantomProjects.Player_;
-using PhantomProjects.Map_;
 
 
 namespace PhantomProjects.Map_
@@ -15,8 +8,8 @@ namespace PhantomProjects.Map_
     class Platforms
     {
         #region Declarations
+        //Variables
         Texture2D platformTexture;
-
         public Rectangle rectangle;
         public Vector2 position, velocity;
         Vector2 currentPosition, destinePosition;
@@ -25,21 +18,26 @@ namespace PhantomProjects.Map_
         bool Active;
         bool vertical;
 
-        #endregion
-
+        //Get the width of the texture
         public int Width
         {
             get { return platformTexture.Width; }
         }
+
+        //Get the height of the texture
         public int Height
         {
             get { return platformTexture.Height; }
         }
+        #endregion
 
+        #region Constructor
         public void Initialize(Vector2 Position, ContentManager content, bool Horizontal, int MovingDistance, bool active)
         {
+            //Load texture
             platformTexture = content.Load<Texture2D>("Map\\Platform");
 
+            //Initialize variables
             position = Position;
             currentPosition = position;
             vertical = Horizontal;
@@ -49,16 +47,20 @@ namespace PhantomProjects.Map_
             destinePosition.Y = position.Y - movingDistance;
             destinePosition.X = position.X + movingDistance;
         }
+        #endregion
 
+        #region Methods
+        //Update Methods
         public void Update(GameTime gameTime)
         {
-            if(Active == true)
+            if (Active == true)
             {
                 position += velocity;
                 rectangle = new Rectangle((int)position.X, (int)position.Y, Width, Height);
                 PlatformMovement(gameTime);
             }
         }
+
         public bool UpdateStatus(bool activate) => Active = activate;
 
         void PlatformMovement(GameTime gameTime)
@@ -94,9 +96,11 @@ namespace PhantomProjects.Map_
 
         public bool IsActive() { return Active; }
 
+        //Draw Method
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(platformTexture, rectangle, Color.White);
         }
+        #endregion
     }
 }

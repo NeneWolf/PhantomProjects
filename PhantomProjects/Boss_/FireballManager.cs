@@ -28,6 +28,7 @@ namespace PhantomProjects.Boss_
 
         #endregion
 
+        #region Constructor
         public void Initialize(GraphicsDevice Graphics, ContentManager content)
         {
             // Create the new list
@@ -43,7 +44,9 @@ namespace PhantomProjects.Boss_
             graphicsInfo.X = Graphics.Viewport.Width;
             graphicsInfo.Y = Graphics.Viewport.Height;
         }
+        #endregion
 
+        #region Methods
         // Method that will initialise each fireball
         public static void FireBulletE(GameTime gameTime, Boss b, Sounds SND)
         {
@@ -136,5 +139,6 @@ namespace PhantomProjects.Boss_
                 b.Draw(spriteBatch);
             }
         }
+        #endregion
     }
 }

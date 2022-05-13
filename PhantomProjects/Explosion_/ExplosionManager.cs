@@ -19,6 +19,7 @@ namespace PhantomProjects.Explosion_
 
         #endregion
 
+        #region Constructor
         public void Initialize(Texture2D texture, GraphicsDevice Graphics)
         {
             graphicsInfo.X = Graphics.Viewport.Width;
@@ -28,7 +29,9 @@ namespace PhantomProjects.Explosion_
             explosions = new List<Explosion>();
             explosionTexture = texture;
         }
+        #endregion
 
+        #region Methods
         public void AddExplosion(Vector2 targetPosition, Sounds SND)
         {
             // ini the animation of the explotions
@@ -76,5 +79,6 @@ namespace PhantomProjects.Explosion_
                 e.Draw(spriteBatch);
             }
         }
+        #endregion
     }
 }

@@ -301,6 +301,7 @@ namespace PhantomProjects.States
             gameMusic = content.Load<Song>("Sounds\\BOSS");
             SND.Initialize(bulletSound, bloodSound, fireballSound);
             MediaPlayer.Play(gameMusic);
+            MediaPlayer.IsRepeating = true;
 
             #endregion
 

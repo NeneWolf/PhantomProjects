@@ -28,8 +28,6 @@ namespace PhantomProjects.Boss_
         public int damage; //damage that can inflict 
         public bool Active;
 
-        #endregion
-
         // Return dimentions of the fireball based on the fireball animation frame width/height
         public int Width
         {
@@ -41,6 +39,9 @@ namespace PhantomProjects.Boss_
             get { return FireballAnimation.FrameHeight; }
         }
 
+        #endregion
+
+        #region Constructor
         public void Initialize(Animation animation, Vector2 position, ContentManager content)
         {
             //Initialise fireball content
@@ -59,7 +60,9 @@ namespace PhantomProjects.Boss_
             fireballMoveSpeed = 8f;
             
         }
+        #endregion
 
+        #region Methods
         public void Update(GameTime gameTime)
         {
             // if Fireball is active then create canvas and initialise animation
@@ -107,5 +110,6 @@ namespace PhantomProjects.Boss_
         {
             spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
         }
+        #endregion
     }
 }

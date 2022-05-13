@@ -9,8 +9,9 @@ namespace PhantomProjects.Interactables_
 {
     class Door
     {
+        #region Declarations
         public Animation doorAnimation;
-        Texture2D OpenDoor, CloseDoor, OpenPDoor,  currentStatus;
+        Texture2D OpenDoor, CloseDoor, OpenPDoor, currentStatus;
         Vector2 position;
 
         bool canOpenDoor = true;
@@ -31,22 +32,31 @@ namespace PhantomProjects.Interactables_
         {
             get { return CloseDoor.Height; }
         }
+        #endregion
 
+        #region Constructor
+        //Door Constructor
         public void Initialize(ContentManager Content, Vector2 pos)
         {
+            //Load textures
             CloseDoor = Content.Load<Texture2D>("Map\\CloseDoor");
             OpenDoor = Content.Load<Texture2D>("Map\\DoorAnim");
             OpenPDoor = Content.Load<Texture2D>("Map\\OpenDoor");
 
+            //Initialize variables
             canChangeScene = false;
             Active = true;
             position = pos;
 
+            //Create animation
             doorAnimation = new Animation();
             currentStatus = CloseDoor;
 
         }
+        #endregion
 
+        #region Methods
+        //Update Method
         public void Update(GameTime gameTime, Player p, GUI guiInfo, int AmountRequired)
         {
             if (Active == true)
@@ -57,7 +67,7 @@ namespace PhantomProjects.Interactables_
 
                 if (guiInfo.KEYS == AmountRequired)
                 {
-                     if (canOpenDoor == true)
+                    if (canOpenDoor == true)
                     {
                         currentStatus = OpenDoor;
                         Animate(gameTime);
@@ -67,7 +77,7 @@ namespace PhantomProjects.Interactables_
                         currentStatus = OpenPDoor;
                     }
 
-
+                    //Check to see if the scene can be changed
                     if (doorRectangle.Intersects(p.RECTANGLE) && (Keyboard.GetState().IsKeyDown(Keys.F) ||
                         GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed))
                     {
@@ -77,11 +87,13 @@ namespace PhantomProjects.Interactables_
             }
         }
 
+        //Return Method
         public bool ReturnChangeScene()
         {
             return canChangeScene;
         }
 
+        //Animate Method
         void Animate(GameTime gameTime)
         {
             elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -103,14 +115,17 @@ namespace PhantomProjects.Interactables_
             sourceRect = new Rectangle((Frames * 300), 0, 300, 300);
         }
 
+        //Draw Method
         public void Draw(SpriteBatch spriteBatch)
         {
             if (currentStatus == OpenPDoor || currentStatus == CloseDoor)
             {
                 spriteBatch.Draw(currentStatus, doorRectangle, Color.White);
 
-            }else 
+            }
+            else
                 spriteBatch.Draw(currentStatus, doorRectangle, sourceRect, Color.White);
         }
+        #endregion
     }
 }

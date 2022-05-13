@@ -50,7 +50,6 @@ namespace PhantomProjects.States
             spriteBatch.End();
         }
 
-
         private void MainMenuButton_Click(object sender, EventArgs e)
         {
             _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
