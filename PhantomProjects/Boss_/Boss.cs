@@ -32,7 +32,6 @@ namespace PhantomProjects.Boss_
         public bool Active, canReceiveReward; // Check if the boss is active & if the player can receive the reward for defeating it
         public int Health;
         public int Damage;
-        #endregion
 
         // Return dimentions of the boss based on the boss animation frame width/height
         public int Width
@@ -50,7 +49,9 @@ namespace PhantomProjects.Boss_
         {
             get { return position; }
         }
+        #endregion
 
+        #region Constructor
         public void Initialize(Vector2 newPosition, ContentManager content)
         {
             //Initialise boss content
@@ -72,7 +73,9 @@ namespace PhantomProjects.Boss_
             currentAnim = bossRight;
 
         }
+        #endregion
 
+        #region Methods
         public void Update(GameTime gameTime, Player player, GUI guiInfo, Sounds SND)
         {
             //Check if the boss is active
@@ -273,5 +276,7 @@ namespace PhantomProjects.Boss_
                 spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
             }
         }
+
+        #endregion
     }
 }

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 
 namespace PhantomProjects.Map_
 {
     static class RectangleHelper
     {
+        #region Methods
+        //Methods to check if the sides of this rectangle is colliding with any side of another rectangle
         public static bool TouchTopOf(this Rectangle r1, Rectangle r2)
         {
             return (r1.Bottom >= r2.Top - 1
@@ -40,5 +37,6 @@ namespace PhantomProjects.Map_
                     && r1.Top <= r2.Bottom - (r2.Width / 4)
                     && r1.Bottom >= r2.Top + (r2.Width / 4));
         }
+        #endregion
     }
 }

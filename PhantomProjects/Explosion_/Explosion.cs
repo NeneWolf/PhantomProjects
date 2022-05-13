@@ -11,7 +11,6 @@ namespace PhantomProjects.Explosion_
         Vector2 Position; // position of spawn
         public bool Active; 
         int timeToLive; // time that will be ran
-        #endregion
 
         // Return dimentions of the explostion based on the explosion animation frame width/height
         public int Width
@@ -24,6 +23,9 @@ namespace PhantomProjects.Explosion_
             get { return explosionAnimation.FrameWidth; }
         }
 
+        #endregion
+
+        #region Constructor
         public void Initialize(Animation animation, Vector2 position)
         {
             explosionAnimation = animation; // Set explosion animation
@@ -31,6 +33,9 @@ namespace PhantomProjects.Explosion_
             Active = true;
             timeToLive = 30; //set the time of explosion life
         }
+        #endregion
+
+        #region Methods
 
         public void Update(GameTime gameTime)
         {
@@ -50,5 +55,6 @@ namespace PhantomProjects.Explosion_
         {
             explosionAnimation.Draw(spriteBatch);
         }
+        #endregion
     }
 }

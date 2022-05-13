@@ -32,7 +32,6 @@ namespace PhantomProjects.Enemy_
         public bool Active;
         public int Health;
         public int Damage;
-        #endregion
 
         // Return dimentions of the enemy based on the enemy animation frame width/height
         public int Width
@@ -50,7 +49,9 @@ namespace PhantomProjects.Enemy_
         {
             get { return position; }
         }
+        #endregion
 
+        #region Constructor
         public void Initialize(Animation animation, Vector2 newPosition, ContentManager content)
         {
             //Initialise enemy content
@@ -72,7 +73,9 @@ namespace PhantomProjects.Enemy_
             oldDistance = distance;
 
         }
+        #endregion
 
+        #region Methods
         public void Update(GameTime gameTime, Player player, Sounds SND)
         {
             //If active, set the velocity of the enemy & rectangle
@@ -261,7 +264,7 @@ namespace PhantomProjects.Enemy_
         {
             spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
         }
-
+        #endregion
     }
 }
  

@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
+﻿using Microsoft.Xna.Framework.Audio;
 
 namespace PhantomProjects
 {
     class Sounds
     {
+        #region Declarations
         private SoundEffectInstance bulletSoundInstance;
         private SoundEffectInstance bloodSoundInstance;
         private SoundEffectInstance fireballSoundInstance;
+        #endregion
 
+        #region Constructor
         public void Initialize(SoundEffect bulletSound, SoundEffect bloodSound, SoundEffect fireballSound)
         {
             bulletSoundInstance = bulletSound.CreateInstance();
@@ -23,7 +22,10 @@ namespace PhantomProjects
             }
 
         }
-        //HERE WE WILL RETURN ALL TH SOUNDS ACROSS ALL THE CLASSES
+        #endregion
+
+        #region Methods
+        //Return the sounds to any scene that requires
         public SoundEffectInstance BULLET
         {
             get { return bulletSoundInstance; }
@@ -38,6 +40,6 @@ namespace PhantomProjects
         {
             get { return bloodSoundInstance; }
         }
-
+        #endregion
     }
 }

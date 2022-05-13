@@ -14,7 +14,6 @@ namespace PhantomProjects.Enemy_
         public int damage; // bullet dmg
         public bool Active;
         bool Right; // direction that is being fired
-        #endregion
 
         // Return dimentions of the bullet based on the bullet animation frame width/height
         public int Width
@@ -26,7 +25,9 @@ namespace PhantomProjects.Enemy_
         {
             get { return BulletAnimation.FrameHeight; }
         }
+        #endregion
 
+        #region Constructor
         public void Initialize(Animation animation, Vector2 position, bool Direction)
         {
             Right = Direction; // set the direction that the bullet is being fired
@@ -41,7 +42,9 @@ namespace PhantomProjects.Enemy_
             else
                 bulletMoveSpeed = -10f;
         }
+        #endregion
 
+        #region Methods
         public void Update(GameTime gameTime)
         {
             //Update bullet position X based on the bullet velocity
@@ -56,5 +59,6 @@ namespace PhantomProjects.Enemy_
         {
             BulletAnimation.Draw(spriteBatch);
         }
+        #endregion
     }
 }

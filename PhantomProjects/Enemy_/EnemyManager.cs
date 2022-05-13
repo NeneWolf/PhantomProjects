@@ -17,12 +17,15 @@ namespace PhantomProjects.Enemy_
         Vector2 graphicsInfo;//Handle the graphics info
         #endregion
 
+        #region Constructor
         public void Initialize(GraphicsDevice Graphics)
         {
             graphicsInfo.X = Graphics.Viewport.Width;
             graphicsInfo.Y = Graphics.Viewport.Height;
         }
+        #endregion
 
+        #region Methods
         public static void UpdateColission(Player player, ExplosionManager VFX, GUI guiInfo, Sounds SND)
         {
             //use the Rectangle's build-in interscect function to determine if
@@ -116,5 +119,6 @@ namespace PhantomProjects.Enemy_
                 enemyType1[i].Draw(spriteBatch);
             }
         }
+        #endregion
     }
 }

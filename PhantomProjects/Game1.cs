@@ -1,31 +1,26 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using PhantomProjects.States;
-using PhantomProjects.Player_;
 
 namespace PhantomProjects
 {
     public class Game1 : Game
     {
-        
+        #region Declaration
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        //To assign and check the current and next scene
         private State _currentState;
-
         private State _nexState;
 
+        // bool for scenes
         bool scene1 = false, scene2 = false, gameOver = false, endGame = false;
 
+        // variables forthe player, points, shield and weapon dmg
         int playerSelected, playerHealth, healthBar, upgradePoints, shieldCooldown, shieldDuration;
         bool shieldUpC, shieldUpD, weaponDamage;
-
-
-        public void ChangeState(State state)
-        {
-            _nexState = state;
-        }
+        #endregion
 
         public Game1()
         {
@@ -56,22 +51,32 @@ namespace PhantomProjects
 
         protected override void Update(GameTime gameTime)
         {
+            // if next scene is not null then transfer
             if (_nexState != null)
             {
                 _currentState = _nexState;
                 _nexState = null;
             }
+
+            // Update the scene
             _currentState.Update(gameTime);
             _currentState.PostUpdate(gameTime);
 
+            //Check whats the next scene
             CheckScenes();
 
             base.Update(gameTime);
         }
 
+        //Method to change to next state
+        public void ChangeState(State state)
+        {
+            _nexState = state;
+        }
+
         public void CheckScenes()
         {
-            // change to the other Scenes if the bool becomes true
+            // change to the next Scenes if the bool becomes true
             if (scene1 == true)
             {
                 scene1 = false;
@@ -97,19 +102,22 @@ namespace PhantomProjects
             }
         }
 
-
+        // Save character selection
         public void SaveCharacterSelected(int player)
         {
             // 0 - Female, 1 - Male
             playerSelected = player;
         }
 
-
+        // Methods that assign the next scene if they become true
+        #region Check Scenes Methods
         public bool GoToLevelOne(bool move) => scene1 = move;
         public bool GoToLevelTwo(bool move) => scene2 = move;
         public bool GoToEndGame(bool move) => endGame = move;
         public bool GoToGameOver(bool move) => gameOver = move;
+        #endregion
 
+        //Method that saves all the important information accross all scenes
         public void SaveHealthAndUpgradePoints( int health, int Bar, int points, int shieldC, int shieldD, bool canUpShieldC, bool canUpShieldD, bool WeaponDamage) 
         { 
             playerHealth = health; 
@@ -122,6 +130,8 @@ namespace PhantomProjects
             weaponDamage = WeaponDamage;
         }
 
+        //Methods that return all the information stored to the scenes
+        #region Return Data Methods
         public int ReturnPlayerSelected() { return playerSelected; }
 
         public int ReturnHealth() { return playerHealth; }
@@ -135,6 +145,7 @@ namespace PhantomProjects
         public bool ReturnShieldUpD() { return shieldUpD; }
 
         public bool ReturnWeaponDMG() { return weaponDamage; }
+        #endregion
 
         protected override void Draw(GameTime gameTime)
         {

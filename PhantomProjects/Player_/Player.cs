@@ -41,8 +41,6 @@ namespace PhantomProjects.Player_
         GamePadState currentGamePadState;
         GamePadState previousGamePadState;
 
-        #endregion
-
         //Get the width of the player
         public int Width
         {
@@ -60,8 +58,9 @@ namespace PhantomProjects.Player_
         {
             get { return position; }
         }
+        #endregion
 
-        //Player Constructor
+        #region Constructor
         public void Initialize(ContentManager content, Vector2 newPosition, int playerSelected)
         {
             //Method to determine which player sprite to use
@@ -85,7 +84,9 @@ namespace PhantomProjects.Player_
             //Initialize the Animation to be used on startup
             currentAnim = idleRight;
         }
+        #endregion
 
+        #region Methods
         //Update Method
         public void Update(GameTime gameTime)
         {
@@ -287,5 +288,6 @@ namespace PhantomProjects.Player_
                 spriteBatch.Draw(currentAnim, rectangle, sourceRect, Color.White);
             }
         }
+        #endregion
     }
 }
