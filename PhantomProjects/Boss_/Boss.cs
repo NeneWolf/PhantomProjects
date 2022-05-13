@@ -10,31 +10,31 @@ namespace PhantomProjects.Boss_
     class Boss
     {
         #region Declarations
-        /////Enemy Canvas
-        ///Animation
-        public Animation bossAnimation;
-        Texture2D bossRight, bossLeft, currentAnim;
+
+        public Animation bossAnimation; //Boss Animation
+        Texture2D bossRight, bossLeft, currentAnim; // Boss sprites for the animations
+
+        //Animation parameters
         float elapsed;
         float delay = 120f;
         int Frames = 0;
 
-
         public Rectangle rectangle, sourceRect; // Canvas for texture movement
-        Vector2 velocity; //Velocity of the enemy movement
+        Vector2 velocity; //Velocity of the boss movement
         bool right; // default movement
-        float distance; // Distance fixed ( the distance that the enemy will patrol )
+        float distance; // Distance fixed ( the distance that the boss will patrol )
         float oldDistance; // Compare old distance with the new distance
-        float playerDistance, playerDistanceY; //Distance of Enemy from the player
+        float playerDistance, playerDistanceY; //Distance of Boss from the player
         int patrolDistance = 850, patrolDistanceY = 200;// Patrol distance
 
         ///Details
         public Vector2 position; // Enemy position
-        public bool Active, canReceiveReward;
+        public bool Active, canReceiveReward; // Check if the boss is active & if the player can receive the reward for defeating it
         public int Health;
         public int Damage;
         #endregion
 
-        //Get the dimentions of the enemy
+        // Return dimentions of the boss based on the boss animation frame width/height
         public int Width
         {
             get { return bossAnimation.FrameWidth; }
@@ -43,6 +43,8 @@ namespace PhantomProjects.Boss_
         {
             get { return bossAnimation.FrameHeight; }
         }
+
+        //Get the position of the boss
         public Vector2 LocateBoss
         {
             get { return position; }
@@ -50,19 +52,21 @@ namespace PhantomProjects.Boss_
 
         public void Initialize(Vector2 newPosition, ContentManager content)
         {
+            //Initialise boss content
             bossLeft = content.Load<Texture2D>("Boss\\BossLeftWalk");
             bossRight = content.Load<Texture2D>("Boss\\BossRightWalk");
 
+            //Set position
             position = newPosition;
 
-            //Enemy Stats
+            //Set boss Stats
             distance = 384f;
             Health = 300;
-            Active = true;
+            Active = true;         
             canReceiveReward = false;
 
+            //Set animation texture & initialise Animation
             oldDistance = distance;
-
             bossAnimation = new Animation();
             currentAnim = bossRight;
 
@@ -70,14 +74,16 @@ namespace PhantomProjects.Boss_
 
         public void Update(GameTime gameTime, Player player, GUI guiInfo, Sounds SND)
         {
-            //Check health & dmg
+            //Check if the boss is active
+            IsDead(guiInfo);
+
             if (Active == true)
             {
-                IsDead(guiInfo);
-
+                //If active, set the velocity of the boss & rectangle
                 position += velocity;
                 rectangle = new Rectangle((int)position.X, (int)position.Y, 200, 180);
 
+                //Set the animation position to the current boss position & update
                 bossAnimation.Position = position;
                 bossAnimation.Update(gameTime);
 
@@ -103,6 +109,8 @@ namespace PhantomProjects.Boss_
 
         void Patrol(GameTime gameTime)
         {
+            // Calculates the current position of the boss & add or subtract velocity
+            // Making the boss walk left and right until it reaches a certain distance
             if (distance <= 0)
             {
                 right = true;
@@ -114,21 +122,28 @@ namespace PhantomProjects.Boss_
                 velocity.X = -1f;
             }
 
-            if (right) distance += 1; // update the distance
+            // update the distance
+            if (right) distance += 1;
             else distance -= 1;
         }
 
         void HuntPlayer(GameTime gameTime, Sounds SND)
         {
+            // Calculates if the player enters the patrol distance ( X and Y )
+            // if the player at any point gets inside this distance, the boss will start "Hunting" the player
             if ((playerDistance >= -patrolDistance && playerDistance <= patrolDistance) &&
                 (playerDistanceY >= -patrolDistanceY && playerDistanceY <= patrolDistanceY))
             {
                 if (playerDistance < -1f)
                 {
+                    // if the player is in a certain distance of the boss, it will start attacking
                     FireballManager.FireBulletE(gameTime, this, SND);
 
+                    //if the player moved a certain distance of the boss while in the attack mode
+                    //Boss will move towards the player until that distance is again meet.
                     if (playerDistance > -200)
                     {
+                        // if the previous action was moving to the left, the current Animation will be set to left;
                         currentAnim = bossLeft;
                         velocity.X = 0f;
                     }
@@ -137,9 +152,14 @@ namespace PhantomProjects.Boss_
                 }
                 else if (playerDistance > 1f)
                 {
+                    // if the player is in a certain distance of the boss, it will start attacking
                     FireballManager.FireBulletE(gameTime, this, SND);
+
+                    //if the player moved a certain distance of the boss while in the attack mode
+                    //Boss will move towards the player until that distance is again meet.
                     if (playerDistance < 200)
                     {
+                        // if the previous action was moving to the left, the current Animation will be set to right;
                         currentAnim = bossRight;
                         velocity.X = 0f;
                     }
@@ -152,11 +172,11 @@ namespace PhantomProjects.Boss_
                 }
 
             }
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 200, 180);
         }
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
+            // Checks if the boss is colliding with any tile
             if (rectangle.TouchTopOf(newRectangle))
             {
                 rectangle.Y = newRectangle.Y - rectangle.Height;
@@ -184,8 +204,11 @@ namespace PhantomProjects.Boss_
             if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
         }
 
+
         void AnimationCheck(GameTime gameTime)
         {
+            // Changes animation depending of the velocity of the Boss
+            // If x is position set it to the Right animation, negative will set to Left animation
             if (velocity.X > 0f)
             {
                 currentAnim = bossRight;
@@ -198,6 +221,7 @@ namespace PhantomProjects.Boss_
             }
         }
 
+        //Animation Methods
         void Animate(GameTime gameTime)
         {
             elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -219,6 +243,8 @@ namespace PhantomProjects.Boss_
 
         void IsDead(GUI guiInfo)
         {
+            // if at any point the boss health is below or 0, it will be considered dead
+            // player will get the points rewards
             if (Health <= 0)
             {
                 Active = false;
@@ -228,9 +254,11 @@ namespace PhantomProjects.Boss_
 
         public void CleanBoss()
         {
+            // Restarting a lvl - Its important to clean all elements, including bosses
             Active = false;
         }
 
+        //Returns the boss rectangle
         public Rectangle RECTANGLE
         {
             get { return rectangle; }

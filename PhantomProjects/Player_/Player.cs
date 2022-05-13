@@ -16,75 +16,90 @@ namespace PhantomProjects.Player_
         float delay = 120f, delayIdle = 800f;
         int Frames = 0;
 
-        // Position of the Player relative to the upper left side of the screen
+        //Variable to hold player position
         private Vector2 position;
 
+        //Variable to hold how fast the player will move in a given direction
         private Vector2 velocity;
+
+        //Rectangle variables
         public Rectangle rectangle, sourceRect;
 
-        // State of the player
+        //State of the player
         public bool Active;
-        // Amount of hit points that player has
+
+        //Total player health
         public int Health, BarHealth;
 
-        // Jump
+        //Variable to check if the player has already jumped
         private bool hasJumped = false;
 
+        //Variable to help change shooting direction
         bool right;
 
-        // Gamepad states used to determine button presses
+        //Gamepad states used to determine button presses
         GamePadState currentGamePadState;
         GamePadState previousGamePadState;
 
         #endregion
 
-        // Get the width of the player
+        //Get the width of the player
         public int Width
         {
             get { return playerAnimation.FrameWidth; }
         }
-        // Get the height of the player 
+
+        //Get the height of the player 
         public int Height
         {
             get { return playerAnimation.FrameHeight; }
         }
 
+        //Get the position of the player
         public Vector2 Position
         {
             get { return position; }
         }
 
+        //Player Constructor
         public void Initialize(ContentManager content, Vector2 newPosition, int playerSelected)
         {
-            // Select player content
+            //Method to determine which player sprite to use
             SelectCharacterContent(content, playerSelected);
 
-            // Set the player to be active
+            //Set the player to be active
             Active = true;
 
-            // Set the player health
+            //Set the player health
             Health = 100;
 
-            // the size of the health bar... this will be used to cut the bar based on the damage 100 - 10d // 150 - 15d
+            //Set the size of the health bar which will be reduced each time the player takes damage
             BarHealth = 150;
 
+            //Initialize the player's position
             position = newPosition;
 
+            //Initialize the player's animation
             playerAnimation = new Animation();
 
+            //Initialize the Animation to be used on startup
             currentAnim = idleRight;
         }
 
+        //Update Method
         public void Update(GameTime gameTime)
         {
+            //Check the state of the player
             IsDead();
 
+            //Take input only if the player is active/alive
             if (Active == true)
             {
                 // Gamepad controls
                 previousGamePadState = currentGamePadState;
                 currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
+                //Update the player's position using velocity
                 position += velocity;
                 rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 100);
                 playerAnimation.Position = position;
@@ -92,18 +107,22 @@ namespace PhantomProjects.Player_
 
                 Input(gameTime);
 
+                //Gravity
                 if (velocity.Y < 10)
                     velocity.Y += 0.35f;
             }
         }
 
+        //Player Input
         private void Input(GameTime gameTime)
         {
-            // Moving
+            //Player movement
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D) ||
                 currentGamePadState.DPad.Right == ButtonState.Pressed || currentGamePadState.ThumbSticks.Left.X == 1)
             {
                 velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+
+                //Adjust the animation
                 currentAnim = playerRight;
                 Animate(gameTime);
                 right = true;
@@ -116,6 +135,7 @@ namespace PhantomProjects.Player_
                 Animate(gameTime);
                 right = false;
             }
+            //Set velocity to 0 so player doesnt move if theres no input
             else
             {
                 velocity.X = 0f;
@@ -141,8 +161,10 @@ namespace PhantomProjects.Player_
             }
         }
 
+        //Collision Detection with tiles
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
+            //Player standing on a tile
             if (rectangle.TouchTopOf(newRectangle))
             {
                 rectangle.Y = newRectangle.Y - rectangle.Height;
@@ -150,16 +172,19 @@ namespace PhantomProjects.Player_
                 hasJumped = false;
             }
 
+            //Player rectangle hitting the right of side of a tile
             if (rectangle.TouchLeftOf(newRectangle))
             {
                 position.X = newRectangle.X - rectangle.Width - 2;
             }
 
+            //Player rectangle hitting the left side of a tile
             if (rectangle.TouchRightOf(newRectangle))
             {
                 position.X = newRectangle.X + newRectangle.Width + 2;
             }
 
+            //Player rectangle hitting the top of a tile
             if (rectangle.TouchBottomOf(newRectangle))
             {
                 velocity.Y = 1f;
@@ -171,6 +196,7 @@ namespace PhantomProjects.Player_
             if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
         }
 
+        //Methhod to determine position on platforms
         public void ChangePositionOnPlatforms(float positionX, float positionY, bool Jump)
         {
             position.Y = positionY;
@@ -178,6 +204,7 @@ namespace PhantomProjects.Player_
             hasJumped = Jump;
         }
 
+        //Animation Methods
         void Animate(GameTime gameTime)
         {
             elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -218,6 +245,7 @@ namespace PhantomProjects.Player_
             sourceRect = new Rectangle((Frames * 50), 0, 50, 100);
         }
 
+        //Method to remove player sprite if their health reaches 0
         private void IsDead()
         {
             if (Health <= 0)
@@ -226,6 +254,7 @@ namespace PhantomProjects.Player_
             }
         }
 
+        //Method to load Player sprite based on the selection made in the character select menu
         public void SelectCharacterContent(ContentManager content, int playerSelected)
         {
             if (playerSelected == 0)
@@ -244,11 +273,13 @@ namespace PhantomProjects.Player_
             }
         }
 
+        //Get the player's rectangle
         public Rectangle RECTANGLE
         {
             get { return rectangle; }
         }
 
+        //Draw Method
         public void Draw(SpriteBatch spriteBatch)
         {
             if (Active == true)
