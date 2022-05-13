@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using PhantomProjects.Player_;
 using PhantomProjects.Explosion_;
 using PhantomProjects.Map_;
@@ -130,7 +128,6 @@ namespace PhantomProjects.Boss_
                 }
             }
         }
-
 
         public void DrawFireball(SpriteBatch spriteBatch)
         {

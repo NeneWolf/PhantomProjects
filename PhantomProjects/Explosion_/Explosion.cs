@@ -1,40 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace PhantomProjects.Explosion_
 {
     class Explosion
     {
         #region Declarations
-        Animation explosionAnimation;
-        Vector2 Position;
-        public bool Active;
-        int timeToLive;
+
+        Animation explosionAnimation; //blood explosion animation
+        Vector2 Position; // position of spawn
+        public bool Active; 
+        int timeToLive; // time that will be ran
+        #endregion
+
+        // Return dimentions of the explostion based on the explosion animation frame width/height
         public int Width
         {
             get { return explosionAnimation.FrameWidth; }
         }
+
         public int Height
         {
             get { return explosionAnimation.FrameWidth; }
         }
-        #endregion
 
         public void Initialize(Animation animation, Vector2 position)
         {
-            explosionAnimation = animation;
-            Position = position;
+            explosionAnimation = animation; // Set explosion animation
+            Position = position; // Set explosion position
             Active = true;
-            timeToLive = 30;
+            timeToLive = 30; //set the time of explosion life
         }
+
         public void Update(GameTime gameTime)
         {
+            // update explosion
             explosionAnimation.Update(gameTime);
 
+            // Reduce the explosion time and set active to false once its been finished
             timeToLive -= 1;
 
             if (timeToLive <= 0)
@@ -42,6 +45,7 @@ namespace PhantomProjects.Explosion_
                 this.Active = false;
             }
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             explosionAnimation.Draw(spriteBatch);

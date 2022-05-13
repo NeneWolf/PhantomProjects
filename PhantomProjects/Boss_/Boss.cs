@@ -28,7 +28,7 @@ namespace PhantomProjects.Boss_
         int patrolDistance = 850, patrolDistanceY = 200;// Patrol distance
 
         ///Details
-        public Vector2 position; // Enemy position
+        public Vector2 position; // Boss position
         public bool Active, canReceiveReward; // Check if the boss is active & if the player can receive the reward for defeating it
         public int Health;
         public int Damage;
@@ -39,6 +39,7 @@ namespace PhantomProjects.Boss_
         {
             get { return bossAnimation.FrameWidth; }
         }
+
         public int Height
         {
             get { return bossAnimation.FrameHeight; }
@@ -64,9 +65,9 @@ namespace PhantomProjects.Boss_
             Health = 300;
             Active = true;         
             canReceiveReward = false;
+            oldDistance = distance;
 
             //Set animation texture & initialise Animation
-            oldDistance = distance;
             bossAnimation = new Animation();
             currentAnim = bossRight;
 
@@ -136,6 +137,7 @@ namespace PhantomProjects.Boss_
             {
                 if (playerDistance < -1f)
                 {
+                    //Left Behaviour
                     // if the player is in a certain distance of the boss, it will start attacking
                     FireballManager.FireBulletE(gameTime, this, SND);
 
@@ -152,6 +154,7 @@ namespace PhantomProjects.Boss_
                 }
                 else if (playerDistance > 1f)
                 {
+                    //Right  Behaviour
                     // if the player is in a certain distance of the boss, it will start attacking
                     FireballManager.FireBulletE(gameTime, this, SND);
 
@@ -203,7 +206,6 @@ namespace PhantomProjects.Boss_
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
         }
-
 
         void AnimationCheck(GameTime gameTime)
         {
