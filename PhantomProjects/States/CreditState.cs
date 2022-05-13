@@ -11,7 +11,7 @@ namespace PhantomProjects.States
     {
         #region Credit State - Declarations
         //Static background
-        Texture2D mainBackground, background, gameLogo, buttonTexture;
+        Texture2D mainBackground, background, gameLogo, buttonTexture, creditsTitle;
 
         //Button list
         private List<Component> _components;
@@ -26,6 +26,7 @@ namespace PhantomProjects.States
         {
             background = content.Load<Texture2D>("Backgrounds\\PauseBackground");
             mainBackground = content.Load<Texture2D>("Backgrounds\\smallBackground");
+            creditsTitle = content.Load<Texture2D>("Menu\\CreditsTitle");
             gameLogo = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white");
 
             buttonTexture = _content.Load<Texture2D>("Menu\\MainMenu");
@@ -50,14 +51,16 @@ namespace PhantomProjects.States
         {
             spriteBatch.Begin();
 
-            // Main background
-            
+            #region Text
 
+            //Credits text... Not the best but its working
+            //Images
             spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 700), Color.White);
             spriteBatch.Draw(background, new Rectangle(0, 0, 1280, 700), Color.White);
             spriteBatch.Draw(gameLogo, new Rectangle(0, 450, 300, 300), Color.White);
+            spriteBatch.Draw(creditsTitle, new Rectangle(400, -190, 500, 500), Color.White);
 
-            spriteBatch.DrawString(buttonFont, "Credits", new Vector2(600, 30), Color.White);
+            //Content
             spriteBatch.DrawString(buttonFont, "Project Manager, Programmer & Level Design", new Vector2(100, 130), Color.White);
             spriteBatch.DrawString(buttonFont, "Lead Programmer/Tester & UI Design", new Vector2(100, 180), Color.White);
             spriteBatch.DrawString(buttonFont, "Software engineer, Art Designer & Sound Engineer", new Vector2(100, 230), Color.White);
@@ -70,6 +73,7 @@ namespace PhantomProjects.States
             spriteBatch.DrawString(buttonFont, "Gazelle", new Vector2(600, 380), Color.White);
             spriteBatch.DrawString(buttonFont, "Markos", new Vector2(600, 430), Color.White);
             spriteBatch.DrawString(buttonFont, "Our Game Testers", new Vector2(540, 480), Color.White);
+            #endregion
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);

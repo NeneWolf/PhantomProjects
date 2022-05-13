@@ -13,12 +13,18 @@ namespace PhantomProjects
         #region Constructor
         public void Initialize(SoundEffect bulletSound, SoundEffect bloodSound, SoundEffect fireballSound)
         {
+            //inits 
             bulletSoundInstance = bulletSound.CreateInstance();
             bloodSoundInstance = bloodSound.CreateInstance();
+
+            //reduce the volume
+            bulletSoundInstance.Volume = 0.3f;
+            bloodSoundInstance.Volume = 0.3f;
 
             if(fireballSound != null)
             {
                 fireballSoundInstance = fireballSound.CreateInstance();
+                fireballSoundInstance.Volume = 0.3f;
             }
 
         }

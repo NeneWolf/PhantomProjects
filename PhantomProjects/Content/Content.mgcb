@@ -121,6 +121,18 @@
 /processorParam:TextureFormat=Color
 /build:Boss/FireBall.png
 
+#begin Decorations/lights.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Decorations/lights.png
+
 #begin EnemyA/enemyALeft.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -204,6 +216,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:GUI/bloodEffect.png
+
+#begin GUI/GUIBackground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/GUIBackground.png
 
 #begin GUI/GUIFont.spritefont
 /importer:FontDescriptionImporter
@@ -435,7 +459,7 @@
 /processorParam:TextureFormat=Color
 /build:Map/CloseDoor.png
 
-#begin Map/DoorAnim.png
+#begin Map/doorOpen.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -445,9 +469,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Map/DoorAnim.png
+/build:Map/doorOpen.png
 
-#begin Map/OpenDoor.png
+#begin Map/doorOpening.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -457,7 +481,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Map/OpenDoor.png
+/build:Map/doorOpening.png
 
 #begin Map/Platform.png
 /importer:TextureImporter
@@ -590,6 +614,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Menu/Credits.png
+
+#begin Menu/CreditsTitle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Menu/CreditsTitle.png
 
 #begin Menu/Exit.png
 /importer:TextureImporter
