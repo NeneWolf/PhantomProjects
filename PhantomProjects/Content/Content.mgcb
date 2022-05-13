@@ -97,7 +97,7 @@
 /processorParam:TextureFormat=Color
 /build:EnemyA/enemyARight.png
 
-#begin EnemyA/EnemyBullet.png
+#begin EnemyA/EnemyBulletLeft.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -107,7 +107,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:EnemyA/EnemyBullet.png
+/build:EnemyA/EnemyBulletLeft.png
+
+#begin EnemyA/EnemyBulletRight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:EnemyA/EnemyBulletRight.png
 
 #begin GUI/AbilityLocked.png
 /importer:TextureImporter
