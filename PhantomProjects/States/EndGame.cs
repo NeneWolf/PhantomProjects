@@ -27,7 +27,7 @@ namespace PhantomProjects.States
             MediaPlayer.Play(menuMusic);
 
             //Background
-            mainBackground = content.Load<Texture2D>("Menu\\GameComplete"); // change background image
+            mainBackground = content.Load<Texture2D>("Menu\\GameComplete"); 
 
             //Buttons
             var buttonTexture = _content.Load<Texture2D>("Menu\\MainMenu");

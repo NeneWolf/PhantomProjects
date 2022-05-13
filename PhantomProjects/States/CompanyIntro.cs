@@ -18,7 +18,7 @@ namespace PhantomProjects.States
             : base(game, graphics, content)
         {
             //Load Textures
-            background = content.Load<Texture2D>("SelectCharacterBackground");
+            background = content.Load<Texture2D>("Backgrounds\\SelectCharacterBackground");
             logoTexture = content.Load<Texture2D>("Logos\\Future App-logos_white");
 
             //Create Rectangles

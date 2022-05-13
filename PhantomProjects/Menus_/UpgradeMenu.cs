@@ -52,7 +52,7 @@ namespace PhantomProjects.Menus_
             canshieldDurationUpgrade = canUpSD;
             canWeaponDamageUpgrade = canUpDmg;
 
-            mainBackground = content.Load<Texture2D>("PauseBackground");
+            mainBackground = content.Load<Texture2D>("Backgrounds\\PauseBackground");
             upgradeLogo = content.Load<Texture2D>("Menu\\CharacterUpgrades"); // To be changed
 
             //Abilities

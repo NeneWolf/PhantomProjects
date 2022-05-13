@@ -18,7 +18,7 @@ namespace PhantomProjects.States
         public CreditState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
-            mainBackground = content.Load<Texture2D>("background");
+            mainBackground = content.Load<Texture2D>("Backgrounds\\background");
             gameLogo = content.Load<Texture2D>("Logos\\Phantom Projects-logos_white");
 
             var buttonTexture = _content.Load<Texture2D>("Menu\\MainMenu");
