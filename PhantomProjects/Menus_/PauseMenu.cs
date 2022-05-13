@@ -34,7 +34,7 @@ namespace PhantomProjects.Menus_
             _content = content;
 
             //Load textures
-            mainBackground = content.Load<Texture2D>("PauseBackground");
+            mainBackground = content.Load<Texture2D>("Backgrounds\\PauseBackground");
             pauseLogo = content.Load<Texture2D>("Menu\\GamePaused"); // To be changed
             continueTexture = content.Load<Texture2D>("Menu\\Continue");
             mainMenuTexture = content.Load<Texture2D>("Menu\\MainMenu");

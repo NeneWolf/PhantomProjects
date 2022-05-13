@@ -23,7 +23,7 @@ namespace PhantomProjects.Menus_
 
         bool canshieldCooldownUpgrade, canshieldDurationUpgrade, canWeaponDamageUpgrade;
 
-        SpriteFont buttonFont;
+        SpriteFont buttonFont, titleFont;
         Button continuegameButton, upgradeShieldDurationButton, upgradeShieldCooldownButton, upgradeWeaponDamageButton;
         GUI guiInfo;
         Shield shield;
@@ -53,7 +53,7 @@ namespace PhantomProjects.Menus_
             canWeaponDamageUpgrade = canUpDmg;
 
             //Load textures
-            mainBackground = content.Load<Texture2D>("PauseBackground");
+            mainBackground = content.Load<Texture2D>("Backgrounds\\PauseBackground");
             upgradeLogo = content.Load<Texture2D>("Menu\\CharacterUpgrades"); // To be changed
 
             //Ability Upgrade Icons
@@ -68,7 +68,9 @@ namespace PhantomProjects.Menus_
 
             //Button textures
             continueButton = content.Load<Texture2D>("Menu\\Continue");
-            buttonFont = content.Load<SpriteFont>("GUI\\MenuFont");
+            titleFont = content.Load<SpriteFont>("GUI\\MenuFont");
+            buttonFont = content.Load<SpriteFont>("GUI\\GUIFont");
+
 
             //Create buttons for upgrades
             upgradeWeaponDamageButton = new Button(weaponDamagelocked, buttonFont)
@@ -199,7 +201,16 @@ namespace PhantomProjects.Menus_
             if (upgradePause == true)
             {
                 spriteBatch.Draw(mainBackground, new Rectangle(0, 0, 1280, 650), Color.White);
-                spriteBatch.Draw(upgradeLogo, new Rectangle(355, -100, 600, 600), Color.White);
+                spriteBatch.Draw(upgradeLogo, new Rectangle(355, -175, 600, 600), Color.White);
+
+                #region Text
+                spriteBatch.DrawString(titleFont, "Weapon", new Vector2(415, 220), Color.White);
+                spriteBatch.DrawString(titleFont, "Shield", new Vector2(665, 220), Color.White);
+
+                spriteBatch.DrawString(buttonFont, "100", new Vector2(450, 350), Color.White);
+                spriteBatch.DrawString(buttonFont, "200", new Vector2(610, 350), Color.White);
+                spriteBatch.DrawString(buttonFont, "300", new Vector2(770, 350), Color.White);
+                #endregion
 
                 foreach (var component in _components)
                     component.Draw(gameTime, spriteBatch);
