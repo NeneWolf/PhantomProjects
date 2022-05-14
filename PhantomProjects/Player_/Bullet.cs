@@ -33,7 +33,7 @@ namespace PhantomProjects.Player_
             Active = true;
 
             //Check if weapondamage has been upgraded
-            if (!upgrade.ReturnDMG())
+            if (upgrade.ActivateDamage())
             {
                 Damage *= DMGUpgrade;
             }

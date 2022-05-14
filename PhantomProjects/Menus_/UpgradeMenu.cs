@@ -31,9 +31,10 @@ namespace PhantomProjects.Menus_
         private List<Component> _components;
 
         bool upgradePause = false;
-        public bool DamageUpgraded = false;
         public bool DurationUpgraded = false;
         public bool CooldownUpgraded = false;
+        public bool DamageUpgraded = false;
+        bool hasBeenUpgrade = false;
         #endregion
 
         #region Constructor
@@ -45,8 +46,6 @@ namespace PhantomProjects.Menus_
             _content = content;
             shield = Shield;
             Pbullets = pbullets;
-
-            DamageUpgraded = canUpDmg;
 
             canshieldCooldownUpgrade = canUpSC;
             canshieldDurationUpgrade = canUpSD;
@@ -149,10 +148,9 @@ namespace PhantomProjects.Menus_
         private void UpgradeWeaponDamageGame_Click(object sender, EventArgs e)
         {
             //Check if following conditions are met
-            if (canWeaponDamageUpgrade = true && guiInfo.UPGRADEPOINTS >= 300 && upgradeWeaponDamageButton._texture == weaponDamagelocked)
+            if (guiInfo.UPGRADEPOINTS >= 300 && upgradeWeaponDamageButton._texture == weaponDamagelocked)
             {
                 upgradeWeaponDamageButton._texture = weaponDamageUpgrade;
-
                 //Upgrade ability and deduct points
                 guiInfo.UPGRADEPOINTS -= 300;
                 canWeaponDamageUpgrade = false;
@@ -162,7 +160,7 @@ namespace PhantomProjects.Menus_
 
         private void upgradeShieldDurationButton_Click(object sender, EventArgs e)
         {
-            if (canshieldDurationUpgrade == true && guiInfo.UPGRADEPOINTS >= 100 && upgradeShieldDurationButton._texture == shieldDurationlocked)
+            if (guiInfo.UPGRADEPOINTS >= 100 && upgradeShieldDurationButton._texture == shieldDurationlocked)
             {
                 upgradeShieldDurationButton._texture = shieldDurationUpgrade;
                 guiInfo.UPGRADEPOINTS -= 100;
@@ -174,7 +172,7 @@ namespace PhantomProjects.Menus_
 
         private void upgradeShieldCooldownButton_Click(object sender, EventArgs e)
         {
-            if (canshieldCooldownUpgrade == true && guiInfo.UPGRADEPOINTS >= 200 && upgradeShieldCooldownButton._texture == shieldCooldownlocked)
+            if (guiInfo.UPGRADEPOINTS >= 200 && upgradeShieldCooldownButton._texture == shieldCooldownlocked)
             {
                 upgradeShieldCooldownButton._texture = shieldCooldownUpgrade;
                 guiInfo.UPGRADEPOINTS -= 200;
@@ -188,6 +186,17 @@ namespace PhantomProjects.Menus_
         private void UpgradeUnPauseGame_Click(object sender, EventArgs e)
         {
             setUpgradePauseMenu(false);
+        }
+
+        // allows the bullet itself to know if its dmg has been upgraded or not based on the button texture... not the best way but its working...
+        public bool ActivateDamage()
+        {
+            if (upgradeWeaponDamageButton._texture == weaponDamageUpgrade)
+            {
+                return true;
+            }
+            else return false;
+            
         }
 
         //Return relevant data to be saved
